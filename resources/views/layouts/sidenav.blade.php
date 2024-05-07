@@ -6,32 +6,32 @@
         </h6>
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a class="nav-link @if (request()->route()->getName() == 'adminone.index') active @endif " aria-current="page"
+                <a class="nav-link @if (request()->route()->getName() == 'datakaryawan.index') active @endif " aria-current="page"
                     href="{{ route('datakaryawan.index') }}">
                     <span data-feather="home"></span>
                     Data Karyawan
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link " href="#">
+                <a class="nav-link @if (request()->route()->getName() == 'datakaryawan.daftarabsensi') active @endif" href="#">
                     <span data-feather="file"></span>
                     Daftar Absensi
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link @if (request()->route()->getName() == 'datakaryawan.persetujuancuti') active @endif" href="#">
                     <span data-feather="shopping-cart"></span>
                     Persetujuan Cuti
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link @if (request()->route()->getName() == 'datakaryawan.penggajian') active @endif" href="#">
                     <span data-feather="users"></span>
                     Penggajian
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link @if (request()->route()->getName() == 'datakaryawan.rekrutmen') active @endif" href="#">
                     <span data-feather="bar-chart-2"></span>
                     Rekrutmen
                 </a>
@@ -43,20 +43,21 @@
 
         </h6>
         <ul class="nav flex-column mb-2">
-            <li class="nav-item">
-                <a class="nav-link" href="#">
+            <li class="nav-item ">
+                <a class="nav-link @if (request()->route()->getName() == 'pengajuancuti.index') active @endif"
+                    href="{{ route('pengajuancuti.index') }}">
                     <span data-feather="file-text"></span>
                     Pengajuan Cuti
                 </a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">
+            <li class="nav-item ">
+                <a class="nav-link @if (request()->route()->getName() == 'datakaryawan.riwayatgaji') active @endif" href="#">
                     <span data-feather="file-text"></span>
                     Riwayat Gaji
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link @if (request()->route()->getName() == 'datakaryawan.absensi') active @endif" href="#">
                     <span data-feather="file-text"></span>
                     Absensi
                 </a>

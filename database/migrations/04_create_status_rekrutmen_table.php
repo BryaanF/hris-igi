@@ -11,11 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pengajuan_cuti', function (Blueprint $table) {
-            $table->id('id_pengajuancuti');
-            $table->string('mulai_cuti');
-            $table->string('selesai_cuti');
-            $table->integer('disetujui');
+        Schema::create('status_rekrutmen', function (Blueprint $table) {
+            $table->id('id_status_rekrutmen');
+            $table->string('tahapan'); // Tahapan pada status rekrutmen bisa berupa proses, diterima, ataupun ditolak
+
             $table->timestamps();
         });
     }
@@ -25,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pengajuan_cuti');
+        Schema::dropIfExists('statusrekrutmen');
     }
 };

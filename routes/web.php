@@ -21,14 +21,14 @@ Route::get('/', function () {
 
 Route::get('/dashboard', function () {
     return view('index');
-});
+})->name('dashboard');
 
 Route::get('experiment', function () {
     return view('backupindex');
 });
 
 Route::resource('datakaryawan', AdminControllerOne::class);
-Route::resource('employeeone', EmployeeControllerOne::class);
+Route::resource('pengajuancuti', EmployeeControllerOne::class);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 

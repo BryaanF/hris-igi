@@ -12,7 +12,7 @@
                         </div>
                     @endif
 
-                    {{ __('You are in penggajian!') }}
+                    {{ __('You are in pengajuan cuti page!') }}
                 </div>
             </div>
         </div>

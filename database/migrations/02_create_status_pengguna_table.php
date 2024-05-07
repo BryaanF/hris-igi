@@ -11,8 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('data_karyawan', function (Blueprint $table) {
-            $table->id();
+        Schema::create('status_pengguna', function (Blueprint $table) {
+            $table->id('id_status_pengguna');
+            $table->string('status'); // status pengguna bisa berupa Karyawan Tetap, Karyawan Kontrak, Ataupun Non-Karyawan
             $table->timestamps();
         });
     }
@@ -22,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('data_karyawan');
+        Schema::dropIfExists('statuskaryawan');
     }
 };

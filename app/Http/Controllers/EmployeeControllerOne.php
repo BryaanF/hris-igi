@@ -11,7 +11,8 @@ class EmployeeControllerOne extends Controller
      */
     public function index()
     {
-        //
+        return view('employee.pengajuancuti');
+
     }
 
     /**
@@ -19,7 +20,7 @@ class EmployeeControllerOne extends Controller
      */
     public function create()
     {
-        echo ("this is employee create page");
+        //
     }
 
     /**

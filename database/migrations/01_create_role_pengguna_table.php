@@ -11,8 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('absensi', function (Blueprint $table) {
-            $table->id();
+        Schema::create('role_pengguna', function (Blueprint $table) {
+            $table->id('id_role_pengguna');
+            $table->string('role'); // Role pengguna bisa bisa berupa administrator atau karyawan
             $table->timestamps();
         });
     }
@@ -22,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('absensi');
+        Schema::dropIfExists('rolekaryawans');
     }
 };

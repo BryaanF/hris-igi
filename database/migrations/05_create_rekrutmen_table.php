@@ -12,7 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('rekrutmen', function (Blueprint $table) {
-            $table->id();
+            $table->id('id_rekrutmen');
+            $table->string('nama');
+            $table->string('nomor_telepon');
+            $table->string('alamat');
+            $table->string('keahlian');
+            $table->string('catatan');
+            $table->foreignId('status_rekrutmen_id')->constrained('status_rekrutmen', 'id_status_rekrutmen');
             $table->timestamps();
         });
     }

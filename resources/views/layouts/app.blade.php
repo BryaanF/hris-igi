@@ -22,6 +22,7 @@
             </main>
         </div>
     </div>
+    @stack('scripts')
     @vite(['resources/js/app.js', 'resources/js/dashboard.js'])
 </body>
 

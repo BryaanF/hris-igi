@@ -12,7 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('gaji', function (Blueprint $table) {
-            $table->id();
+            $table->id('id_gaji');
+            $table->integer('gaji_pokok');
+            $table->integer('potongan');
+            $table->integer('tunjangan');
+            $table->integer('total_gaji');
+            $table->date('tanggal_digaji');
+            $table->foreignId('data_karyawan_id')->constrained('data_karyawan', 'id_data_karyawan');
             $table->timestamps();
         });
     }

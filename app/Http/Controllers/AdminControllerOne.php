@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\UsersDataTable;
 use Illuminate\Http\Request;
 
 class AdminControllerOne extends Controller
@@ -9,9 +10,9 @@ class AdminControllerOne extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(UsersDataTable $dataTable)
     {
-        return view('admin.datakaryawan');
+        return $dataTable->render('admin.datakaryawan');
     }
 
     /**
