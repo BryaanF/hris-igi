@@ -9,6 +9,7 @@ class Rekrutmen extends Model
 {
     use HasFactory;
     protected $table = 'rekrutmen';
+    protected $primaryKey = 'id_rekrutmen';
     public function DataKaryawan()
     {
         return $this->belongsTo(DataKaryawan::class);

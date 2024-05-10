@@ -28,6 +28,9 @@ Route::get('experiment', function () {
 });
 
 Route::resource('datakaryawan', AdminControllerOne::class);
+Route::get('getDataKaryawan', [AdminControllerOne::class,
+    'getData'])->name('admincontrollerone.getData');
+
 Route::resource('pengajuancuti', EmployeeControllerOne::class);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

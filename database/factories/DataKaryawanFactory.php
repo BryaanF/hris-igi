@@ -4,8 +4,8 @@ namespace Database\Factories;
 
 use App\Models\DataKaryawan;
 use App\Models\Rekrutmen;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 /**
@@ -26,15 +26,13 @@ class DataKaryawanFactory extends Factory
 
         return [
             'nama' => fake()->name(),
-            'username' => fake()->name(),
-            'password' => Hash::make('password'),
-            'role_pengguna_id' => fake()->numberBetween(1, 2),
             'alamat' => fake()->address(),
             'nomor_telepon' => fake()->phoneNumber(),
-            'status_pengguna_id' => fake()->numberBetween(1, 3),
+            'status_karyawan' => fake()->randomElement(['Karyawan_Tetap', 'Karyawan_Kontrak']),
             'keahlian' => fake()->bs(),
             'jabatan' => fake()->jobTitle(),
             'rekrutmen_id' => Rekrutmen::factory(),
+            'user_id' => User::factory(),
             'created_at' => now(),
             'updated_at' => now(),
         ];

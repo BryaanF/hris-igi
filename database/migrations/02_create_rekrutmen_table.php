@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('alamat');
             $table->string('keahlian');
             $table->string('catatan');
-            $table->foreignId('status_rekrutmen_id')->constrained('status_rekrutmen', 'id_status_rekrutmen');
+            $table->enum('status_rekrutmen', ['Proses', 'Diterima', 'Ditolak']);
             $table->timestamps();
         });
     }

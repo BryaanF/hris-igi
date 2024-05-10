@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\UsersDataTable;
+use App\Models\DataKaryawan;
 use Illuminate\Http\Request;
 
 class AdminControllerOne extends Controller
@@ -13,6 +14,7 @@ class AdminControllerOne extends Controller
     public function index(UsersDataTable $dataTable)
     {
         return $dataTable->render('admin.datakaryawan');
+
     }
 
     /**
@@ -37,6 +39,7 @@ class AdminControllerOne extends Controller
     public function show(string $id)
     {
         //
+        dd(base_path('vendor') . '/h4cc/wkhtmltopdf-amd64/bin/wkhtmltopdf');
     }
 
     /**
@@ -61,5 +64,27 @@ class AdminControllerOne extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function getData(Request $request)
+    {
+        $datakaryawan = DataKaryawan::with(['rekrutmen', 'user'])->get();
+        if ($request->ajax()) {
+            $formattedData = $datakaryawan->map(function ($item) {
+                return [
+                    'id_data_karyawan' => $item->id_data_karyawan,
+                    'nama' => $item->nama,
+                    'alamat' => $item->alamat,
+                    'nomor_telepon' => $item->nomor_telepon,
+                    'status_karyawan' => $item->status_karyawan,
+                    'keahlian' => $item->keahlian,
+                    'jabatan' => $item->jabatan,
+                    'actions' => view('admin.actions', compact('item'))->render(),
+                ];
+            });
+
+            return response()->json($formattedData);
+        }
+
     }
 }

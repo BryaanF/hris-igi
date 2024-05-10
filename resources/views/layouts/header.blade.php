@@ -10,8 +10,7 @@
              <div class="dropdown text-end d-flex align-items-center me-3">
                  <a href="#" class="d-block link-light text-decoration-none dropdown-toggle" id="dropdownUser1"
                      data-bs-toggle="dropdown" aria-expanded="false">
-                     <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32"
-                         class="rounded-circle">
+                     <img src="" alt="mdo" width="32" height="32" class="rounded-circle">
                  </a>
                  <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
                      <li><a class="dropdown-item" href="#">Info</a></li>
