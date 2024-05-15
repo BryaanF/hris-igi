@@ -10,9 +10,9 @@ class Rekrutmen extends Model
     use HasFactory;
     protected $table = 'rekrutmen';
     protected $primaryKey = 'id_rekrutmen';
-    public function DataKaryawan()
+    public function dataKaryawan()
     {
-        return $this->belongsTo(DataKaryawan::class);
+        return $this->belongsTo(DataKaryawan::class, 'id_rekrutmen');
     }
 
 }

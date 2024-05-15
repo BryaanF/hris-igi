@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Rekrutmen;
 use Illuminate\Http\Request;
 
-class EmployeeControllerOne extends Controller
+class AdminControllerTwo extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('employee.pengajuancuti.index');
-
+        return view('admin.rekrutmen.index');
     }
 
     /**
@@ -61,5 +61,18 @@ class EmployeeControllerOne extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function getData(Request $request)
+    {
+        $datarekrutmen = Rekrutmen::query();
+        if ($request->ajax()) {
+            return datatables()->of($datarekrutmen)
+                ->addIndexColumn()
+                ->addColumn('actions', function ($datarekrutmen) {
+                    return view('admin.rekrutmen.actions', compact('datarekrutmen'));
+                })
+                ->toJson();
+        }
     }
 }

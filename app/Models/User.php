@@ -21,6 +21,7 @@ class User extends Authenticatable
         'username',
         'email',
         'password',
+        'role',
     ];
 
     /**
@@ -45,8 +46,8 @@ class User extends Authenticatable
 
     protected $primaryKey = 'id_user';
 
-    public function DataKaryawan()
+    public function dataKaryawan()
     {
-        return $this->hasMany(DataKaryawan::class);
+        return $this->belongsTo(DataKaryawan::class, 'id_user');
     }
 }

@@ -41,16 +41,27 @@ class LoginController extends Controller
 
     public function authenticate(Request $request)
     {
+        // validate stored temporary data lgon
         $credentials = $request->validate([
             'email' => ['required', 'email'],
             'password' => ['required'],
         ]);
+
+        // store temporary data login
+        $data = $request->all();
+
         if (Auth::attempt($credentials)) {
+            if (isset($data['rememberme']) && !empty($data['rememberme'])) {
+                setcookie("email", $data['email'], time() + 3600);
+            } else {
+                setcookie("email", "");
+                setcookie("password", "");
+            }
             $request->session()->regenerate();
-            return redirect()->intended('admin');
+            return redirect()->intended('dashboard');
         }
         return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
+            'email' => 'Data login yang diinputkan tidak ada.',
         ])->onlyInput('email');
     }
 }

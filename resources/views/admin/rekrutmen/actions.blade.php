@@ -1,5 +1,6 @@
 <div class="d-flex">
-    <a href="" class="btn btn-outline-dark btn-sm me-2"><i class="bi-person-lines-fill"></i></a>
+    <a href="{{ route('rekrutmen.show', 1) }}" class="btn btn-outline-dark btn-sm me-2"><i
+            class="bi-person-lines-fill"></i></a>
     <a href="" class="btn btn-outline-dark btn-sm me-2"><i class="bi-pencil-square"></i></a>
     <div>
         <form action="" method="POST">

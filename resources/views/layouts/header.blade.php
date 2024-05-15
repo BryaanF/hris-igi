@@ -10,10 +10,13 @@
              <div class="dropdown text-end d-flex align-items-center me-3">
                  <a href="#" class="d-block link-light text-decoration-none dropdown-toggle" id="dropdownUser1"
                      data-bs-toggle="dropdown" aria-expanded="false">
-                     <img src="" alt="mdo" width="32" height="32" class="rounded-circle">
+                     <img src="{{ Vite::asset('resources/assets/avatar_dummy.jpeg') }}" alt="mdo" width="32"
+                         height="32" class="rounded-circle">
                  </a>
                  <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
-                     <li><a class="dropdown-item" href="#">Info</a></li>
+                     <li><a class="dropdown-item" href="#"><i class="bi bi-person-badge me-1"></i>
+                             <span>Profile Information</span>
+                         </a></li>
 
                      <li>
                          <hr class="dropdown-divider">
@@ -21,7 +24,8 @@
                      <li>
                          <form action="{{ route('logout') }}" method="post">
                              @csrf
-                             <button class="nav-link px-3 dropdown-item text-dark" type="submit">Sign Out</button>
+                             <button class="nav-link px-3 dropdown-item text-dark" type="submit"> <i
+                                     class="bi bi-box-arrow-right me-2"></i><span>Log Out</span></button>
                          </form>
                      </li>
                  </ul>

@@ -4,15 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class EmployeeControllerOne extends Controller
+class AdminControllerFive extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('employee.pengajuancuti.index');
-
+        return view('admin.penggajian.index');
     }
 
     /**

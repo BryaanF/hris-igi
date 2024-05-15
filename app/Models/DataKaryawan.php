@@ -10,12 +10,12 @@ class DataKaryawan extends Model
     use HasFactory;
     protected $table = 'data_karyawan';
     protected $primaryKey = 'id_data_karyawan';
-    public function Rekrutmen()
+    public function rekrutmen()
     {
-        return $this->belongsTo(Rekrutmen::class);
+        return $this->belongsTo(Rekrutmen::class, 'rekrutmen_id');
     }
-    public function User()
+    public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 }
