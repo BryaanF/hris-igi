@@ -10,6 +10,8 @@ use Maatwebsite\Excel\Facades\Excel;
 use PDF;
 use RealRashid\SweetAlert\Facades\Alert;
 
+// controller for datakaryawan
+
 class AdminControllerOne extends Controller
 {
     /**
@@ -97,7 +99,41 @@ class AdminControllerOne extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $messages = [
+            'required' => ':Attribute harus diisi.',
+            'email' => 'Isi :attribute dengan format yang benar',
+            'numeric' => 'Isi :attribute dengan angka',
+        ];
+        $validator = Validator::make($request->all(), [
+            'nama' => 'required',
+            'alamat' => 'required',
+            'nomorTelepon' => 'required|numeric',
+            'statusKaryawan' => 'required',
+            'keahlian' => 'required',
+            'jabatan' => 'required',
+            // 'email' => 'required|email',
+        ], $messages);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+// ELOQUENT
+        $datakaryawan = DataKaryawan::find($id);
+        $datakaryawan->nama = $request->nama;
+        $datakaryawan->alamat = $request->alamat;
+        $datakaryawan->nomor_telepon = $request->nomorTelepon;
+        $datakaryawan->status_karyawan = $request->statusKaryawan;
+        $datakaryawan->keahlian = $request->keahlian;
+        $datakaryawan->jabatan = $request->jabatan;
+        $datakaryawan->user_id = 2;
+        $datakaryawan->rekrutmen_id = 2;
+
+        $datakaryawan->save();
+
+        Alert::success('Edited Successfully', 'Edit Data karyawan berhasil!');
+
+        return redirect()->route('datakaryawan.index');
+
     }
 
     /**

@@ -6,8 +6,10 @@ use App\Http\Controllers\AdminControllerOne;
 use App\Http\Controllers\AdminControllerThree;
 use App\Http\Controllers\AdminControllerTwo;
 use App\Http\Controllers\EmployeeControllerOne;
-use App\Http\Controllers\EmployeeControllerTwo;
 use App\Http\Controllers\EmployeeControllerThree;
+use App\Http\Controllers\EmployeeControllerTwo;
+use App\Http\Controllers\ExperimentController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,9 +25,6 @@ use Illuminate\Support\Facades\Route;
 
 // redirect rute root ke dashboard
 Route::redirect('/', 'dashboard');
-
-// memastikan rute login menggunakan fungsi authenticate untuk melakukan otentikasi user
-Route::post('/login', [LoginController::class, 'authenticate']);
 
 // grouping untuk route yang membutuhkan autentikasi
 Route::middleware(['auth'])->group(function () {
@@ -58,15 +57,14 @@ Route::middleware(['auth'])->group(function () {
     // route absensi karyawan
     Route::resource('absensi', EmployeeControllerThree::class);
 
+    // route untuk karyawan dan admin
+    // route profile
+    Route::resource('profile', ProfileController::class);
+
 });
 
 // experiment route
-Route::get('experiment', function () {
-    return view('backupindex');
-});
-
-// route home dari scaffolding --auth
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('experiment', ExperimentController::class);
 
 // route untuk mengakses halaman login dan menampilkan viewnya
 Auth::routes();
