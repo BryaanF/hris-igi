@@ -11,6 +11,6 @@ class ExperimentController extends Controller
      */
     public function __invoke(Request $request)
     {
-        dd(session()->all());
+        dd(session());
     }
 }

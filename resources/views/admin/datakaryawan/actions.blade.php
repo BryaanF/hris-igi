@@ -18,9 +18,7 @@
         <form action="{{ route('datakaryawan.destroy', $satudatakaryawan->id_data_karyawan) }}" method="POST">
             @csrf
             @method('delete')
-            <button type="submit" class="btn-delete btn btn-outline-dark btn-sm
-    me-2 btn-delete"><i
-                    class="bi-trash"></i></button>
+            <button type="submit" class="btn-delete btn btn-outline-dark btn-sm me-2 btn-delete"><i class="bi-trash"></i></button>
         </form>
     </div>
 </div>

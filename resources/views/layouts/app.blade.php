@@ -7,6 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Human Resources Information System PT. IGI - Admin / Employee</title>
     <link rel="shortcut icon" href="{{ asset('igi_logo.png') }}" type="image/x-icon">
+    @vite('resources/js/jquery.js')
+    @vite('resources/js/app.js')
     @vite(['resources/sass/app.scss', 'resources/css/app.css', 'resources/css/dashboard.css'])
 </head>
 
@@ -23,7 +25,7 @@
             </main>
         </div>
     </div>
-    @vite('resources/js/app.js')
+
     @include('sweetalert::alert')
     @stack('scripts')
 

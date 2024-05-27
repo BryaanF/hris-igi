@@ -4,11 +4,23 @@ namespace App\Http\Controllers;
 
 use App\Models\Rekrutmen;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 
 // controller for rekrutmen
-
 class AdminControllerTwo extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(function ($request, $next) {
+            if (!Auth::check() || !Auth::user()->hasRole('Administrator')) {
+                abort(403);
+            }
+
+            return $next($request);
+        });
+
+    }
     /**
      * Display a listing of the resource.
      */

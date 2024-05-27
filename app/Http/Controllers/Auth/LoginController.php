@@ -57,7 +57,11 @@ class LoginController extends Controller
                 setcookie("email", "");
                 setcookie("password", "");
             }
+
+            // Set pesan status ke session dan regenerate session
+            $request->session()->flash('status', 'Login successful!');
             $request->session()->regenerate();
+
             return redirect()->intended('dashboard');
         }
         return back()->withErrors([

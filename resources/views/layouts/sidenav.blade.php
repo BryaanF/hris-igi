@@ -1,47 +1,49 @@
 <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
     <div class="position-sticky pt-3">
-        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-2 mb-1 text-muted">
-            <span>Administrator</span>
-        </h6>
-        <ul class="nav flex-column">
-            <li class="nav-item">
-                <a class="nav-link @if (request()->route()->getName() == 'datakaryawan.index') active @endif " aria-current="page"
-                    href="{{ route('datakaryawan.index') }}">
-                    <i class="bi bi-person-lines-fill"></i>
-                    Data Karyawan
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link @if (request()->route()->getName() == 'daftarabsensi.index') active @endif"
-                    href="{{ route('daftarabsensi.index') }}">
-                    <i class="bi bi-calendar-week"></i>
-                    Daftar Absensi
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link @if (request()->route()->getName() == 'persetujuancuti.index') active @endif"
-                    href="{{ route('persetujuancuti.index') }}">
-                    <i class="bi bi-hand-thumbs-up"></i>
-                    Persetujuan Cuti
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link @if (request()->route()->getName() == 'penggajian.index') active @endif"
-                    href="{{ route('penggajian.index') }}">
-                    <i class="bi bi-cash-coin"></i>
-                    Penggajian
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link @if (request()->route()->getName() == 'rekrutmen.index') active @endif"
-                    href="{{ route('rekrutmen.index') }}">
-                    <i class="bi bi-file-earmark-person"></i>
-                    Rekrutmen
-                </a>
-            </li>
-        </ul>
+        @if (auth()->user()->role == 'Administrator')
+            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-2 mb-1 text-muted">
+                <span>Administrator</span>
+            </h6>
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link @if (request()->route()->getName() == 'datakaryawan.index') active @endif " aria-current="page"
+                        href="{{ route('datakaryawan.index') }}">
+                        <i class="bi bi-person-lines-fill"></i>
+                        Data Karyawan
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link @if (request()->route()->getName() == 'daftarabsensi.index') active @endif"
+                        href="{{ route('daftarabsensi.index') }}">
+                        <i class="bi bi-calendar-week"></i>
+                        Daftar Absensi
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link @if (request()->route()->getName() == 'persetujuancuti.index') active @endif"
+                        href="{{ route('persetujuancuti.index') }}">
+                        <i class="bi bi-hand-thumbs-up"></i>
+                        Persetujuan Cuti
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link @if (request()->route()->getName() == 'penggajian.index') active @endif"
+                        href="{{ route('penggajian.index') }}">
+                        <i class="bi bi-cash-coin"></i>
+                        Penggajian
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link @if (request()->route()->getName() == 'rekrutmen.index') active @endif"
+                        href="{{ route('rekrutmen.index') }}">
+                        <i class="bi bi-file-earmark-person"></i>
+                        Rekrutmen
+                    </a>
+                </li>
+            </ul>
+        @endif
 
-        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-2 mb-1 text-muted">
             <span>Karyawan</span>
         </h6>
         <ul class="nav flex-column mb-2">
@@ -73,16 +75,18 @@
         </h6>
         <ul class="nav flex-column mb-2 d-md-none">
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="{{ route('profile.index') }}">
                     <i class="bi bi-person-badge"></i>
-                    Info
+                    Profile Information
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class="bi bi-box-arrow-right"></i>
-                    Log Out
-                </a>
+                <form action="{{ route('logout') }}" method="POST">
+                    <button class="nav-link">
+                        <i class="bi bi-box-arrow-right"></i>
+                        Log Out
+                    </button>
+                </form>
             </li>
         </ul>
     </div>

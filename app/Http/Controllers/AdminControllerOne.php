@@ -2,27 +2,41 @@
 
 namespace App\Http\Controllers;
 
+use Alert;
 use App\Exports\DataKaryawanExport;
 use App\Models\DataKaryawan;
+use Auth;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Facades\Excel;
 use PDF;
-use RealRashid\SweetAlert\Facades\Alert;
+use Validator;
 
 // controller for datakaryawan
 
 class AdminControllerOne extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(function ($request, $next) {
+            if (!Auth::check() || !Auth::user()->hasRole('Administrator')) {
+                abort(403);
+            }
+
+            return $next($request);
+        });
+
+    }
+
     /**
      * Display a listing of the resource.
      */
     // use UsersDataTable $dataTable inside parameter index to use datatable html builder
     public function index()
     {
-        // return $dataTable->render('admin.datakaryawan');
         $datakaryawan = DataKaryawan::with(['rekrutmen', 'user']);
+
         confirmDelete();
+
         return view('admin.datakaryawan.index', compact('datakaryawan'));
     }
 

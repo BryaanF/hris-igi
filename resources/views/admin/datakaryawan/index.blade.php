@@ -59,8 +59,7 @@
                         <h4 class="text-center">Data Karyawan</h4>
                         <div class="form-group">
                             <label for="nama" class="form-label">Nama</label>
-                            <input class="form-control @error('nama') is-invalid
-@enderror" type="text" name="nama"
+                            <input class="form-control @error('nama') is-invalid @enderror" type="text" name="nama"
                                 id="nama" value="{{ old('nama') }}" placeholder="Masukkan nama karyawan">
                             @error('nama')
                                 <div class="text-danger">
@@ -70,8 +69,7 @@
                         </div>
                         <div class="form-group">
                             <label for="alamat" class="form-label">Alamat</label>
-                            <input class="form-control @error('alamat') is-invalid
-@enderror" type="text" name="alamat"
+                            <input class="form-control @error('alamat') is-invalid @enderror" type="text" name="alamat"
                                 id="alamat" value="{{ old('alamat') }}" placeholder="Masukkan alamat karyawan">
                             @error('alamat')
                                 <div class="text-danger">
@@ -160,9 +158,9 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save
-                            changes</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                            aria-label="close">Tutup</button>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
                     </div>
                 </form>
             </div>
@@ -385,7 +383,6 @@
     </div>
 @endsection
 @push('scripts')
-    {{-- {{ $dataTable->scripts() }} --}}
     <script type="module">
         $(document).ready(function() {
             // show table record with datatable
@@ -434,6 +431,27 @@
                     [10, 25, 50, 100, -1],
                     [10, 25, 50, 100, "All"],
                 ],
+            });
+
+            // Variabel untuk menandakan apakah modal harus ditampilkan
+            var shouldShowModal = false;
+            // pesan error dari validation controller
+            var errorMessage = "{{ $errors->first() }}";
+            if (errorMessage) {
+                // Memanggil handleFormSubmitError jika terdapat pesan kesalahan
+                handleFormSubmitError();
+            }
+
+            // Jika ada kesalahan saat form submit, atur variabel shouldShowModal menjadi true
+            function handleFormSubmitError() {
+                shouldShowModal = true;
+            }
+
+            // Menampilkan modal saat halaman dimuat jika shouldShowModal bernilai true
+            $(window).on('load', function() {
+                if (shouldShowModal) {
+                    $('#createDataKaryawan').modal('show'); // Menampilkan modal
+                }
             });
 
             // Edit form with bootstrap modal with data
