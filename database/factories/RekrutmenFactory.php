@@ -26,7 +26,7 @@ class RekrutmenFactory extends Factory
             'alamat' => fake()->address(),
             'keahlian' => fake()->bs(),
             'catatan' => fake()->sentence(),
-            'status_rekrutmen' => 'Diterima',
+            'status_rekrutmen' => 'Proses',
             'created_at' => now(),
             'updated_at' => now(),
         ];

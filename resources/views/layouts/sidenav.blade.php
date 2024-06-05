@@ -75,7 +75,7 @@
         </h6>
         <ul class="nav flex-column mb-2 d-md-none">
             <li class="nav-item">
-                <a class="nav-link" href="{{ route('profile.index') }}">
+                <a class="nav-link" href="{{ route('profil.index') }}">
                     <i class="bi bi-person-badge"></i>
                     Profile Information
                 </a>

@@ -45,6 +45,8 @@
         </div>
     </div>
 
+    {{-- start modal section --}}
+
     {{-- modal create --}}
     <div class="modal fade" id="createDataKaryawan" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -52,8 +54,7 @@
                 <form action="{{ route('datakaryawan.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="modal-header">
-                        <h5 class="modal-title" id="createDataKaryawanModalLabel">Tambah
-                            Karyawan</h5>
+                        <h5 class="modal-title" id="createDataKaryawanModalLabel">Tambah Karyawan</h5>
                     </div>
                     <div class="modal-body">
                         <h4 class="text-center">Data Karyawan</h4>
@@ -67,7 +68,7 @@
                                 </div>
                             @enderror
                         </div>
-                        <div class="form-group">
+                        <div class="form-group mt-1">
                             <label for="alamat" class="form-label">Alamat</label>
                             <input class="form-control @error('alamat') is-invalid @enderror" type="text" name="alamat"
                                 id="alamat" value="{{ old('alamat') }}" placeholder="Masukkan alamat karyawan">
@@ -77,7 +78,7 @@
                                 </div>
                             @enderror
                         </div>
-                        <div class="form-group">
+                        <div class="form-group mt-1">
                             <label for="nomorTelepon" class="form-label">Nomor Telepon</label>
                             <input class="form-control @error('nomorTelepon') is-invalid @enderror" type="text"
                                 name="nomorTelepon" id="nomorTelepon" value="{{ old('nomorTelepon') }}"
@@ -88,9 +89,9 @@
                                 </div>
                             @enderror
                         </div>
-                        <div class="form-group">
+                        <div class="form-group my-2">
                             <label for="statusKaryawan" class="form-label">Status Karyawan</label>
-                            <select name="statusKaryawan" id="statusKaryawan">
+                            <select class="d-block" name="statusKaryawan" id="statusKaryawan">
                                 <option value="Karyawan_Tetap">Karyawan Tetap</option>
                                 <option value="Karyawan_Kontrak">Karyawan Kontrak</option>
                             </select>
@@ -100,7 +101,7 @@
                                 </div>
                             @enderror
                         </div>
-                        <div class="form-group">
+                        <div class="form-group mt-1">
                             <label for="keahlian" class="form-label">Keahlian</label>
                             <input class="form-control @error('keahlian') is-invalid @enderror" type="text"
                                 name="keahlian" id="keahlian" value="{{ old('keahlian') }}"
@@ -111,7 +112,7 @@
                                 </div>
                             @enderror
                         </div>
-                        <div class="form-group">
+                        <div class="form-group mt-1">
                             <label for="jabatan" class="form-label">Jabatan</label>
                             <input class="form-control @error('jabatan') is-invalid @enderror" type="text" name="jabatan"
                                 id="jabatan" value="{{ old('jabatan') }}" placeholder="Masukkan jabatan">
@@ -121,7 +122,7 @@
                                 </div>
                             @enderror
                         </div>
-                        <h4 class="text-center">Data Akun</h4>
+                        <h4 class="text-center mt-3">Data Akun</h4>
                         <div class="form-group">
                             <label for="username" class="form-label">Username</label>
                             <input class="form-control @error('username') is-invalid @enderror" type="text"
@@ -133,22 +134,42 @@
                                 </div>
                             @enderror
                         </div>
-                        <div class="form-group">
-                            <label for="password" class="form-label">password</label>
-                            <input class="form-control @error('password') is-invalid @enderror" type="text"
-                                name="password" id="password" value="{{ old('password') }}"
-                                placeholder="Masukkan password">
+                        <div class="form-group mt-1">
+                            <label for="email" class="form-label">Email</label>
+                            <input class="form-control @error('email') is-invalid @enderror" type="text"
+                                name="email" id="email" value="{{ old('email') }}" placeholder="Masukkan email">
+                            @error('email')
+                                <div class="text-danger">
+                                    <small>{{ $message }}</small>
+                                </div>
+                            @enderror
+                        </div>
+                        <div class="form-group mt-1">
+                            <label for="password" class="form-label">Password</label>
+                            <input class="form-control @error('password') is-invalid @enderror" type="password"
+                                name="password" id="password" value="" placeholder="Masukkan password">
                             @error('password')
                                 <div class="text-danger">
                                     <small>{{ $message }}</small>
                                 </div>
                             @enderror
                         </div>
-                        <div class="form-group">
+                        <div class="form-group mt-1">
+                            <label for="password_confirmation" class="form-label">Password Confirmation</label>
+                            <input class="form-control @error('password_confirmation') is-invalid @enderror"
+                                type="password" name="password_confirmation" id="password_confirmation" value=""
+                                placeholder="Masukkan password ulang">
+                            @error('password_confirmation')
+                                <div class="text-danger">
+                                    <small>{{ $message }}</small>
+                                </div>
+                            @enderror
+                        </div>
+                        <div class="form-group my-2">
                             <label for="role" class="form-label">Role</label>
-                            <select name="role" id="role">
+                            <select class="d-block" name="role" id="role">
                                 <option value="Administrator">Administrator</option>
-                                <option value="Karyawan_Reguler">Karyawan Reguler</option>
+                                <option value="Employee">Karyawan Reguler</option>
                             </select>
                             @error('role')
                                 <div class="text-danger">
@@ -156,11 +177,15 @@
                                 </div>
                             @enderror
                         </div>
+                        <p class="fw-bold">Note : Pastikan username yang dimasukkan merupakan username yang unik
+                            dan
+                            pastikan sudah benar karena
+                            tidak dapat diganti setelah data karyawan beserta akun telah dibuat.</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
                             aria-label="close">Tutup</button>
-                        <button type="submit" class="btn btn-primary">Simpan</button>
+                        <button type="submit" class="btn btn-primary">Simpan Penambahan</button>
                     </div>
                 </form>
             </div>
@@ -216,9 +241,9 @@
                                 </div>
                             @enderror
                         </div>
-                        <div class="form-group">
+                        <div class="form-group my-2">
                             <label for="statusKaryawan" class="form-label">Status Karyawan</label>
-                            <select name="statusKaryawan" id="statusKaryawan">
+                            <select class="d-block" name="statusKaryawan" id="statusKaryawan">
                                 <option value="Karyawan_Tetap">Karyawan Tetap</option>
                                 <option value="Karyawan_Kontrak">Karyawan Kontrak</option>
                             </select>
@@ -250,7 +275,7 @@
                                 </div>
                             @enderror
                         </div>
-                        <h5 class="text-center">Data Akun</h5>
+                        <h5 class="text-center mt-3">Data Akun</h5>
                         <div class="form-group">
                             <label for="username" class="form-label">Username</label>
                             <input class="form-control @error('username') is-invalid @enderror" type="text"
@@ -261,10 +286,20 @@
                                 </div>
                             @enderror
                         </div>
+                        <div class="form-group mt-1">
+                            <label for="email" class="form-label">Email</label>
+                            <input class="form-control @error('email') is-invalid @enderror" type="text"
+                                name="email" id="email" value="" placeholder="Masukkan email">
+                            @error('email')
+                                <div class="text-danger">
+                                    <small>{{ $message }}</small>
+                                </div>
+                            @enderror
+                        </div>
                         <div class="form-group">
-                            <label for="password" class="form-label">password</label>
-                            <input class="form-control @error('password') is-invalid @enderror" type="text"
-                                name="password" id="password" value="" placeholder="Masukkan password">
+                            <label for="password" class="form-label">Password</label>
+                            <input class="form-control @error('password') is-invalid @enderror" type="password"
+                                name="password" id="password" value="" placeholder="Masukkan password baru">
                             @error('password')
                                 <div class="text-danger">
                                     <small>{{ $message }}</small>
@@ -272,8 +307,19 @@
                             @enderror
                         </div>
                         <div class="form-group">
+                            <label for="password_confirmation" class="form-label">Password Confirmation</label>
+                            <input class="form-control @error('password_confirmation') is-invalid @enderror"
+                                type="password" name="password_confirmation" id="password_confirmation" value=""
+                                placeholder="Masukkan ulang password baru">
+                            @error('password_confirmation')
+                                <div class="text-danger">
+                                    <small>{{ $message }}</small>
+                                </div>
+                            @enderror
+                        </div>
+                        <div class="form-group my-2">
                             <label for="role" class="form-label">Role</label>
-                            <select name="role" id="role">
+                            <select class="d-block" name="role" id="role">
                                 <option value="Administrator">Administrator</option>
                                 <option value="Employee">Karyawan</option>
                             </select>
@@ -285,9 +331,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save
-                            changes</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                        <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
                     </div>
                 </form>
             </div>
@@ -309,8 +354,7 @@
                             <label for="nama" class="form-label">Nama</label>
                             <input class="form-control @error('nama') is-invalid
 @enderror" type="text"
-                                name="nama" id="nama" value="{{ old('nama') }}"
-                                placeholder="Masukkan nama karyawan">
+                                name="nama" id="nama" disabled>
                             @error('nama')
                                 <div class="text-danger">
                                     <small>{{ $message }}</small>
@@ -321,8 +365,7 @@
                             <label for="alamat" class="form-label">Alamat</label>
                             <input class="form-control @error('alamat') is-invalid
 @enderror" type="text"
-                                name="alamat" id="alamat" value="{{ old('alamat') }}"
-                                placeholder="Masukkan alamat karyawan">
+                                name="alamat" id="alamat" disabled>
                             @error('alamat')
                                 <div class="text-danger">
                                     <small>{{ $message }}</small>
@@ -332,15 +375,14 @@
                         <div class="form-group">
                             <label for="nomorTelepon" class="form-label">Nomor Telepon</label>
                             <input class="form-control @error('nomorTelepon') is-invalid @enderror" type="text"
-                                name="nomorTelepon" id="nomorTelepon" value="{{ old('nomorTelepon') }}"
-                                placeholder="Masukkan nomor telepon karyawan">
+                                name="nomorTelepon" id="nomorTelepon" disabled>
                             @error('nomorTelepon')
                                 <div class="text-danger">
                                     <small>{{ $message }}</small>
                                 </div>
                             @enderror
                         </div>
-                        <div class="form-group">
+                        <div class="form-group mt-3">
                             <label for="statusKaryawan" class="form-label">Status Karyawan</label>
                             <select name="statusKaryawan" id="statusKaryawan" disabled>
                                 <option value="Karyawan_Tetap">Karyawan Tetap</option>
@@ -355,8 +397,7 @@
                         <div class="form-group">
                             <label for="keahlian" class="form-label">Keahlian</label>
                             <input class="form-control @error('keahlian') is-invalid @enderror" type="text"
-                                name="keahlian" id="keahlian" value="{{ old('keahlian') }}"
-                                placeholder="Masukkan keahlian yang dimiliki karyawan">
+                                name="keahlian" id="keahlian" disabled>
                             @error('keahlian')
                                 <div class="text-danger">
                                     <small>{{ $message }}</small>
@@ -366,8 +407,7 @@
                         <div class="form-group">
                             <label for="jabatan" class="form-label">Jabatan</label>
                             <input class="form-control @error('jabatan') is-invalid @enderror" type="text"
-                                name="jabatan" id="jabatan" value="{{ old('jabatan') }}"
-                                placeholder="Masukkan jabatan">
+                                name="jabatan" id="jabatan" disabled>
                             @error('jabatan')
                                 <div class="text-danger">
                                     <small>{{ $message }}</small>
@@ -375,12 +415,14 @@
                             @enderror
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
                         </div>
                 </form>
             </div>
         </div>
     </div>
+
+    {{-- end modal section --}}
 @endsection
 @push('scripts')
     <script type="module">
@@ -433,27 +475,6 @@
                 ],
             });
 
-            // Variabel untuk menandakan apakah modal harus ditampilkan
-            var shouldShowModal = false;
-            // pesan error dari validation controller
-            var errorMessage = "{{ $errors->first() }}";
-            if (errorMessage) {
-                // Memanggil handleFormSubmitError jika terdapat pesan kesalahan
-                handleFormSubmitError();
-            }
-
-            // Jika ada kesalahan saat form submit, atur variabel shouldShowModal menjadi true
-            function handleFormSubmitError() {
-                shouldShowModal = true;
-            }
-
-            // Menampilkan modal saat halaman dimuat jika shouldShowModal bernilai true
-            $(window).on('load', function() {
-                if (shouldShowModal) {
-                    $('#createDataKaryawan').modal('show'); // Menampilkan modal
-                }
-            });
-
             // Edit form with bootstrap modal with data
             $('#dataKaryawanTable').on('click', '.btn-edit', function(event) {
                 event.preventDefault();
@@ -463,7 +484,6 @@
                 }
 
                 var data = table.row($tr).data();
-                console.log(data); // Debug statement
 
                 // Populate your edit modal with data
                 $('#editDataKaryawan input[name="id"]').val(data.id_data_karyawan);
@@ -474,8 +494,11 @@
                 $('#editDataKaryawan input[name="keahlian"]').val(data.keahlian);
                 $('#editDataKaryawan input[name="jabatan"]').val(data.jabatan);
                 $('#editDataKaryawan input[name="username"]').val(data.user.username);
+                $('#editDataKaryawan input[name="email"]').val(data.user.email);
                 $('#editDataKaryawan input[name="password"]').val(data.user.password);
                 $('#editDataKaryawan select[name="role"]').val(data.user.role);
+
+
 
                 var updateRoute = "{{ route('datakaryawan.update', ':id') }}";
                 updateRoute.replace(':id', data.id_data_karyawan);
@@ -514,14 +537,16 @@
             $(".datatable").on("click", ".btn-delete", function(e) {
                 e.preventDefault();
                 var form = $(this).closest("form");
-                var name = $(this).data("name");
+                var nama = $(this).data("nama");
+
                 Swal.fire({
-                    title: "Are you sure want to delete\n" + name + "?",
-                    text: "You won't be able to revert this!",
+                    title: "Apakah anda yakin ingin menghapus data \n" + nama + "?",
+                    text: "Anda tidak bisa mengembalikan data setelah terhapus!",
                     icon: "warning",
                     showCancelButton: true,
                     confirmButtonClass: "bg-primary",
-                    confirmButtonText: "Yes, delete it!",
+                    confirmButtonText: "Ya, hapus!",
+                    cancelButtonText: "Tidak, jangan hapus!"
                 }).then((result) => {
                     if (result.isConfirmed) {
                         form.submit();

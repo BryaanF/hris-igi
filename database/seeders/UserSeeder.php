@@ -15,7 +15,7 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+
         DB::table('users')->insert([[
             'username' => 'administrator_master',
             'email' => 'admin@indoglobalimpex.com',
@@ -36,5 +36,32 @@ class UserSeeder extends Seeder
             'updated_at' => now(),
         ]]);
 
+        // Get the inserted users
+        $adminUser = DB::table('users')->where('username', 'administrator_master')->first();
+        $employeeUser = DB::table('users')->where('username', 'employee_example')->first();
+
+        DB::table('data_karyawan')->insert([[
+            'nama' => 'administrator_master',
+            'alamat' => 'Jl. Ketintang no.156',
+            'nomor_telepon' => '081345642135',
+            'status_karyawan' => 'Karyawan_Tetap',
+            'keahlian' => 'Human Resource',
+            'jabatan' => 'Human Resource',
+            'rekrutmen_id' => null,
+            'user_id' => $adminUser->id_user, // Assign the corresponding user_id
+            'created_at' => now(),
+            'updated_at' => now(),
+        ], [
+            'nama' => 'employee_example',
+            'alamat' => 'Jl. Ketintang no.156',
+            'nomor_telepon' => '081323553176',
+            'status_karyawan' => 'Karyawan_Tetap',
+            'keahlian' => 'Web Programming, Desktop Programming, Mobile Programming',
+            'jabatan' => 'Software Developer',
+            'rekrutmen_id' => null,
+            'user_id' => $employeeUser->id_user, // Assign the corresponding user_id
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]]);
     }
 }

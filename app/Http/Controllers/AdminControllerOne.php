@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use Alert;
 use App\Exports\DataKaryawanExport;
 use App\Models\DataKaryawan;
+use App\Models\Rekrutmen;
+use App\Models\User;
 use Auth;
+use Hash;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use PDF;
@@ -65,13 +68,23 @@ class AdminControllerOne extends Controller
             'statusKaryawan' => 'required',
             'keahlian' => 'required',
             'jabatan' => 'required',
-            // 'email' => 'required|email',
+            'email' => 'required|email',
+            'username' => 'required|unique:users,username', // Validasi untuk username
+            'password' => 'required|min:6|confirmed', // Validasi untuk password
         ], $messages);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        // ELOQUENT
+        // ELOQUENT DATA AKUN
+        $user = new User;
+        $user->username = $request->username;
+        $user->email = $request->email;
+        $user->password = Hash::make($request->password);
+        $user->role = $request->role;
+        $user->save();
+
+        // ELOQUENT DATA KARYAWAN
         $datakaryawan = new DataKaryawan;
         $datakaryawan->nama = $request->nama;
         $datakaryawan->alamat = $request->alamat;
@@ -79,9 +92,8 @@ class AdminControllerOne extends Controller
         $datakaryawan->status_karyawan = $request->statusKaryawan;
         $datakaryawan->keahlian = $request->keahlian;
         $datakaryawan->jabatan = $request->jabatan;
-        $datakaryawan->user_id = 2;
-        $datakaryawan->rekrutmen_id = 2;
-
+        $datakaryawan->user_id = $user->id_user;
+        $datakaryawan->rekrutmen_id = $rekrutmen->id_rekrutmen;
         $datakaryawan->save();
 
         Alert::success('Added Successfully', 'Data karyawan berhasil ditambahkan!');
@@ -125,26 +137,36 @@ class AdminControllerOne extends Controller
             'statusKaryawan' => 'required',
             'keahlian' => 'required',
             'jabatan' => 'required',
-            // 'email' => 'required|email',
+            'email' => 'required|email',
+            'password' => 'min:6|confirmed',
+            'role' => 'required',
         ], $messages);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-// ELOQUENT
+        // Inisiasi pemanggilan data dari database ke variabel
         $datakaryawan = DataKaryawan::find($id);
+        $user = User::find($datakaryawan->user_id);
+
+        // ELOQUENT DATA AKUN
+        $user->email = $request->email;
+        if ($request->password !== null) {
+            $user->password = Hash::make($request->password);
+        }
+        $user->role = $request->role;
+        $user->save();
+
+        // ELOQUENT DATA KARYAWAN
         $datakaryawan->nama = $request->nama;
         $datakaryawan->alamat = $request->alamat;
         $datakaryawan->nomor_telepon = $request->nomorTelepon;
         $datakaryawan->status_karyawan = $request->statusKaryawan;
         $datakaryawan->keahlian = $request->keahlian;
         $datakaryawan->jabatan = $request->jabatan;
-        $datakaryawan->user_id = 2;
-        $datakaryawan->rekrutmen_id = 2;
-
         $datakaryawan->save();
 
-        Alert::success('Edited Successfully', 'Edit Data karyawan berhasil!');
+        Alert::success('Berhasil Disunting', 'Data karyawan berhasil disunting!');
 
         return redirect()->route('datakaryawan.index');
 
@@ -167,14 +189,15 @@ class AdminControllerOne extends Controller
     public function getData(Request $request)
     {
         $datakaryawan = DataKaryawan::with(['rekrutmen', 'user']);
-        // if ($request->ajax()) {
-        return datatables()->of($datakaryawan)
-            ->addIndexColumn()
-            ->addColumn('aksi', function ($satudatakaryawan) {
-                return view('admin.datakaryawan.actions', compact('satudatakaryawan'));
-            })
-            ->toJson();
-        // }
+
+        if ($request->ajax()) {
+            return datatables()->of($datakaryawan)
+                ->addIndexColumn()
+                ->addColumn('aksi', function ($satudatakaryawan) {
+                    return view('admin.datakaryawan.actions', compact('satudatakaryawan'));
+                })
+                ->toJson();
+        }
     }
 
     public function exportExcel()

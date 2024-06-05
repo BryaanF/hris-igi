@@ -28,7 +28,7 @@ class UserFactory extends Factory
             'email_verified_at' => now(),
             // 'password' => static::$password ??= Hash::make('password'),
             // use same password for test
-            'password' => bcrypt('admin@igi'),
+            'password' => bcrypt('password'),
             'role' => fake()->randomElement(['Administrator', 'Employee']),
             'remember_token' => Str::random(10),
         ];

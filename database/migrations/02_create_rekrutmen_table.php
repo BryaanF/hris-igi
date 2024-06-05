@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('nomor_telepon');
             $table->string('alamat');
             $table->string('keahlian');
-            $table->string('catatan');
+            $table->string('catatan')->nullable();
             $table->enum('status_rekrutmen', ['Proses', 'Diterima', 'Ditolak']);
             $table->timestamps();
         });

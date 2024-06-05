@@ -3,7 +3,6 @@
 namespace Database\Factories;
 
 use App\Models\DataKaryawan;
-use App\Models\Rekrutmen;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
@@ -23,6 +22,7 @@ class DataKaryawanFactory extends Factory
      */
     public function definition(): array
     {
+        $user = User::factory()->create();
 
         return [
             'nama' => fake()->name(),
@@ -31,8 +31,8 @@ class DataKaryawanFactory extends Factory
             'status_karyawan' => fake()->randomElement(['Karyawan_Tetap', 'Karyawan_Kontrak']),
             'keahlian' => fake()->bs(),
             'jabatan' => fake()->jobTitle(),
-            'rekrutmen_id' => Rekrutmen::factory(),
-            'user_id' => User::factory(),
+            'rekrutmen_id' => null,
+            'user_id' => $user->id_user,
             'created_at' => now(),
             'updated_at' => now(),
         ];

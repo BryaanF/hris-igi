@@ -2,17 +2,16 @@
 
 namespace Database\Seeders;
 
-use App\Models\DataKaryawan;
+use App\Models\Rekrutmen;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
-class DataKaryawanSeeder extends Seeder
+class RekrutmenSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        DataKaryawan::factory()->count(20)->create();
+        Rekrutmen::factory()->count(5)->create();
     }
 }

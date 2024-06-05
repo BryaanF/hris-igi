@@ -14,7 +14,7 @@
                         height="32" class="rounded-circle">
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end text-small" aria-labelledby="dropdownUser1">
-                    <li><a class="dropdown-item" href="{{ route('profile.index') }}"><i
+                    <li><a class="dropdown-item" href="{{ route('profil.index') }}"><i
                                 class="bi bi-person-badge me-1"></i>
                             <span>Profile Information</span>
                         </a></li>

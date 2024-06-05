@@ -48,7 +48,7 @@ class User extends Authenticatable
 
     public function dataKaryawan()
     {
-        return $this->belongsTo(DataKaryawan::class, 'id_user');
+        return $this->hasOne(DataKaryawan::class, 'user_id');
     }
 
     // Fungsi untuk memeriksa role

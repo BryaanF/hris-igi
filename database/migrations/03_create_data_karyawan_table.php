@@ -19,7 +19,7 @@ return new class extends Migration
             $table->enum('status_karyawan', ['Karyawan_Tetap', 'Karyawan_Kontrak']);
             $table->string('keahlian');
             $table->string('jabatan');
-            $table->foreignId('rekrutmen_id')->constrained('rekrutmen', 'id_rekrutmen');
+            $table->foreignId('rekrutmen_id')->nullable()->constrained('rekrutmen', 'id_rekrutmen');
             $table->foreignId('user_id')->constrained('users', 'id_user');
             // use this $table->foreignId('user_id')->constrained();
             // or use this to constrained to users table with spesific user id name $table->foreignId('user_id')->constrained('users', 'id_user');

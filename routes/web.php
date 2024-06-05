@@ -59,7 +59,8 @@ Route::middleware(['auth'])->group(function () {
 
     // route untuk karyawan dan admin
     // route profile
-    Route::resource('profile', ProfileController::class);
+    Route::get('profil/sunting', [ProfileController::class, 'sunting'])->name('profil.sunting');
+    Route::resource('profil', ProfileController::class);
 
 });
 

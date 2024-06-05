@@ -8,18 +8,6 @@ use Illuminate\Http\Request;
 
 class ProfileController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware(function ($request, $next) {
-            if (!Auth::check() || !Auth::user()->hasRole('Administrator')) {
-                abort(403);
-            }
-
-            return $next($request);
-        });
-
-    }
-
     /**
      * Display a listing of the resource.
      */
@@ -31,8 +19,6 @@ class ProfileController extends Controller
 
         // Mengambil data karyawan yang terkait
         $datakaryawan = $user->datakaryawan;
-
-        dd($user);
 
         return view('profile.index', compact('user', 'datakaryawan'));
     }
@@ -83,5 +69,16 @@ class ProfileController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function sunting()
+    {
+        // Mengambil pengguna yang sedang login
+        $user = Auth::user();
+
+        // Mengambil data karyawan yang terkait
+        $datakaryawan = $user->datakaryawan;
+
+        return view('profile.edit', compact('user', 'datakaryawan'));
     }
 }

@@ -53,6 +53,8 @@ class LoginController extends Controller
         if (Auth::attempt($credentials)) {
             if (isset($data['rememberme']) && !empty($data['rememberme'])) {
                 setcookie("email", $data['email'], time() + 172800);
+                setcookie("password", $data['password'], time() + 172800);
+
             } else {
                 setcookie("email", "");
                 setcookie("password", "");
