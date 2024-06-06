@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Alert;
 use App\Exports\DataKaryawanExport;
 use App\Models\DataKaryawan;
-use App\Models\Rekrutmen;
 use App\Models\User;
 use Auth;
 use Hash;
@@ -109,7 +108,7 @@ class AdminControllerOne extends Controller
     {
         // ELOQUENT
         $datakaryawan = DataKaryawan::with(['rekrutmen', 'user'])->find($id);
-        return view('admin.datakaryawan.detail', compact('datakaryawan'));
+        return view('admin.datakaryawan.index', compact('datakaryawan'));
     }
 
     /**

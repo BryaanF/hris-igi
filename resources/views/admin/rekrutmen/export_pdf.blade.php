@@ -25,7 +25,7 @@
 </head>
 
 <body>
-    <h1>Daftar Karyawan</h1>
+    <h1>Daftar Kandidat</h1>
     <table class="table table-bordered">
         <thead>
             <tr>
@@ -33,21 +33,21 @@
                 <th>Nama</th>
                 <th>Alamat</th>
                 <th>Nomor Telepon</th>
-                <th>Status Karyawan</th>
+                <th>Status Rekrutmen</th>
                 <th>Keahlian</th>
-                <th>Jabatan</th>
+                <th>Catatan</th>
             </tr>
         </thead>
         <tbody>
-            @foreach ($datakaryawan as $index => $datakaryawan)
+            @foreach ($datarekrutmen as $index => $datarekrutmen)
                 <tr>
                     <td>{{ $index + 1 }}</td>
-                    <td>{{ $datakaryawan->nama }}</td>
-                    <td>{{ $datakaryawan->alamat }}</td>
-                    <td>{{ $datakaryawan->nomor_telepon }}</td>
-                    <td>{{ $datakaryawan->status_karyawan }}</td>
-                    <td>{{ $datakaryawan->keahlian }}</td>
-                    <td>{{ $datakaryawan->jabatan }}</td>
+                    <td>{{ $datarekrutmen->nama }}</td>
+                    <td>{{ $datarekrutmen->alamat }}</td>
+                    <td>{{ $datarekrutmen->nomor_telepon }}</td>
+                    <td>{{ $datarekrutmen->status_rekrutmen }}</td>
+                    <td>{{ $datarekrutmen->keahlian }}</td>
+                    <td>{{ $datarekrutmen->catatan }}</td>
                 </tr>
             @endforeach
         </tbody>

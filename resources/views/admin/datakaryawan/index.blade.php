@@ -7,19 +7,19 @@
                 <ul class="list-inline mb-0">
                     <li class="list-inline-item">
                         <a href="{{ route('datakaryawan.exportExcel') }}" class="btn btn-outline-success">
-                            <i class="bi bi-download me-1"></i> Ekspor ke Excel
+                            <i class="bi bi-download me-1"></i><span>Excel</span>
                         </a>
                     </li>
                     <li class="list-inline-item">
                         <a href="{{ route('datakaryawan.exportPDF') }}" class="btn btn-outline-danger">
-                            <i class="bi bi-download me-1"></i>Ekspor ke PDF
+                            <i class="bi bi-download me-1"></i><span>PDF</span>
                         </a>
                     </li>
                     <li class="list-inline-item">|</li>
                     <li class="list-inline-item">
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                             data-bs-target="#createDataKaryawan">
-                            <i class="bi bi-plus-circle me-1"></i>Tambah Data Karyawan
+                            <i class="bi bi-plus-circle me-1"></i><span>Tambah Data</span>
                         </button>
                     </li>
                 </ul>

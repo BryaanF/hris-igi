@@ -42,6 +42,10 @@ Route::middleware(['auth'])->group(function () {
     // route halaman rekrutmen
     Route::resource('rekrutmen', AdminControllerTwo::class);
     Route::get('getRekrutmen', [AdminControllerTwo::class, 'getData'])->name('rekrutmen.getData');
+    Route::post('statusRekrutmenQuery/{id}', [AdminControllerTwo::class, 'statusRekrutmenQuery'])->name('rekrutmen.statusRekrutmenQuery');
+    Route::get('exportExcelDataRekrutmen', [AdminControllerTwo::class, 'exportExcel'])->name('rekrutmen.exportExcel');
+    Route::get('exportPDFDataRekrutmen', [AdminControllerTwo::class, 'exportPDF'])->name('rekrutmen.exportPDF');
+
     // route halaman daftar absensi
     Route::resource('daftarabsensi', AdminControllerThree::class);
     // route halaman persetujuan cuti
