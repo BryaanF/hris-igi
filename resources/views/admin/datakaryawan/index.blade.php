@@ -55,6 +55,7 @@
                     @csrf
                     <div class="modal-header">
                         <h5 class="modal-title" id="createDataKaryawanModalLabel">Tambah Karyawan</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <h4 class="text-center">Data Karyawan</h4>
@@ -177,15 +178,12 @@
                                 </div>
                             @enderror
                         </div>
-                        <p class="fw-bold">Note : Pastikan username yang dimasukkan merupakan username yang unik
-                            dan
-                            pastikan sudah benar karena
-                            tidak dapat diganti setelah data karyawan beserta akun telah dibuat.</p>
+                        <p class="fw-bold">Note : Pastikan username karyawan yang dimasukkan merupakan username yang unik
+                            dan pastikan sudah benar karena tidak dapat diganti setelah data karyawan beserta akun telah
+                            berhasil dibuat.</p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                            aria-label="close">Tutup</button>
-                        <button type="submit" class="btn btn-primary">Simpan Penambahan</button>
+                        <button type="submit" class="btn btn-primary">Simpan Data</button>
                     </div>
                 </form>
             </div>
@@ -201,6 +199,7 @@
                     @method('PUT')
                     <div class="modal-header">
                         <h4 class="modal-title" id="editDataKaryawanModalLabel">Edit Data Karyawan</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <h5 class="text-center">Data Utama</h5>
@@ -331,8 +330,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                        <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                        <button type="submit" class="btn btn-primary">Simpan Perubahan Data</button>
                     </div>
                 </form>
             </div>
@@ -348,6 +346,7 @@
                     @method('PUT')
                     <div class="modal-header">
                         <h4 class="modal-title" id="showDataKaryawanModalLabel">Detail Data Karyawan</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
@@ -413,9 +412,6 @@
                                     <small>{{ $message }}</small>
                                 </div>
                             @enderror
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
                         </div>
                 </form>
             </div>

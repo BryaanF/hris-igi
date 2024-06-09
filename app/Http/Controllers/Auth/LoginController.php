@@ -41,23 +41,32 @@ class LoginController extends Controller
 
     public function authenticate(Request $request)
     {
-        // validate stored temporary data lgon
+        // validate input data (accept either email or username)
         $credentials = $request->validate([
-            'email' => ['required', 'email'],
+            'login' => ['required', 'string'],
             'password' => ['required'],
         ]);
+
+        // determine whether login input is email or username
+        $loginField = filter_var($credentials['login'], FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+
+        // prepare credentials for authentication
+        $authCredentials = [
+            $loginField => $credentials['login'],
+            'password' => $credentials['password'],
+        ];
 
         // store temporary data login
         $data = $request->all();
 
-        if (Auth::attempt($credentials)) {
+        // attempt to authenticate user
+        if (Auth::attempt($authCredentials)) {
             if (isset($data['rememberme']) && !empty($data['rememberme'])) {
-                setcookie("email", $data['email'], time() + 172800);
+                setcookie("login", $data['login'], time() + 172800);
                 setcookie("password", $data['password'], time() + 172800);
-
             } else {
-                setcookie("email", "");
-                setcookie("password", "");
+                setcookie("login", "", time() - 3600);
+                setcookie("password", "", time() - 3600);
             }
 
             // Set pesan status ke session dan regenerate session
@@ -66,8 +75,9 @@ class LoginController extends Controller
 
             return redirect()->intended('dashboard');
         }
+
         return back()->withErrors([
-            'email' => 'Data login yang diinputkan tidak ada.',
-        ])->onlyInput('email');
+            'login' => 'Data login yang diinputkan tidak ada.',
+        ])->onlyInput('login');
     }
 }

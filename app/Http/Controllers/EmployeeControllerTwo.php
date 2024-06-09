@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+// kontroller riwayat gaji
 class EmployeeControllerTwo extends Controller
 {
     /**

@@ -7,7 +7,6 @@ use App\Exports\DataKaryawanExport;
 use App\Models\DataKaryawan;
 use App\Models\User;
 use Auth;
-use Hash;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use PDF;
@@ -79,7 +78,7 @@ class AdminControllerOne extends Controller
         $user = new User;
         $user->username = $request->username;
         $user->email = $request->email;
-        $user->password = Hash::make($request->password);
+        $user->password = bcrypt($request->password);
         $user->role = $request->role;
         $user->save();
 
@@ -151,7 +150,7 @@ class AdminControllerOne extends Controller
         // ELOQUENT DATA AKUN
         $user->email = $request->email;
         if ($request->password !== null) {
-            $user->password = Hash::make($request->password);
+            $user->password = bcrypt($request->password);
         }
         $user->role = $request->role;
         $user->save();

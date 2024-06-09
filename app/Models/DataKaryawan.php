@@ -19,4 +19,9 @@ class DataKaryawan extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    public function cuti()
+    {
+        return $this->hasMany(Cuti::class, 'data_karyawan_id');
+    }
 }

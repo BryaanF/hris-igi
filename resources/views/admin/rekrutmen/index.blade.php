@@ -54,6 +54,7 @@
                     @csrf
                     <div class="modal-header">
                         <h5 class="modal-title" id="createRekrutmenModalLabel">Tambah Data Kandidat</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
@@ -100,8 +101,8 @@
                         </div>
                         <div class="form-group mt-1">
                             <label for="catatan" class="form-label">Catatan</label>
-                            <input class="form-control @error('catatan') is-invalid @enderror" type="text" name="catatan"
-                                id="catatan" value="{{ old('catatan') }}" placeholder="Masukkan catatan">
+                            <textarea class="form-control @error('catatan') is-invalid @enderror" rows="3" name="catatan" id="catatan"
+                                value="{{ old('catatan') }}" placeholder="Masukkan catatan"></textarea>
                             @error('catatan')
                                 <div class="text-danger">
                                     <small>{{ $message }}</small>
@@ -110,9 +111,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                            aria-label="close">Tutup</button>
-                        <button type="submit" class="btn btn-primary">Simpan Penambahan</button>
+                        <button type="submit" class="btn btn-primary">Simpan Data</button>
                     </div>
                 </form>
             </div>
@@ -127,7 +126,8 @@
                     @csrf
                     @method('PUT')
                     <div class="modal-header">
-                        <h4 class="modal-title" id="editRekrutmenModalLabel">Edit Data Kandidat</h4>
+                        <h4 class="modal-title" id="editRekrutmenModalLabel">Sunting Data Kandidat</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
@@ -179,9 +179,8 @@
                         </div>
                         <div class="form-group mt-1">
                             <label for="catatan" class="form-label">Catatan</label>
-                            <input class="form-control @error('catatan') is-invalid @enderror" type="text"
-                                name="catatan" id="catatan" value="{{ old('catatan') }}"
-                                placeholder="Masukkan catatan">
+                            <textarea class="form-control @error('catatan') is-invalid @enderror" rows="3" name="catatan" id="catatan"
+                                value="{{ old('catatan') }}" placeholder="Masukkan catatan"></textarea>
                             @error('catatan')
                                 <div class="text-danger">
                                     <small>{{ $message }}</small>
@@ -200,8 +199,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                        <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                        <button type="submit" class="btn btn-primary">Simpan Perubahan Data</button>
                     </div>
                 </form>
             </div>
@@ -215,9 +213,9 @@
                 <form action="{{ route('rekrutmen.statusRekrutmenQuery', ':id') }}" method="POST"
                     enctype="multipart/form-data" id="statusRekrutmenQueryForm">
                     @csrf
-
                     <div class="modal-header">
                         <h4 class="modal-title" id="showRekrutmenModalLabel">Status Penerimaan Kandidat Karyawan</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
@@ -225,15 +223,12 @@
                         </div>
                         <div class="form-group">
                             <label for="nama" class="form-label">Nama</label>
-                            <input class="form-control @error('nama') is-invalid
-@enderror" type="text"
+                            <input class="form-control @error('nama') is-invalid @enderror" type="text"
                                 name="nama" id="nama" disabled>
-
                         </div>
                         <div class="form-group">
                             <label for="alamat" class="form-label">Alamat</label>
-                            <input class="form-control @error('alamat') is-invalid
-@enderror" type="text"
+                            <input class="form-control @error('alamat') is-invalid @enderror" type="text"
                                 name="alamat" id="alamat" disabled>
 
                         </div>
@@ -251,24 +246,22 @@
                         </div>
                         <div class="form-group mt-1">
                             <label for="catatan" class="form-label">Catatan</label>
-                            <input class="form-control @error('catatan') is-invalid @enderror" type="text"
-                                name="catatan" id="catatan" disabled>
+                            <textarea class="form-control @error('catatan') is-invalid @enderror" rows="3" name="catatan" id="catatan"
+                                disabled></textarea>
 
                         </div>
                         <div class="form-group my-2">
                             <label for="statusRekrutmen" class="form-label">Status Rekrutmen</label>
                             <input class="form-control @error('statusRekrutmen') is-invalid @enderror" type="text"
                                 name="statusRekrutmen" id="statusRekrutmen" disabled>
-
                         </div>
-                        <div class="modal-footer">
-                            <input type="hidden" name="button_value" id="button_value">
-                            <button type="button" class="btn btnquery btn-success" value="Diterima">Terima</button>
-                            <button type="button" class="btn btnquery btn-primary" value="Proses">Proses</button>
-                            <button type="button" class="btn btnquery btn-danger" value="Ditolak">Tolak</button>
-                            <span class="mx-2"> | </span>
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="hidden" name="button_value" id="button_value">
+                        <button type="button" class="btn btn-success btnquery" value="Diterima">Terima</button>
+                        <button type="button" class="btn btn-primary btnquery" value="Proses">Proses</button>
+                        <button type="button" class="btn btn-danger btnquery" value="Ditolak">Tolak</button>
+                    </div>
                 </form>
             </div>
         </div>
@@ -277,7 +270,6 @@
     {{-- end modal section --}}
 @endsection
 @push('scripts')
-    {{-- {{ $dataTable->scripts() }} --}}
     <script type="module">
         $(document).ready(function() {
             var table = $("#dataRekrutmenTable").DataTable({
@@ -345,7 +337,7 @@
                 $('#editRekrutmen input[name="nomorTelepon"]').val(data.nomor_telepon);
                 $('#editRekrutmen input[name="statusRekrutmen"]').val(data.status_rekrutmen);
                 $('#editRekrutmen input[name="keahlian"]').val(data.keahlian);
-                $('#editRekrutmen input[name="catatan"]').val(data.catatan);
+                $('#editRekrutmen textarea[name="catatan"]').val(data.catatan);
 
                 var updateRoute = "{{ route('rekrutmen.update', ':id') }}";
                 updateRoute.replace(':id', data.id_rekrutmen);
@@ -373,7 +365,7 @@
                 $('#showRekrutmen input[name="nomorTelepon"]').val(data.nomor_telepon);
                 $('#showRekrutmen input[name="statusRekrutmen"]').val(data.status_rekrutmen);
                 $('#showRekrutmen input[name="keahlian"]').val(data.keahlian);
-                $('#showRekrutmen input[name="catatan"]').val(data.catatan);
+                $('#showRekrutmen textarea[name="catatan"]').val(data.catatan);
 
                 console.log(data.id_rekrutmen);
 
@@ -387,9 +379,9 @@
 
             // Menangani klik pada tombol tolak, terima, dan proses pada detail modal
             $('#statusRekrutmenQueryForm .btnquery').click(function() {
-
                 var buttonValue = $(this).val(); // Mendapatkan nilai tombol yang diklik
                 $('#button_value').val(buttonValue); // Mengatur nilai input hidden
+
                 // Melakukan submit form
                 var form = $(this).closest("form");
                 form.submit();

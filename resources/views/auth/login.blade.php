@@ -21,21 +21,21 @@
                                 Indo Global Impex</h3>
                         </div>
                         <div class="card-body">
+                            @error('login')
+                                <div class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </div>
+                            @enderror
                             <form method="POST" action="{{ route('login') }}">
                                 @csrf
+
                                 <div class="form-floating mb-3">
-                                    <input
-                                        class="form-control @error('email') is-invalid
-                                            @enderror"
-                                        id="email" name="email" type="email" placeholder="example@email.com"
-                                        required autocomplete="email"
-                                        @if (isset($_COOKIE['email'])) value="{{ $_COOKIE['email'] }}" @else value="{{ old('email') }}" @endif>
-                                    @error('email')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                    <label for="email">Email address</label>
+                                    <input class="form-control @error('login') is-invalid @enderror" id="login"
+                                        name="login" type="text" placeholder="Email or Username" required
+                                        autocomplete="login"
+                                        @if (isset($_COOKIE['login'])) value="{{ $_COOKIE['login'] }}" @else value="{{ old('login') }}" @endif>
+
+                                    <label for="login">Email address or Username</label>
                                 </div>
                                 {{-- password div --}}
                                 <div class="form-floating mb-3">

@@ -75,9 +75,10 @@ class AdminControllerTwo extends Controller
         $datarekrutmen->catatan = $request->catatan;
         $datarekrutmen->save();
 
-        Alert::success('Added Successfully', 'Data karyawan berhasil ditambahkan!');
+        Alert::success('Berhasil ditambahkan', 'Data rekrutmen berhasil ditambahkan!');
 
         return redirect()->route('rekrutmen.index');
+
     }
 
     /**
@@ -121,6 +122,8 @@ class AdminControllerTwo extends Controller
         // Inisiasi pemanggilan data dari database ke variabel
         $datarekrutmen = Rekrutmen::find($id);
 
+        dd($datarekrutmen);
+
         // ELOQUENT DATA REKRUTMEN
         $datarekrutmen->nama = $request->nama;
         $datarekrutmen->alamat = $request->alamat;
@@ -129,7 +132,7 @@ class AdminControllerTwo extends Controller
         $datarekrutmen->catatan = $request->catatan;
         $datarekrutmen->save();
 
-        Alert::success('Berhasil Disunting', 'Data karyawan berhasil disunting!');
+        Alert::success('Berhasil Disunting', 'Data rekrutmen berhasil disunting!');
 
         return redirect()->route('rekrutmen.index');
 
@@ -143,7 +146,7 @@ class AdminControllerTwo extends Controller
         // ELOQUENT
         Rekrutmen::find($id)->delete();
 
-        Alert::success('Data Berhasil Dihapus', 'Data Rekrutmen telah berhasil dihapus!');
+        Alert::success('Data Berhasil Dihapus', 'Data rekrutmen berhasil dihapus!');
 
         return redirect()->route('rekrutmen.index');
 
@@ -167,16 +170,20 @@ class AdminControllerTwo extends Controller
         // Inisiasi pemanggilan data dari database ke variabel
         $datarekrutmen = Rekrutmen::find($id);
 
-        $datarekrutmen->status_rekrutmen = $request->button_value; // request->button_value merupakan input hidden yang ada pada form input yang menyimpan data value dari tombol diterima, ditolak, dan proses
+        // request->button_value merupakan input hidden yang ada pada form input yang menyimpan data value dari tombol diterima, ditolak, dan proses
+        $button_value = $request->button_value;
+
+        // Eloquent kolom status_rekrutmen
+        $datarekrutmen->status_rekrutmen = $button_value;
         $datarekrutmen->save();
 
-        if ($buttonValue == 'Diterima') {
-            Alert::success('Rekruter telah diterima', 'Rekruter telah resmi menjadi karyawan dan berada pada data karyawan!');
+        if ($button_value == 'Diterima') {
+            Alert::success('Kandidat telah diterima', 'Kandidat telah resmi menjadi karyawan!');
 
-        } else if ($buttonValue == 'Ditolak') {
-            Alert::error('Rekruter telah ditolak', 'Rekruter berhasil ditolak, gagal menjadi karyawan!');
+        } else if ($button_value == 'Ditolak') {
+            Alert::error('Kandidat telah ditolak', 'Kandidat berhasil ditolak, gagal menjadi karyawan!');
         } else {
-            Alert::info('Rekruter dalam tahap proses', 'Rekruter masih dalam tahap proses perekrutan lebih lanjut!');
+            Alert::info('Kandidat dalam tahap proses', 'Kandidat masih dalam tahap proses perekrutan lebih lanjut!');
         }
 
         return redirect()->route('rekrutmen.index');

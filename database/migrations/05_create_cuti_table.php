@@ -11,11 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pengajuan_cuti', function (Blueprint $table) {
-            $table->id('id_pengajuan_cuti');
-            $table->string('mulai_cuti');
-            $table->string('selesai_cuti');
-            $table->integer('disetujui');
+        Schema::create('cuti', function (Blueprint $table) {
+            $table->id('id_cuti');
+            $table->date('mulai_cuti');
+            $table->date('selesai_cuti');
+            $table->string('keterangan');
+            $table->enum('status_cuti', ['Disetujui', 'Pending', 'Ditolak']);
             $table->foreignId('data_karyawan_id')->constrained('data_karyawan', 'id_data_karyawan');
             $table->timestamps();
         });
