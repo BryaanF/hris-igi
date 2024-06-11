@@ -4,9 +4,10 @@ namespace App\Http\Controllers;
 
 use Alert;
 use App\Exports\DataRekrutmenExport;
+use App\Models\DataKaryawan;
 use App\Models\Rekrutmen;
+use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 use PDF;
 use Validator;
@@ -14,17 +15,6 @@ use Validator;
 // controller for rekrutmen
 class AdminControllerTwo extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware(function ($request, $next) {
-            if (!Auth::check() || !Auth::user()->hasRole('Administrator')) {
-                abort(403);
-            }
-
-            return $next($request);
-        });
-
-    }
     /**
      * Display a listing of the resource.
      */
@@ -53,21 +43,22 @@ class AdminControllerTwo extends Controller
         $messages = [
             'required' => ':Attribute harus diisi.',
             'email' => 'Isi :attribute dengan format yang benar',
-            'numeric' => 'Isi :attribute dengan angka',
         ];
         $validator = Validator::make($request->all(), [
             'nama' => 'required',
+            'email' => 'required|email',
             'alamat' => 'required',
-            'nomorTelepon' => 'required|numeric',
+            'nomorTelepon' => 'required|regex:/^\+?[0-9\-\(\)\s]+$/',
             'keahlian' => 'required',
         ], $messages);
         if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
+            return redirect()->back()->withErrors($validator)->withInput()->with('error_in_modal', 1);
         }
 
         // ELOQUENT DATA REKRUTMEN
         $datarekrutmen = new Rekrutmen;
         $datarekrutmen->nama = $request->nama;
+        $datarekrutmen->email = $request->email;
         $datarekrutmen->alamat = $request->alamat;
         $datarekrutmen->nomor_telepon = $request->nomorTelepon;
         $datarekrutmen->status_rekrutmen = 'Proses';
@@ -107,16 +98,16 @@ class AdminControllerTwo extends Controller
         $messages = [
             'required' => ':Attribute harus diisi.',
             'email' => 'Isi :attribute dengan format yang benar',
-            'numeric' => 'Isi :attribute dengan angka',
         ];
         $validator = Validator::make($request->all(), [
             'nama' => 'required',
+            'email' => 'required|email',
             'alamat' => 'required',
-            'nomorTelepon' => 'required|numeric',
+            'nomorTelepon' => 'required|regex:/^\+?[0-9\-\(\)\s]+$/',
             'keahlian' => 'required',
         ], $messages);
         if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
+            return redirect()->back()->withErrors($validator)->withInput()->with('error_in_modal', 2);
         }
 
         // Inisiasi pemanggilan data dari database ke variabel
@@ -126,6 +117,7 @@ class AdminControllerTwo extends Controller
 
         // ELOQUENT DATA REKRUTMEN
         $datarekrutmen->nama = $request->nama;
+        $datarekrutmen->email = $request->email;
         $datarekrutmen->alamat = $request->alamat;
         $datarekrutmen->nomor_telepon = $request->nomorTelepon;
         $datarekrutmen->keahlian = $request->keahlian;
@@ -167,6 +159,16 @@ class AdminControllerTwo extends Controller
 
     public function statusRekrutmenQuery(Request $request, String $id)
     {
+        // Digunakan untuk mendelete user data yang nantinya akan mendelete data karyawan juga jika status rekrutmen menjadi proses atau ditolak dan terdapat data karyawan dengan rekrutmen_id yang sesuai id_rekrutmen pada data rekrutmen yang sedang diquery saat ini
+        function deleteUserData($id)
+        {
+            // Jika status_rekrutmen diubah menjadi "Ditolak" atau "Proses", hapus data karyawan terkait
+            $datakaryawan = DataKaryawan::where('rekrutmen_id', $id)->first();
+            $user_id = $datakaryawan->user_id; // mencari nilai user id dari record data karyawan
+            // Hapus data user terkait
+            User::where('id_user', $user_id)->delete();
+        }
+
         // Inisiasi pemanggilan data dari database ke variabel
         $datarekrutmen = Rekrutmen::find($id);
 
@@ -177,12 +179,45 @@ class AdminControllerTwo extends Controller
         $datarekrutmen->status_rekrutmen = $button_value;
         $datarekrutmen->save();
 
-        if ($button_value == 'Diterima') {
-            Alert::success('Kandidat telah diterima', 'Kandidat telah resmi menjadi karyawan!');
+        // Cek jika tidak ada karyawan dengan rekrutmen_id yang sesuai dengan id_rekrutmen pada data di tabel rekrutmen
+        $existingEmployee = DataKaryawan::where('rekrutmen_id', $id)->first();
 
+        if ($button_value == 'Diterima') {
+            if ($existingEmployee) {
+                Alert::success('Kandidat telah diterima', 'Kandidat sudah diterima sebelumnya dan telah menjadi karyawan!');
+            } else {
+                // ELOQUENT DATA AKUN
+                $user = new User;
+                $user->username = strtok($datarekrutmen->email, '@'); // Ambil bagian sebelum '@'
+                $user->email = $datarekrutmen->email;
+                $user->password = bcrypt('password');
+                $user->role = 'Employee';
+                $user->save();
+
+                // ELOQUENT DATA KARYAWAN
+                $datakaryawan = new DataKaryawan;
+                $datakaryawan->nama = $datarekrutmen->nama;
+                $datakaryawan->alamat = $datarekrutmen->alamat;
+                $datakaryawan->nomor_telepon = $datarekrutmen->nomor_telepon;
+                $datakaryawan->status_karyawan = 'Karyawan_Kontrak';
+                $datakaryawan->keahlian = $datarekrutmen->keahlian;
+                $datakaryawan->jabatan = 'Karyawan';
+                $datakaryawan->user_id = $user->id_user;
+                $datakaryawan->rekrutmen_id = $id;
+
+                $datakaryawan->save();
+
+                Alert::success('Kandidat telah diterima', 'Kandidat berhasil diterima dan menjadi karyawan!');
+            }
         } else if ($button_value == 'Ditolak') {
+            if ($existingEmployee) {
+                deleteUserData($id);
+            }
             Alert::error('Kandidat telah ditolak', 'Kandidat berhasil ditolak, gagal menjadi karyawan!');
         } else {
+            if ($existingEmployee) {
+                deleteUserData($id);
+            }
             Alert::info('Kandidat dalam tahap proses', 'Kandidat masih dalam tahap proses perekrutan lebih lanjut!');
         }
 

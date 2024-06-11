@@ -5,8 +5,8 @@
             <div class="card">
                 <div class="card-header">{{ __('Profile') }}</div>
                 <div class="card-body d-flex flex-column">
-                    <img src="{{ Vite::asset('resources/assets/avatar_dummy.jpeg') }}" alt="mdo" width="25%"
-                        height="25%" class="rounded-circle align-self-center">
+                    <img src="{{ Vite::asset('resources/assets/avatar.svg') }}" alt="mdo" width="25%" height="25%"
+                        class="rounded-circle align-self-center bg-light">
                     <h4 class="card-title mt-4 text-center">Master Admin</h4>
                     <h5>Data Karyawan</h5>
                     <h6>Nama</h6>

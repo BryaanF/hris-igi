@@ -6,24 +6,12 @@ use Alert;
 use App\Exports\DataPersetujuanCutiExport;
 use App\Models\Cuti;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 use PDF;
 
 // controller for persetujuan cuti
 class AdminControllerFour extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware(function ($request, $next) {
-            if (!Auth::check() || !Auth::user()->hasRole('Administrator')) {
-                abort(403);
-            }
-
-            return $next($request);
-        });
-
-    }
     /**
      * Display a listing of the resource.
      */
@@ -85,14 +73,14 @@ class AdminControllerFour extends Controller
     public function getData(Request $request)
     {
         $datapersetujuancuti = Cuti::with('dataKaryawan');
-        // if ($request->ajax()) {
+        if ($request->ajax()) {
         return datatables()->of($datapersetujuancuti)
             ->addIndexColumn()
             ->addColumn('actions', function ($satudatapersetujuancuti) {
                 return view('admin.persetujuancuti.actions', compact('satudatapersetujuancuti'));
             })
             ->toJson();
-        // }
+        }
     }
 
     public function statusCutiQuery(Request $request, String $id)

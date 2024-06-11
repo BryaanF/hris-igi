@@ -70,14 +70,14 @@ class LoginController extends Controller
             }
 
             // Set pesan status ke session dan regenerate session
-            $request->session()->flash('status', 'Login successful!');
+            $request->session()->flash('status', 'Anda telah berhasil login!');
             $request->session()->regenerate();
 
             return redirect()->intended('dashboard');
         }
 
         return back()->withErrors([
-            'login' => 'Data login yang diinputkan tidak ada.',
+            'login' => 'Data login yang masukkan tidak valid, cek email / username dan password yang anda masukkan.',
         ])->onlyInput('login');
     }
 }

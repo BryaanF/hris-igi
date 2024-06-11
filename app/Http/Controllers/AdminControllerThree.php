@@ -3,22 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 // controller for daftarabsensi
 class AdminControllerThree extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware(function ($request, $next) {
-            if (!Auth::check() || !Auth::user()->hasRole('Administrator')) {
-                abort(403);
-            }
-
-            return $next($request);
-        });
-
-    }
     /**
      * Display a listing of the resource.
      */
@@ -74,5 +62,18 @@ class AdminControllerThree extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function getData(Request $request)
+    {
+        $datadaftarabsensi = Cuti::with('dataKaryawan');
+        if ($request->ajax()) {
+        return datatables()->of($datapersetujuancuti)
+            ->addIndexColumn()
+            ->addColumn('actions', function ($satudatapersetujuancuti) {
+                return view('admin.persetujuancuti.actions', compact('satudatapersetujuancuti'));
+            })
+            ->toJson();
+        }
     }
 }

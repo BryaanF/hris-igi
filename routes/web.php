@@ -33,30 +33,32 @@ Route::middleware(['auth'])->group(function () {
         return view('index');
     })->name('dashboard');
 
-    // ROUTE FOR ADMIN
-    // route halaman data karyawan
-    Route::resource('datakaryawan', AdminControllerOne::class);
-    Route::get('getDataKaryawan', [AdminControllerOne::class, 'getData'])->name('datakaryawan.getData');
-    Route::get('exportExcelDataKaryawan', [AdminControllerOne::class, 'exportExcel'])->name('datakaryawan.exportExcel');
-    Route::get('exportPDFDataKaryawan', [AdminControllerOne::class, 'exportPDF'])->name('datakaryawan.exportPDF');
-    // route halaman rekrutmen
-    Route::resource('rekrutmen', AdminControllerTwo::class);
-    Route::get('getRekrutmen', [AdminControllerTwo::class, 'getData'])->name('rekrutmen.getData');
-    Route::post('statusRekrutmenQuery/{id}', [AdminControllerTwo::class, 'statusRekrutmenQuery'])->name('rekrutmen.statusRekrutmenQuery');
-    Route::get('exportExcelDataRekrutmen', [AdminControllerTwo::class, 'exportExcel'])->name('rekrutmen.exportExcel');
-    Route::get('exportPDFDataRekrutmen', [AdminControllerTwo::class, 'exportPDF'])->name('rekrutmen.exportPDF');
-    // route halaman daftar absensi
-    Route::resource('daftarabsensi', AdminControllerThree::class);
-    // route halaman persetujuan cuti
-    Route::resource('persetujuancuti', AdminControllerFour::class);
-    Route::get('getPersetujuanCuti', [AdminControllerFour::class, 'getData'])->name('persetujuancuti.getData');
-    Route::get('exportExcelDataPersetujuanCuti', [AdminControllerFour::class, 'exportExcel'])->name('persetujuancuti.exportExcel');
-    Route::get('exportPDFDataPersetujuanCuti', [AdminControllerFour::class, 'exportPDF'])->name('persetujuancuti.exportPDF');
-    Route::post('statusCutiQuery/{id}', [AdminControllerFour::class, 'statusCutiQuery'])->name('persetujuancuti.statusCutiQuery');
-    // route halaman penggajian
-    Route::resource('penggajian', AdminControllerFive::class);
+    // Grouping Routes untuk Administrator
+    Route::middleware(['role:Administrator'])->group(function () {
+        // route halaman data karyawan
+        Route::resource('datakaryawan', AdminControllerOne::class);
+        Route::get('getDataKaryawan', [AdminControllerOne::class, 'getData'])->name('datakaryawan.getData');
+        Route::get('exportExcelDataKaryawan', [AdminControllerOne::class, 'exportExcel'])->name('datakaryawan.exportExcel');
+        Route::get('exportPDFDataKaryawan', [AdminControllerOne::class, 'exportPDF'])->name('datakaryawan.exportPDF');
+        // route halaman rekrutmen
+        Route::resource('rekrutmen', AdminControllerTwo::class);
+        Route::get('getRekrutmen', [AdminControllerTwo::class, 'getData'])->name('rekrutmen.getData');
+        Route::post('statusRekrutmenQuery/{id}', [AdminControllerTwo::class, 'statusRekrutmenQuery'])->name('rekrutmen.statusRekrutmenQuery');
+        Route::get('exportExcelDataRekrutmen', [AdminControllerTwo::class, 'exportExcel'])->name('rekrutmen.exportExcel');
+        Route::get('exportPDFDataRekrutmen', [AdminControllerTwo::class, 'exportPDF'])->name('rekrutmen.exportPDF');
+        // route halaman daftar absensi
+        Route::resource('daftarabsensi', AdminControllerThree::class);
+        // route halaman persetujuan cuti
+        Route::resource('persetujuancuti', AdminControllerFour::class);
+        Route::get('getPersetujuanCuti', [AdminControllerFour::class, 'getData'])->name('persetujuancuti.getData');
+        Route::get('exportExcelDataPersetujuanCuti', [AdminControllerFour::class, 'exportExcel'])->name('persetujuancuti.exportExcel');
+        Route::get('exportPDFDataPersetujuanCuti', [AdminControllerFour::class, 'exportPDF'])->name('persetujuancuti.exportPDF');
+        Route::post('statusCutiQuery/{id}', [AdminControllerFour::class, 'statusCutiQuery'])->name('persetujuancuti.statusCutiQuery');
+        // route halaman penggajian
+        Route::resource('penggajian', AdminControllerFive::class);
+    });
 
-    // ROUTE FOR EMPLOYEE
+    // Rute untuk Employee
     // route pengajuan cuti
     Route::resource('pengajuancuti', EmployeeControllerOne::class);
     Route::get('getPengajuanCuti', [EmployeeControllerOne::class, 'getData'])->name('pengajuancuti.getData');
@@ -64,7 +66,6 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('riwayatgaji', EmployeeControllerTwo::class);
     // route absensi karyawan
     Route::resource('absensi', EmployeeControllerThree::class);
-
     // ROUTE FOR EMPLOYEE AND ADMIN
     // route profile
     Route::get('profil/sunting', [ProfileController::class, 'sunting'])->name('profil.sunting');

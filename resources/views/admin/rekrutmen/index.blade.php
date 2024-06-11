@@ -67,6 +67,16 @@
                                 </div>
                             @enderror
                         </div>
+                        <div class="form-group">
+                            <label for="email" class="form-label">Email</label>
+                            <input class="form-control @error('email') is-invalid @enderror" type="email" name="email"
+                                id="email" value="{{ old('email') }}" placeholder="Masukkan email kandidat karyawan">
+                            @error('email')
+                                <div class="text-danger">
+                                    <small>{{ $message }}</small>
+                                </div>
+                            @enderror
+                        </div>
                         <div class="form-group mt-1">
                             <label for="alamat" class="form-label">Alamat</label>
                             <input class="form-control @error('alamat') is-invalid @enderror" type="text" name="alamat"
@@ -139,6 +149,17 @@
                                 id="nama" value="{{ old('nama') }}"
                                 placeholder="Masukkan nama kandidat karyawan">
                             @error('nama')
+                                <div class="text-danger">
+                                    <small>{{ $message }}</small>
+                                </div>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label for="email" class="form-label">Email</label>
+                            <input class="form-control @error('email') is-invalid @enderror" type="email"
+                                name="email" id="email" value="{{ old('email') }}"
+                                placeholder="Masukkan email kandidat karyawan">
+                            @error('email')
                                 <div class="text-danger">
                                     <small>{{ $message }}</small>
                                 </div>
@@ -225,6 +246,11 @@
                             <label for="nama" class="form-label">Nama</label>
                             <input class="form-control @error('nama') is-invalid @enderror" type="text"
                                 name="nama" id="nama" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="email" class="form-label">email</label>
+                            <input class="form-control @error('email') is-invalid @enderror" type="text"
+                                name="email" id="email" disabled>
                         </div>
                         <div class="form-group">
                             <label for="alamat" class="form-label">Alamat</label>
@@ -319,6 +345,12 @@
                 ],
             });
 
+            // Membuka modal secara langsung jika ada error pada input di modal create dan edit
+            @if (!empty(Session::get('error_in_modal')) && Session::get('error_in_modal') == 1)
+                $('#createDataKaryawan').modal('show');
+            @elseif (!empty(Session::get('error_in_modal')) && Session::get('error_in_modal') == 2)
+                $('#editDataKaryawan').modal('show');
+            @endif
 
             // Edit form with bootstrap modal with data
             $('#dataRekrutmenTable').on('click', '.btn-edit', function(event) {
@@ -333,6 +365,7 @@
                 // Populate your edit modal with data
                 $('#editRekrutmen input[name="id"]').val(data.id_rekrutmen);
                 $('#editRekrutmen input[name="nama"]').val(data.nama);
+                $('#editRekrutmen input[name="email"]').val(data.email);
                 $('#editRekrutmen input[name="alamat"]').val(data.alamat);
                 $('#editRekrutmen input[name="nomorTelepon"]').val(data.nomor_telepon);
                 $('#editRekrutmen input[name="statusRekrutmen"]').val(data.status_rekrutmen);
@@ -348,6 +381,8 @@
 
             });
 
+
+
             // show form with bootstrap modal
             $('#dataRekrutmenTable').on('click', '.btn-show', function(event) {
                 event.preventDefault();
@@ -361,6 +396,7 @@
                 // Populate your show modal with data
                 $('#showRekrutmen input[name="id"]').val(data.id_rekrutmen);
                 $('#showRekrutmen input[name="nama"]').val(data.nama);
+                $('#showRekrutmen input[name="email"]').val(data.email);
                 $('#showRekrutmen input[name="alamat"]').val(data.alamat);
                 $('#showRekrutmen input[name="nomorTelepon"]').val(data.nomor_telepon);
                 $('#showRekrutmen input[name="statusRekrutmen"]').val(data.status_rekrutmen);
@@ -370,7 +406,8 @@
                 console.log(data.id_rekrutmen);
 
                 var updateRoute = "{{ route('rekrutmen.statusRekrutmenQuery', ':id') }}";
-                updateRoute = updateRoute.replace(':id', data.id_rekrutmen); // Perubahan ini harus disimpan
+                updateRoute = updateRoute.replace(':id', data
+                    .id_rekrutmen); // Perubahan ini harus disimpan
 
                 // Set form action URL dynamically
                 var actionUrl = '/statusRekrutmenQuery/' + data.id_rekrutmen;

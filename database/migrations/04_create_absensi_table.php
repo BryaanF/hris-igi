@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('absensi', function (Blueprint $table) {
             $table->id('id_absensi');
             $table->date('tanggal');
-            $table->string('keterangan');
+            $table->string('keterangan')->nullable();
             $table->enum('status_absensi', ['Masuk', 'Izin', 'Sakit', 'Alpha']);
-            $table->foreignId('data_karyawan_id')->constrained('data_karyawan', 'id_data_karyawan');
+            $table->foreignId('data_karyawan_id')->constrained('data_karyawan', 'id_data_karyawan')->onDelete('cascade');
             $table->timestamps();
         });
     }

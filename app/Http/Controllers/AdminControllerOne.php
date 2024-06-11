@@ -6,28 +6,14 @@ use Alert;
 use App\Exports\DataKaryawanExport;
 use App\Models\DataKaryawan;
 use App\Models\User;
-use Auth;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use PDF;
 use Validator;
 
 // controller for datakaryawan
-
 class AdminControllerOne extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware(function ($request, $next) {
-            if (!Auth::check() || !Auth::user()->hasRole('Administrator')) {
-                abort(403);
-            }
-
-            return $next($request);
-        });
-
-    }
-
     /**
      * Display a listing of the resource.
      */
@@ -35,10 +21,11 @@ class AdminControllerOne extends Controller
     public function index()
     {
         $datakaryawan = DataKaryawan::with(['rekrutmen', 'user']);
+        $datarekrutmen = session('datarekrutmen', null); // Ambil datarekrutmen dari session, default null
 
         confirmDelete();
 
-        return view('admin.datakaryawan.index', compact('datakaryawan'));
+        return view('admin.datakaryawan.index', compact('datakaryawan', 'datarekrutmen'));
     }
 
     /**
@@ -62,7 +49,7 @@ class AdminControllerOne extends Controller
         $validator = Validator::make($request->all(), [
             'nama' => 'required',
             'alamat' => 'required',
-            'nomorTelepon' => 'required|numeric',
+            'nomorTelepon' => 'required|regex:/^\+?[0-9\-\(\)\s]+$/',
             'statusKaryawan' => 'required',
             'keahlian' => 'required',
             'jabatan' => 'required',
@@ -71,7 +58,7 @@ class AdminControllerOne extends Controller
             'password' => 'required|min:6|confirmed', // Validasi untuk password
         ], $messages);
         if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
+            return redirect()->back()->withErrors($validator)->withInput()->with('error_in_modal', 1);
         }
 
         // ELOQUENT DATA AKUN
@@ -91,7 +78,9 @@ class AdminControllerOne extends Controller
         $datakaryawan->keahlian = $request->keahlian;
         $datakaryawan->jabatan = $request->jabatan;
         $datakaryawan->user_id = $user->id_user;
-        $datakaryawan->rekrutmen_id = $rekrutmen->id_rekrutmen;
+        if ($request->rekrutmenId !== null) {
+            $datakaryawan->rekrutmen_id = $request->rekrutmenId;
+        }
         $datakaryawan->save();
 
         Alert::success('Added Successfully', 'Data karyawan berhasil ditambahkan!');
@@ -127,20 +116,21 @@ class AdminControllerOne extends Controller
             'required' => ':Attribute harus diisi.',
             'email' => 'Isi :attribute dengan format yang benar',
             'numeric' => 'Isi :attribute dengan angka',
+            'regex' => 'Isikan dengan angka 0-9 atau tanda seperti "+", "-", atau spasi',
         ];
         $validator = Validator::make($request->all(), [
-            'nama' => 'required',
-            'alamat' => 'required',
-            'nomorTelepon' => 'required|numeric',
-            'statusKaryawan' => 'required',
-            'keahlian' => 'required',
-            'jabatan' => 'required',
-            'email' => 'required|email',
-            'password' => 'min:6|confirmed',
-            'role' => 'required',
+            'namaEdit' => 'required',
+            'alamatEdit' => 'required',
+            'nomorTeleponEdit' => 'required|regex:/^\+?[0-9\-\(\)\s]+$/',
+            'statusKaryawanEdit' => 'required',
+            'keahlianEdit' => 'required',
+            'jabatanEdit' => 'required',
+            'emailEdit' => 'required|email',
+            'passwordEdit' => 'nullable|min:6|confirmed',
+            'roleEdit' => 'required',
         ], $messages);
         if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
+            return redirect()->back()->withErrors($validator)->withInput()->with('error_in_modal', 2);
         }
 
         // Inisiasi pemanggilan data dari database ke variabel
@@ -148,20 +138,20 @@ class AdminControllerOne extends Controller
         $user = User::find($datakaryawan->user_id);
 
         // ELOQUENT DATA AKUN
-        $user->email = $request->email;
+        $user->email = $request->emailEdit;
         if ($request->password !== null) {
-            $user->password = bcrypt($request->password);
+            $user->password = bcrypt($request->passwordEdit);
         }
         $user->role = $request->role;
         $user->save();
 
         // ELOQUENT DATA KARYAWAN
-        $datakaryawan->nama = $request->nama;
-        $datakaryawan->alamat = $request->alamat;
-        $datakaryawan->nomor_telepon = $request->nomorTelepon;
-        $datakaryawan->status_karyawan = $request->statusKaryawan;
-        $datakaryawan->keahlian = $request->keahlian;
-        $datakaryawan->jabatan = $request->jabatan;
+        $datakaryawan->nama = $request->namaEdit;
+        $datakaryawan->alamat = $request->alamatEdit;
+        $datakaryawan->nomor_telepon = $request->nomorTeleponEdit;
+        $datakaryawan->status_karyawan = $request->statusKaryawanEdit;
+        $datakaryawan->keahlian = $request->keahlianEdit;
+        $datakaryawan->jabatan = $request->jabatanEdit;
         $datakaryawan->save();
 
         Alert::success('Berhasil Disunting', 'Data karyawan berhasil disunting!');
@@ -176,7 +166,8 @@ class AdminControllerOne extends Controller
     public function destroy(string $id)
     {
         // ELOQUENT
-        DataKaryawan::find($id)->delete();
+        $userId = DataKaryawan::where('id_data_karyawan', $id)->pluck('user_id')->first();
+        User::find($userId)->delete();
 
         Alert::success('Data Berhasil Dihapus', 'Data Karyawan telah berhasil dihapus!');
 

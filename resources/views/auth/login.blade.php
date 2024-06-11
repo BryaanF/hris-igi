@@ -22,31 +22,31 @@
                         </div>
                         <div class="card-body">
                             @error('login')
-                                <div class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
+                                <div class="alert alert-danger" role="alert">
+                                    {{ $message }}
                                 </div>
                             @enderror
                             <form method="POST" action="{{ route('login') }}">
                                 @csrf
-
                                 <div class="form-floating mb-3">
+
                                     <input class="form-control @error('login') is-invalid @enderror" id="login"
                                         name="login" type="text" placeholder="Email or Username" required
                                         autocomplete="login"
                                         @if (isset($_COOKIE['login'])) value="{{ $_COOKIE['login'] }}" @else value="{{ old('login') }}" @endif>
-
                                     <label for="login">Email address or Username</label>
                                 </div>
                                 {{-- password div --}}
                                 <div class="form-floating mb-3">
-                                    <input class="form-control" id="password" type="password" name="password"
-                                        placeholder="Password" required autocomplete="current-password" required />
+                                    <input class="form-control @error('login') is-invalid @enderror" id="password"
+                                        type="password" name="password" placeholder="Password"
+                                        autocomplete="current-password" value="{{ old('password') }}" required />
                                     <label for="password">Password</label>
                                 </div>
                                 {{-- end password div --}}
                                 <div class="form-check mb-3">
                                     <input class="form-check-input" id="inputRememberPassword" type="checkbox"
-                                        name="rememberme" value="on" />
+                                        name="rememberme" value="on" checked />
                                     <label class="form-check-label" for="inputRememberPassword">Remember
                                         Me</label>
                                 </div>

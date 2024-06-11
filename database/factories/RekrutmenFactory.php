@@ -22,6 +22,7 @@ class RekrutmenFactory extends Factory
     {
         return [
             'nama' => fake()->name(),
+            'email' => fake()->unique()->freeEmail(),
             'nomor_telepon' => fake()->phoneNumber(),
             'alamat' => fake()->address(),
             'keahlian' => fake()->bs(),

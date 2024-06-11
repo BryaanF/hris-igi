@@ -10,8 +10,8 @@
             <div class="dropdown text-end d-flex align-items-center me-3 position-relative">
                 <a href="#" class="d-block link-light text-decoration-none dropdown-toggle" id="dropdownUser1"
                     data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="{{ Vite::asset('resources/assets/avatar_dummy.jpeg') }}" alt="mdo" width="32"
-                        height="32" class="rounded-circle">
+                    <img src="{{ Vite::asset('resources/assets/avatar.svg') }}" alt="mdo" width="32"
+                        height="32" class="rounded-circle bg-light">
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end text-small" aria-labelledby="dropdownUser1">
                     <li><a class="dropdown-item" href="{{ route('profil.index') }}"><i
