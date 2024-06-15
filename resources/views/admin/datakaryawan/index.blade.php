@@ -477,6 +477,9 @@
                     [10, 25, 50, 100, -1],
                     [10, 25, 50, 100, "All"],
                 ],
+                language: {
+                    emptyTable: "Belum terdapat data karyawan yang tercatat!"
+                }
             });
 
             // Membuka modal secara langsung jika ada error pada input di modal create dan edit
@@ -485,6 +488,12 @@
             @elseif (!empty(Session::get('error_in_modal')) && Session::get('error_in_modal') == 2)
                 $('#editDataKaryawan').modal('show');
             @endif
+
+            // Menangani event ketika modal ditutup
+            $('#editDataKaryawan, #createDataKaryawan').on('hidden.bs.modal', function() {
+                $(this).find('.text-danger').remove();
+                $(this).find('.form-control').removeClass('is-invalid');
+            });
 
             // Edit form with bootstrap modal with data
             $('#dataKaryawanTable').on('click', '.btn-edit', function(event) {

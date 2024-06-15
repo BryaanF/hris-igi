@@ -2,7 +2,7 @@
 @section('content')
     <div class="container">
         <div class="card mt-3 mb-3">
-            <div class="card-header">Selamat datang di pengajuan cuti!</div>
+            <div class="card-header">Riwayat Pengajuan Cuti</div>
             <div class="card-body d-flex justify-content-end">
                 <ul class="list-inline mb-0">
                     <li class="list-inline-item">
@@ -198,7 +198,7 @@
                     [10, 25, 50, 100, "All"],
                 ],
                 language: {
-                    emptyTable: "Belum terdapat data cuti yang tercatat!"
+                    emptyTable: "Belum terdapat riwayat pengajuan cuti yang tercatat!"
                 }
             });
 

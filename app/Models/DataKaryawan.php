@@ -24,4 +24,19 @@ class DataKaryawan extends Model
     {
         return $this->hasMany(Cuti::class, 'data_karyawan_id');
     }
+
+    public function absensi()
+    {
+        return $this->hasMany(Absensi::class, 'data_karyawan_id');
+    }
+
+    public function komponenGaji()
+    {
+        return $this->hasOne(komponenGaji::class, 'data_karyawan_id');
+    }
+
+    public function gaji()
+    {
+        return $this->hasMany(Gaji::class, 'data_karyawan_id');
+    }
 }

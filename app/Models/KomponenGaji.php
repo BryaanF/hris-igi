@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Absensi extends Model
+class KomponenGaji extends Model
 {
     use HasFactory;
-    protected $table = 'absensi';
-    protected $primaryKey = 'id_absensi';
+    protected $table = 'komponen_gaji';
+    protected $primaryKey = 'id_komponen_gaji';
 
     public function dataKaryawan()
     {

@@ -3,7 +3,10 @@
     <div class="row justify-content-center">
         <div class="col-md-10 col-lg-8 mt-3 mb-3">
             <div class="card">
-                <div class="card-header">{{ __('Profil Karyawan') }}</div>
+                <div class="card-header fs-6 d-flex justify-content-between">
+                    <span class="fw-bold">{{ __('Profil') }}</span>
+                    <span class="fst-italic">Logged in as : {{ $user->role }}</span>
+                </div>
                 <div class="card-body d-flex flex-column">
                     <img src="{{ Vite::asset('resources/assets/avatar.svg') }}" alt="mdo" width="25%" height="25%"
                         class="rounded-circle align-self-center bg-light">
@@ -31,10 +34,12 @@
                     <input class="" type="text" name="alamat" id="alamat" value="{{ $user->username }}"
                         disabled>
                     <h6 class="mt-2">Email</h6>
-                    <input class="" type="text" name="alamat" id="alamat" value="{{ $user->email }}" disabled>
+                    <input class="" type="text" name="alamat" id="alamat" value="{{ $user->email }}"
+                        disabled>
                     <h6 class="mt-2">Password</h6>
                     <input class="" type="password" name="password" id="password" value="password" disabled>
-                    <a href="{{ route('profil.sunting') }}" class="btn btn-primary mt-3">Sunting Profil</a>
+                    <a href="{{ route('profil.sunting') }}" class="btn btn-primary mt-3">Sunting
+                        Profil</a>
                 </div>
             </div>
         </div>

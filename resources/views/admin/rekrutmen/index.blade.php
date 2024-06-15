@@ -343,14 +343,23 @@
                     [10, 25, 50, 100, -1],
                     [10, 25, 50, 100, "All"],
                 ],
+                language: {
+                    emptyTable: "Belum terdapat data rekrutmen yang tercatat!"
+                }
             });
 
             // Membuka modal secara langsung jika ada error pada input di modal create dan edit
             @if (!empty(Session::get('error_in_modal')) && Session::get('error_in_modal') == 1)
-                $('#createDataKaryawan').modal('show');
+                $('#createRekrutmen').modal('show');
             @elseif (!empty(Session::get('error_in_modal')) && Session::get('error_in_modal') == 2)
-                $('#editDataKaryawan').modal('show');
+                $('#editRekrutmen').modal('show');
             @endif
+
+            // Menangani event ketika modal ditutup
+            $('#editRekrutmen, #createRekrutmen').on('hidden.bs.modal', function() {
+                $(this).find('.text-danger').remove();
+                $(this).find('.form-control').removeClass('is-invalid');
+            });
 
             // Edit form with bootstrap modal with data
             $('#dataRekrutmenTable').on('click', '.btn-edit', function(event) {

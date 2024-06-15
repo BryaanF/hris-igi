@@ -2,17 +2,27 @@
 @section('content')
     <div class="container">
         <div class="card mt-3 mb-3">
-            <div class="card-header">Selamat datang di pengajuan cuti!</div>
+            <div class="card-header">Daftar Absensi Karyawan</div>
             <div class="card-body d-flex justify-content-end">
                 <ul class="list-inline mb-0">
                     <li class="list-inline-item">
-                        <button type="button" class="btn btn-secondary" data-bs-toggle="modal"
-                            data-bs-target="#createPengajuanCuti">
-                            <i class="bi bi-plus-circle me-1"></i><span>Buat Catatan Kehadiran Hari Ini</span>
-                        </button>
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#presensi">
-                            <i class="bi bi-plus-circle me-1"></i><span>Presensi</span>
-                        </button>
+                    <li class="list-inline-item">
+                        <a href="{{ route('datakaryawan.exportExcel') }}" class="btn btn-outline-success">
+                            <i class="bi bi-download me-1"></i><span>Excel</span>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="{{ route('datakaryawan.exportPDF') }}" class="btn btn-outline-danger">
+                            <i class="bi bi-download me-1"></i><span>PDF</span>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">|</li>
+                    <button type="button" class="btn btn-secondary" data-bs-target="#tanggalModal" data-bs-toggle="modal">
+                        <i class="bi bi-plus-circle me-1"></i><span>Generate Presensi</span>
+                    </button>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#presensi">
+                        <i class="bi bi-plus-circle me-1"></i><span>Presensi</span>
+                    </button>
                     </li>
                 </ul>
             </div>
@@ -23,15 +33,42 @@
                         <tr>
                             <th>Id</th>
                             <th>No</th>
-                            <th>Mulai Cuti</th>
-                            <th>Selesai Cuti</th>
-                            <th>Keterangan</th>
-                            <th>Status Cuti</th>
+                            <th>Tanggal</th>
+                            <th>Jam Masuk</th>
+                            <th>Nama Karyawan</th>
+                            <th>Status Absensi</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
                 </table>
 
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Tanggal -->
+    <div class="modal fade" id="tanggalModal" tabindex="-1" aria-labelledby="tanggalModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="tanggalModalLabel">Pilih Tanggal</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="{{ route('daftarabsensi.generateAbsenceData') }}" method="POST" id="generateAbsensiForm">
+                    @csrf
+                    <div class="modal-body">
+                        <input type="date" class="form-control @error('tanggal') is-invalid @enderror" id="tanggal"
+                            name="tanggal">
+                        @error('tanggal')
+                            <div class="text-danger">
+                                <small>{{ $message }}</small>
+                            </div>
+                        @enderror
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" id="generateAbsensiButton">Generate</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -44,8 +81,8 @@
                 processing: true,
                 ajax: "/getDaftarAbsensi",
                 columns: [{
-                        data: "id_cuti",
-                        name: "id_cuti",
+                        data: "id_absensi",
+                        name: "id_absensi",
                         visible: false
                     },
                     {
@@ -55,20 +92,20 @@
                         searchable: false
                     },
                     {
-                        data: "mulai_cuti",
-                        name: "mulai_cuti"
+                        data: "tanggal",
+                        name: "tanggal"
                     },
                     {
-                        data: "selesai_cuti",
-                        name: "selesai_cuti"
+                        data: "jam_masuk",
+                        name: "jam_masuk"
                     },
                     {
-                        data: "keterangan",
-                        name: "keterangan"
+                        data: "nama_karyawan",
+                        name: "data_karyawan.nama"
                     },
                     {
-                        data: "status_cuti",
-                        name: "status_cuti"
+                        data: "status_absensi",
+                        name: "status_absensi"
                     },
                     {
                         data: "actions",
@@ -84,53 +121,53 @@
                     [10, 25, 50, 100, -1],
                     [10, 25, 50, 100, "All"],
                 ],
+                pageLength: 50, // Menentukan default jumlah data yang ditampilkan
                 language: {
-                    emptyTable: "Belum terdapat data cuti yang tercatat!"
+                    emptyTable: "Belum terdapat data absensi yang tercatat!"
                 }
             });
 
-            // show createPengajuanCuti modal to show if controller validation pass error message
-            @if ($errors->any())
-                $('#createPengajuanCuti').modal('show');
+            // Membuka modal secara langsung jika ada error pada input di modal create dan edit
+            @if (!empty(Session::get('error_in_modal')) && Session::get('error_in_modal') == 1)
+                $('#tanggalModal').modal('show');
             @endif
 
-            // show form with bootstrap modal
-            $('#dataPengajuanCutiTable').on('click', '.btn-show', function(event) {
-                event.preventDefault();
-                var $tr = $(this).closest('tr');
-                if ($tr.hasClass('child')) {
-                    $tr = $tr.prev('.parent');
+            // Menangani klik tombol Generate pada modal
+            $('#generateAbsensiButton').click(function() {
+                var tanggal = $('#tanggal').val(); // Dapatkan tanggal yang dipilih
+                if (tanggal === "") {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Silakan pilih tanggal terlebih dahulu.'
+                    });
+                    return;
                 }
 
-                var data = table.row($tr).data();
-
-                // Populate your show modal with data
-                $('#showPengajuanCuti input[name="mulaiCuti"]').val(data.mulai_cuti);
-                $('#showPengajuanCuti input[name="selesaiCuti"]').val(data.selesai_cuti);
-                $('#showPengajuanCuti textarea[name="keterangan"]').val(data.keterangan);
-                $('#showPengajuanCuti select[name="statusCuti"]').val(data.status_cuti);
+                $('#generateAbsensiForm').submit(); // Submit form
+                $('#tanggalModal').modal('hide'); // Sembunyikan modal
             });
 
-            // leave application confirmation with sweetalert by realrashid
-            $(".btn-create").on("click", function(e) {
+            // delete confirmation with sweetalert by realrashid
+            $(".datatable").on("click", ".btn-delete", function(e) {
                 e.preventDefault();
                 var form = $(this).closest("form");
+                var nama = $(this).data("nama");
 
                 Swal.fire({
-                    title: "Yakin ingin mengajukan cuti?",
-                    text: "Anda tidak bisa mengembalikan data cuti yang telah anda ajukan!",
+                    title: "Apakah anda yakin ingin menghapus data absensi?",
+                    text: "Anda tidak bisa mengembalikan data setelah terhapus!",
                     icon: "warning",
                     showCancelButton: true,
                     confirmButtonClass: "bg-primary",
-                    confirmButtonText: "Ya, ajukan cuti!",
-                    cancelButtonText: "Tidak, jangan ajukan!"
+                    confirmButtonText: "Ya, hapus!",
+                    cancelButtonText: "Tidak, jangan hapus!"
                 }).then((result) => {
                     if (result.isConfirmed) {
                         form.submit();
                     }
                 });
             });
-
         });
     </script>
 @endpush

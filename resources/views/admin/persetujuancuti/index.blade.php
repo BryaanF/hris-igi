@@ -117,7 +117,7 @@
                             searchable: false
                         },
                         {
-                            data: "data_karyawan.nama",
+                            data: "nama_karyawan",
                             name: "data_karyawan.nama"
                         },
                         {
@@ -150,6 +150,9 @@
                         [10, 25, 50, 100, -1],
                         [10, 25, 50, 100, "All"],
                     ],
+                    language: {
+                        emptyTable: "Belum terdapat data permohonan cuti yang tercatat!"
+                    }
                 });
 
                 // show form with bootstrap modal

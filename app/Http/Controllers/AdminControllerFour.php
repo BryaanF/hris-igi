@@ -72,14 +72,15 @@ class AdminControllerFour extends Controller
 
     public function getData(Request $request)
     {
-        $datapersetujuancuti = Cuti::with('dataKaryawan');
+        $datapersetujuancuti = Cuti::with('dataKaryawan')->select('cuti.*', 'data_karyawan.nama as nama_karyawan')
+            ->join('data_karyawan', 'cuti.data_karyawan_id', '=', 'data_karyawan.id_data_karyawan');
         if ($request->ajax()) {
-        return datatables()->of($datapersetujuancuti)
-            ->addIndexColumn()
-            ->addColumn('actions', function ($satudatapersetujuancuti) {
-                return view('admin.persetujuancuti.actions', compact('satudatapersetujuancuti'));
-            })
-            ->toJson();
+            return datatables()->of($datapersetujuancuti)
+                ->addIndexColumn()
+                ->addColumn('actions', function ($satudatapersetujuancuti) {
+                    return view('admin.persetujuancuti.actions', compact('satudatapersetujuancuti'));
+                })
+                ->toJson();
         }
     }
 

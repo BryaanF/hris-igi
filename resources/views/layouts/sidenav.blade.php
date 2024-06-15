@@ -62,9 +62,10 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link @if (request()->route()->getName() == 'absensi.index') active @endif" href="{{ route('absensi.index') }}">
+                <a class="nav-link @if (request()->route()->getName() == 'riwayatabsensi.index') active @endif"
+                    href="{{ route('riwayatabsensi.index') }}">
                     <i class="bi bi-calendar-check"></i>
-                    Absensi
+                    Riwayat Absensi
                 </a>
             </li>
         </ul>

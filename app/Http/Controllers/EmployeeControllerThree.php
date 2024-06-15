@@ -2,65 +2,29 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Absensi;
+use Auth;
 use Illuminate\Http\Request;
 
-// kontroller absensi
+// kontroller riwayat absensi
 class EmployeeControllerThree extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        return view('employee.absensi.index');
-
+        return view('employee.riwayatabsensi.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function getRiwayatAbsensi(Request $request)
     {
-        //
-    }
+        $user = Auth::user();
+        $datariwayatabsensi = Absensi::whereHas('dataKaryawan', function ($query) use ($user) {
+            $query->where('user_id', $user->id_user); // Filter berdasarkan user_id dari data karyawan
+        });
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        if ($request->ajax()) {
+            return datatables()->of($datariwayatabsensi)
+                ->addIndexColumn()
+                ->toJson();
+        }
     }
 }
