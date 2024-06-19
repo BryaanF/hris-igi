@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('tunjangan');
             $table->integer('total_gaji');
             $table->date('tanggal_digaji');
+            $table->enum('status_gaji', ['Terbayar', 'Kredit']);
             $table->foreignId('data_karyawan_id')->constrained('data_karyawan', 'id_data_karyawan')->onDelete('cascade');
             $table->timestamps();
         });

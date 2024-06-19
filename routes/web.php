@@ -5,6 +5,7 @@ use App\Http\Controllers\AdminControllerFour;
 use App\Http\Controllers\AdminControllerOne;
 use App\Http\Controllers\AdminControllerThree;
 use App\Http\Controllers\AdminControllerTwo;
+use App\Http\Controllers\AllController;
 use App\Http\Controllers\EmployeeControllerOne;
 use App\Http\Controllers\EmployeeControllerThree;
 use App\Http\Controllers\EmployeeControllerTwo;
@@ -24,15 +25,10 @@ use Illuminate\Support\Facades\Route;
  */
 
 // redirect rute root ke dashboard
-Route::redirect('/', 'dashboard');
+Route::redirect('/', 'dashboard')->name('dashboard');
 
 // grouping untuk route yang membutuhkan autentikasi
-Route::middleware(['auth'])->group(function () {
-    // route untuk menampilkan dashboard HRIS IGI
-    Route::get('/dashboard', function () {
-        return view('index');
-    })->name('dashboard');
-
+Route::middleware(['auth', 'no.cache'])->group(function () {
     // Grouping Routes untuk ADMINISTRATOR
     Route::middleware(['role:Administrator'])->group(function () {
         // route halaman data karyawan
@@ -74,9 +70,25 @@ Route::middleware(['auth'])->group(function () {
     // ROUTE FOR EMPLOYEE AND ADMIN
     // route profile
     Route::get('/profil/sunting', [ProfileController::class, 'sunting'])->name('profil.sunting');
+    // route panduan penggunaan aplikasi
+    Route::get('panduan', [AllController::class, 'panduan'])->name('panduan');
+    // route untuk menampilkan dashboard
+    Route::get('dashboard', [AllController::class, 'dashboard'])->name('dashboard');
 
     Route::resource('profil', ProfileController::class);
 
+});
+
+// route untuk login agar dapat mengakses route yang ada di dalam middleware master
+Route::get('loginabsensi', [AdminControllerThree::class, 'showLoginAbsensiForm'])->name('daftarabsensi.loginAbsensi');
+Route::post('loginabsensi', [AdminControllerThree::class, 'authenticationAbsensiForm'])->name('daftarabsensi.loginAbsensi');
+Route::post('logoutabsensi', [AdminControllerThree::class, 'logoutAbsensi'])->name('daftarabsensi.logoutAbsensi');
+
+// route yang mengambil middleware master untuk memastikan baha yang memasuki route ini telah di set session login sebagai master
+Route::middleware(['master', 'no.cache'])->group(function () {
+    // Route untuk absensi semua karyawan dengan memasukkan sandi master password dari aplikasi ini
+    Route::get('absensi', [AdminControllerThree::class, 'absensi'])->name('daftarabsensi.absensi');
+    Route::post('absensi', [AdminControllerThree::class, 'catatAbsensi'])->name('daftarabsensi.catatAbsensi');
 });
 
 // Rute untuk kontroller semua, menangani manajemen aplikasi secara umum bagi semua pengguna, nama kontroller = AllController

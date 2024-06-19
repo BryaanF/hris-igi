@@ -69,10 +69,19 @@
                 </a>
             </li>
         </ul>
-        <h6
-            class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted d-md-none">
+        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-2 mb-1 text-muted">
+            <span>Panduan</span>
+        </h6>
+        <ul class="nav flex-column mb-2">
+            <li class="nav-item">
+                <a class="nav-link @if (request()->route()->getName() == 'panduan') active @endif" href="{{ route('panduan') }}">
+                    <i class="bi bi-info-circle"></i>
+                    Panduan Penggunaan Aplikasi
+                </a>
+            </li>
+        </ul>
+        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mb-1 text-muted d-md-none">
             <span>Profile</span>
-
         </h6>
         <ul class="nav flex-column mb-2 d-md-none">
             <li class="nav-item">
@@ -90,5 +99,6 @@
                 </form>
             </li>
         </ul>
+
     </div>
 </nav>

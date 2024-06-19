@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Alert;
 use App\Models\Absensi;
 use App\Models\DataKaryawan;
+use Auth;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Validator;
 
@@ -125,5 +127,98 @@ class AdminControllerThree extends Controller
 
         Alert::success('Berhasil Generate Daftar Absensi Karyawan', 'Berhasil generate data absen karyawan untuk tanggal yang telah ditentukan!');
         return redirect()->route('daftarabsensi.index');
+    }
+
+    public function showLoginAbsensiForm()
+    {
+        return view('admin.daftarabsensi.loginabsensi');
+    }
+
+    public function authenticationAbsensiForm(Request $request)
+    {
+        $messages = [
+            'required' => ':Attribute harus diisi.',
+        ];
+        $validator = Validator::make($request->all(), [
+            'password' => 'required',
+        ], $messages);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        if ($request->password === env('MASTER_PASSWORD')) {
+            $request->session()->put('master_authenticated', true);
+            return redirect()->route('daftarabsensi.absensi');
+        } else {
+            return redirect()->back()->withErrors(['password' => 'Master password is incorrect']);
+        }
+
+    }
+
+    public function absensi()
+    {
+        Auth::logout();
+
+        return view('admin.daftarabsensi.absensi');
+    }
+
+    public function catatAbsensi(Request $request)
+    {
+        // validate input data (accept either email or username)
+        $credentials = $request->validate([
+            'login' => ['required', 'string'],
+            'password' => ['required'],
+        ]);
+
+        // determine whether login input is email or username
+        $filterUserOrEmail = filter_var($credentials['login'], FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+
+        // prepare credentials for authentication
+        $authCredentials = [
+            $filterUserOrEmail => $credentials['login'],
+            'password' => $credentials['password'],
+        ];
+
+        if (Auth::attempt($authCredentials)) {
+            $datakaryawan = DataKaryawan::whereHas('user', function ($query) use ($filterUserOrEmail, $authCredentials) {
+                $query->where($filterUserOrEmail, $authCredentials[$filterUserOrEmail]);
+            })->first();
+
+            // setting carbon agar timezone sesuai timezone WIB
+            $today = Carbon::today()->setTimezone('Asia/Jakarta');
+            $now = Carbon::now()->setTimezone('Asia/Jakarta');
+
+            // Cari Absensi untuk data karyawan dan tanggal hari ini
+            $absensi = Absensi::where('data_karyawan_id', $datakaryawan->id_data_karyawan)
+                ->whereDate('tanggal', $today)
+                ->first();
+
+            if ($absensi) {
+                // Jika sudah ada entri untuk hari ini, update kolom jam_masuk dengan waktu saat ini
+                $absensi->jam_masuk = $now;
+                $absensi->status_absensi = 'Masuk';
+                $absensi->save();
+            } else {
+                // Jika belum ada entri untuk hari ini, buat entri baru
+                $absensi = new Absensi();
+                $absensi->data_karyawan_id = $datakaryawan->id_data_karyawan;
+                $absensi->tanggal = $today;
+                $absensi->jam_masuk = $now;
+                $absensi->status_absensi = 'Masuk';
+                $absensi->save();
+            }
+
+            Alert::success('Berhasil absen', 'Anda berhasil absen untuk hari ini, cek absensi anda pada dashboard!');
+            return redirect()->route('daftarabsensi.absensi');
+        }
+
+        return redirect()->back()->withErrors(['login' => 'Data login yang masukkan tidak valid, cek email / username dan password yang anda masukkan.']);
+
+    }
+
+    public function logoutAbsensi(Request $request)
+    {
+        $request->session()->forget('master_authenticated');
+        return redirect()->route('login');
     }
 }

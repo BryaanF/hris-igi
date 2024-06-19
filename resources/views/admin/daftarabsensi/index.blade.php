@@ -18,11 +18,11 @@
                     </li>
                     <li class="list-inline-item">|</li>
                     <button type="button" class="btn btn-secondary" data-bs-target="#tanggalModal" data-bs-toggle="modal">
-                        <i class="bi bi-plus-circle me-1"></i><span>Generate Presensi</span>
+                        <i class="bi bi-plus-circle me-1"></i><span>Generate Absensi</span>
                     </button>
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#presensi">
-                        <i class="bi bi-plus-circle me-1"></i><span>Presensi</span>
-                    </button>
+                    <a href="{{ route('daftarabsensi.absensi') }}" class="btn btn-primary" id="absensiButton">
+                        <i class="bi bi-plus-circle me-1"></i><span>Absensi</span>
+                    </a>
                     </li>
                 </ul>
             </div>
@@ -146,6 +146,25 @@
 
                 $('#generateAbsensiForm').submit(); // Submit form
                 $('#tanggalModal').modal('hide'); // Sembunyikan modal
+            });
+
+            // konfirmasi ke halaman absensi
+            $('#absensiButton').click(function(event) {
+                event.preventDefault();
+                Swal.fire({
+                    title: 'Apakah Anda yakin akses halaman absensi?',
+                    text: "Anda akan logout dari sistem dan akan berpindah ke halaman absensi.",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya, lanjutkan!',
+                    cancelButtonText: "Tidak, kembali!"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = $(this).attr('href');
+                    }
+                });
             });
 
             // delete confirmation with sweetalert by realrashid

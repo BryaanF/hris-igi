@@ -41,6 +41,9 @@ class LoginController extends Controller
 
     public function authenticate(Request $request)
     {
+        // hapus session authenticated as master jika login ke fitur utama
+        $request->session()->forget('master_authenticated');
+
         // validate input data (accept either email or username)
         $credentials = $request->validate([
             'login' => ['required', 'string'],
@@ -63,10 +66,8 @@ class LoginController extends Controller
         if (Auth::attempt($authCredentials)) {
             if (isset($data['rememberme']) && !empty($data['rememberme'])) {
                 setcookie("login", $data['login'], time() + 172800);
-                setcookie("password", $data['password'], time() + 172800);
             } else {
                 setcookie("login", "", time() - 3600);
-                setcookie("password", "", time() - 3600);
             }
 
             // Set pesan status ke session dan regenerate session
