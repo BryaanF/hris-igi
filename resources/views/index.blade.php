@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
     <div class="row justify-content-center">
-        <div class="col-md-10 mt-3">
+        <div class="col-md-10 mt-3 mb-3">
             <div class="card">
                 <div class="card-header">{{ __('Dashboard') }}</div>
                 <div class="card-body" style="overflow-x: auto;">
@@ -34,24 +34,20 @@
 @push('scripts')
     <script type="module">
         $(document).ready(function() {
-            // Assume that $absensiData is a JSON-encoded variable containing the absensi data
-            var absensiData = {!! json_encode($absensi) !!};
-
             var table = $("#dataDaftarAbsensiHariIniTable").DataTable({
-                data: absensiData,
+                serverSide: true,
+                processing: true,
+                ajax: "/getAbsensiHariIni",
                 columns: [{
                         data: "id_absensi",
                         name: "id_absensi",
                         visible: false
                     },
                     {
-                        data: null,
+                        data: "DT_RowIndex",
                         name: "DT_RowIndex",
                         orderable: false,
-                        searchable: false,
-                        render: function(data, type, row, meta) {
-                            return meta.row + 1;
-                        }
+                        searchable: false
                     },
                     {
                         data: "jam_masuk",
@@ -78,6 +74,11 @@
                     emptyTable: "Belum terdapat data absensi yang tercatat!"
                 }
             });
+
+            // reload setiap sekitar 7 detik untuk datatables
+            setInterval(function() {
+                table.ajax.reload(null, false); // hanya reload data pada datatables
+            }, 7500);
 
         });
     </script>

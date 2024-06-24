@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use Alert;
+use App\Exports\DaftarAbsensiExport;
 use App\Models\Absensi;
 use App\Models\DataKaryawan;
 use Auth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
+use PDF;
 use Validator;
 
 // controller for daftarabsensi
@@ -18,8 +21,9 @@ class AdminControllerThree extends Controller
      */
     public function index()
     {
+        $absensi = Absensi::with('dataKaryawan')->get();
         confirmDelete(); // untuk konfirmasi delete dan juga trigger sweetalert di index
-        return view('admin.daftarabsensi.index');
+        return view('admin.daftarabsensi.index', compact('absensi'));
     }
 
     /**
@@ -59,7 +63,34 @@ class AdminControllerThree extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $messages = [
+            'required' => 'Kolom tersebut harus diisi.',
+            'jamMasukEdit.required' => 'Jam masuk harus diisi.',
+            'jamMasukEdit.regex' => 'Jam masuk harus pada jam 00:00.',
+        ];
+        $validator = Validator::make($request->all(), [
+            'keteranganEdit' => 'required',
+            'statusAbsensiEdit' => 'required',
+            'jamMasukEdit' => [
+                'required',
+                'regex:/^00:00:00$/',
+            ],
+        ], $messages);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput()->with('error_in_modal', 4)->with('error_id_absensi', $id);
+        }
+
+        // Inisiasi pemanggilan data dari database ke variabel
+        $daftarabsensi = Absensi::find($id);
+
+        // ELOQUENT Daftar Absensi
+        $daftarabsensi->keterangan = $request->keteranganEdit;
+        $daftarabsensi->status_absensi = $request->statusAbsensiEdit;
+        $daftarabsensi->save();
+
+        Alert::success('Berhasil Disunting', 'Data pada daftar absensi berhasil disunting!');
+
+        return redirect()->route('daftarabsensi.index');
     }
 
     /**
@@ -98,14 +129,14 @@ class AdminControllerThree extends Controller
             'date' => 'Masukkan data dalam bentuk tanggal yang benar',
         ];
         $validator = Validator::make($request->all(), [
-            'tanggal' => 'required|date',
+            'tanggalGenerate' => 'required|date',
         ], $messages);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput()->with('error_in_modal', 1);
         }
 
         $datakaryawan = DataKaryawan::all();
-        $tanggal = $request->input('tanggal');
+        $tanggal = $request->input('tanggalGenerate');
 
         foreach ($datakaryawan as $dk) {
             // Periksa apakah entri absensi dengan tanggal dan data karyawan yang sama sudah ada
@@ -129,6 +160,60 @@ class AdminControllerThree extends Controller
         return redirect()->route('daftarabsensi.index');
     }
 
+    public function exportPDF(Request $request)
+    {
+        $messages = [
+            'required' => 'kolom ini harus diisi.',
+            'date' => 'Isi :attribute dengan format tanggal yang benar',
+            'after_or_equal' => 'Harap pilih tanggal setelah atau sama dengan tanggal mulai',
+            'before_or_equal' => 'Harap pilih tanggal saat ini atau tanggal sebelumnya',
+        ];
+        $validator = Validator::make($request->all(), [
+            'tanggalMulaiPDF' => 'required|date|before_or_equal:today',
+            'tanggalSampaiPDF' => 'required|date|before_or_equal:today|after_or_equal:tanggalMulaiPDF',
+        ], $messages);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput()->with('error_in_modal', 2);
+        }
+
+        $tgl_mulai = $request->tanggalMulaiPDF;
+        $tgl_sampai = $request->tanggalSampaiPDF;
+
+        $absensi = Absensi::with('dataKaryawan')
+            ->whereBetween('tanggal', [$tgl_mulai, $tgl_sampai])
+            ->get();
+
+        // membuat format tanggal agar bisa terbaca misal "19 Juni 2024" bukan "2024-06-19" dan juga menggunakan bulan dengan bahasa indonesia
+        $tgl_mulai_text = Carbon::parse($request->tanggalMulaiPDF)->locale('id')->translatedFormat('d F Y');
+        $tgl_sampai_text = Carbon::parse($request->tanggalSampaiPDF)->locale('id')->translatedFormat('d F Y');
+
+        $pdf = PDF::loadView('admin.daftarabsensi.export_pdf', compact('absensi', 'tgl_mulai_text', 'tgl_sampai_text'));
+        return $pdf->download('Daftar Absensi.pdf');
+    }
+
+    public function exportExcel(Request $request)
+    {
+        $messages = [
+            'required' => 'kolom ini harus diisi.',
+            'date' => 'Isi :attribute dengan format tanggal yang benar',
+            'after_or_equal' => 'Harap pilih tanggal setelah atau sama dengan tanggal mulai',
+            'before_or_equal' => 'Harap pilih tanggal saat ini atau tanggal sebelumnya',
+        ];
+        $validator = Validator::make($request->all(), [
+            'tanggalMulaiExcel' => 'required|date|before_or_equal:today',
+            'tanggalSampaiExcel' => 'required|date|before_or_equal:today|after_or_equal:tanggalMulaiExcel',
+        ], $messages);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput()->with('error_in_modal', 3);
+        }
+
+        $tgl_mulai = $request->tanggalMulaiExcel;
+        $tgl_sampai = $request->tanggalSampaiExcel;
+
+        return Excel::download(new DaftarAbsensiExport($tgl_mulai, $tgl_sampai), 'Daftar Absensi.xlsx');
+    }
+
+    // start function for absensi features
     public function showLoginAbsensiForm()
     {
         return view('admin.daftarabsensi.loginabsensi');
@@ -221,4 +306,5 @@ class AdminControllerThree extends Controller
         $request->session()->forget('master_authenticated');
         return redirect()->route('login');
     }
+    // end function for absensi features
 }

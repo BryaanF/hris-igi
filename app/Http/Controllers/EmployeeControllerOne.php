@@ -44,7 +44,7 @@ class EmployeeControllerOne extends Controller
         ];
         $validator = Validator::make($request->all(), [
             'mulaiCuti' => 'required|date|after_or_equal:today',
-            'selesaiCuti' => 'required|after:mulaiCuti',
+            'selesaiCuti' => 'required|date|after:mulaiCuti',
             'keterangan' => 'required',
         ], $messages);
         if ($validator->fails()) {

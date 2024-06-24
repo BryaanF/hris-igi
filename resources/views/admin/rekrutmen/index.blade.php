@@ -19,7 +19,7 @@
                     <li class="list-inline-item">
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                             data-bs-target="#createRekrutmen">
-                            <i class="bi bi-plus-circle me-1"></i><span>Tambah Data</span>
+                            <i class="bi bi-plus-circle me-1"></i><span>Tambah</span>
                         </button>
                     </li>
                 </ul>

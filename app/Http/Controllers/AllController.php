@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Absensi;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class AllController extends Controller
 {
@@ -12,19 +13,41 @@ class AllController extends Controller
         // Mengatur lokal Carbon ke bahasa Indonesia
         Carbon::setLocale('id');
 
+        $tanggalsaatini = Carbon::today()->translatedFormat('d F Y');
+
+        return view('index', compact('tanggalsaatini'));
+    }
+
+    public function getAbsensiHariIni(Request $request)
+    {
+        // Mengatur lokal Carbon ke bahasa Indonesia
+        Carbon::setLocale('id');
+
         // Mendapatkan tanggal hari ini menggunakan Carbon
         $hariini = Carbon::today()->toDateString();
-
-        $tanggalsaatini = Carbon::today()->translatedFormat('d F Y');
 
         // Query dengan kondisi tanggal hari ini
         $absensi = Absensi::with('dataKaryawan')
             ->select('absensi.*', 'data_karyawan.nama as nama_karyawan')
             ->join('data_karyawan', 'absensi.data_karyawan_id', '=', 'data_karyawan.id_data_karyawan')
-            ->whereDate('absensi.tanggal', $hariini)
-            ->get();
+            ->whereDate('absensi.tanggal', $hariini);
 
-        return view('index', compact('absensi', 'tanggalsaatini'));
+        if ($request->ajax()) {
+            // Jika data kosong, pastikan mengembalikan format JSON yang benar
+            if ($absensi->count() <= 0) {
+                return response()->json([
+                    'draw' => intval($request->input('draw')),
+                    'recordsTotal' => 0,
+                    'recordsFiltered' => 0,
+                    'data' => [],
+                ]);
+            }
+
+            return datatables()->of($absensi)
+                ->addIndexColumn()
+                ->toJson();
+        }
+
     }
 
     public function clearSessionModal()

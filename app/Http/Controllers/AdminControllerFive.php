@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DataKaryawan;
 use Illuminate\Http\Request;
 
 // controller for penggajian
@@ -12,7 +13,9 @@ class AdminControllerFive extends Controller
      */
     public function index()
     {
-        return view('admin.penggajian.index');
+        $datakaryawan = DataKaryawan::all();
+
+        return view('admin.penggajian.index', compact('datakaryawan'));
     }
 
     /**
