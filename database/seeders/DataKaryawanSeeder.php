@@ -13,6 +13,6 @@ class DataKaryawanSeeder extends Seeder
      */
     public function run(): void
     {
-        DataKaryawan::factory()->count(20)->create();
+        DataKaryawan::factory()->count(10)->create();
     }
 }

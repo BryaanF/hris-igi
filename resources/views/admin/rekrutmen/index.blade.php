@@ -284,9 +284,12 @@
                     </div>
                     <div class="modal-footer">
                         <input type="hidden" name="button_value" id="button_value">
-                        <button type="button" class="btn btn-success btnquery" value="Diterima">Terima</button>
-                        <button type="button" class="btn btn-primary btnquery" value="Proses">Proses</button>
-                        <button type="button" class="btn btn-danger btnquery" value="Ditolak">Tolak</button>
+                        <button type="button" class="btn btn-success btnquery" value="Diterima"><i
+                                class="bi bi-check"></i>Terima</button>
+                        <button type="button" class="btn btn-primary btnquery" value="Proses"><i
+                                class="bi bi-clock"></i><span class="ms-1">Proses</span></button>
+                        <button type="button" class="btn btn-danger btnquery" value="Ditolak"><i
+                                class="bi bi-x"></i>Tolak</button>
                     </div>
                 </form>
             </div>

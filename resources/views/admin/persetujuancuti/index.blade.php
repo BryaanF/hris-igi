@@ -85,9 +85,12 @@
                             enctype="multipart/form-data" id="statusCutiQueryForm">
                             @csrf
                             <input type="hidden" name="button_value" id="button_value">
-                            <button type="button" class="btn btn-success btnquery" value="Disetujui">Setujui</button>
-                            <button type="button" class="btn btn-primary btnquery" value="Pending">Pending</button>
-                            <button type="button" class="btn btn-danger btnquery" value="Ditolak">Tolak</button>
+                            <button type="button" class="btn btn-success btnquery" value="Disetujui"><i
+                                    class="bi bi-check"></i>Setujui</button>
+                            <button type="button" class="btn btn-primary btnquery" value="Pending"><i
+                                    class="bi bi-clock"></i><span class="ms-1">Pending</span></button>
+                            <button type="button" class="btn btn-danger btnquery" value="Ditolak"><i
+                                    class="bi bi-x"></i>Tolak</button>
                         </form>
                     </div>
 

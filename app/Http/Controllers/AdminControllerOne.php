@@ -83,7 +83,7 @@ class AdminControllerOne extends Controller
         }
         $datakaryawan->save();
 
-        Alert::success('Added Successfully', 'Data karyawan berhasil ditambahkan!');
+        Alert::success('Berhasil Ditambahkan', 'Data karyawan berhasil ditambahkan!');
 
         return redirect()->route('datakaryawan.index');
 

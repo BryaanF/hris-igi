@@ -62,6 +62,14 @@ Route::middleware(['auth', 'no.cache'])->group(function () {
 
         // route halaman penggajian
         Route::resource('penggajian', AdminControllerFive::class);
+        Route::get('getDataKaryawanPenggajian', [AdminControllerFive::class, 'getData'])->name('penggajian.getData');
+        Route::get('getRiwayatGajiPerKaryawan', [AdminControllerFive::class, 'getDataPerEmployee'])->name('penggajian.getDataPerEmployee');
+        Route::post('exportPDFPenggajian', [AdminControllerFive::class, 'exportPDF'])->name('penggajian.exportPDF');
+        Route::post('exportExcelPenggajian', [AdminControllerFive::class, 'exportExcel'])->name('penggajian.exportExcel');
+        Route::post('storeKomponenGaji', [AdminControllerFive::class, 'storeKomponenGaji'])->name('penggajian.storeKomponenGaji');
+        Route::post('updateKomponenGaji', [AdminControllerFive::class, 'updateKomponenGaji'])->name('penggajian.updateKomponenGaji');
+        Route::get('/kalkulasiPotonganAbsensi', [AdminControllerFive::class, 'kalkulasiPotonganAbsensi'])->name('penggajian.kalkulasiPotonganAbsensi'); // return berupa json kalkulasi potongan absensi
+
     });
 
     // Rute untuk KARYAWAN / EMPLOYEE

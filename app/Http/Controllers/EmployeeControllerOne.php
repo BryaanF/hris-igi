@@ -39,12 +39,11 @@ class EmployeeControllerOne extends Controller
             'required' => ':attribute harus diisi.',
             'numeric' => 'Isi :attribute dengan angka',
             'date' => 'Isi :attribute dengan format tanggal yang benar',
-            'after' => 'Harap pilih tanggal setelah tanggal mulai cuti',
             'after_or_equal' => 'Harap pilih tanggal untuk hari ini atau setelahnya',
         ];
         $validator = Validator::make($request->all(), [
             'mulaiCuti' => 'required|date|after_or_equal:today',
-            'selesaiCuti' => 'required|date|after:mulaiCuti',
+            'selesaiCuti' => 'required|date|after_or_equal:mulaiCuti',
             'keterangan' => 'required',
         ], $messages);
         if ($validator->fails()) {

@@ -11,12 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('cuti', function (Blueprint $table) {
-            $table->id('id_cuti');
-            $table->date('mulai_cuti');
-            $table->date('selesai_cuti');
-            $table->text('keterangan');
-            $table->enum('status_cuti', ['Disetujui', 'Pending', 'Ditolak']);
+        Schema::create('komponen_gaji', function (Blueprint $table) {
+            $table->id('id_komponen_gaji');
+            $table->integer('gaji_pokok');
             $table->foreignId('data_karyawan_id')->constrained('data_karyawan', 'id_data_karyawan')->onDelete('cascade');
             $table->timestamps();
         });
@@ -27,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('cuti');
+        Schema::dropIfExists('komponen_gaji');
     }
 };

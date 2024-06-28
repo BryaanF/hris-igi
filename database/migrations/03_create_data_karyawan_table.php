@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('nama');
             $table->string('alamat');
             $table->string('nomor_telepon');
-            $table->enum('status_karyawan', ['Karyawan_Tetap', 'Karyawan_Kontrak']);
+            $table->enum('status_karyawan', ['Karyawan Tetap', 'Karyawan Kontrak']);
             $table->string('keahlian');
             $table->string('jabatan');
             $table->foreignId('rekrutmen_id')->nullable()->constrained('rekrutmen', 'id_rekrutmen');

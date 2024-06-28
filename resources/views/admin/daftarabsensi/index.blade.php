@@ -6,7 +6,6 @@
             <div class="card-body d-flex justify-content-end">
                 <ul class="list-inline mb-0">
                     <li class="list-inline-item">
-                    <li class="list-inline-item">
                         <button type="button" class="btn btn-outline-success" data-bs-target="#tanggalExcelModal"
                             data-bs-toggle="modal">
                             <i class="bi bi-download me-1"></i><span>Excel</span>
@@ -46,7 +45,7 @@
             </div>
         </div>
     </div>
-    
+
     <!-- Start Modal Tanggal Generate Absensi -->
     <div class="modal fade" id="tanggalGenerateAbsensiModal" tabindex="-1"
         aria-labelledby="tanggalGenerateAbsensilModalLabel" aria-hidden="true">

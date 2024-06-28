@@ -25,7 +25,6 @@
                 </ul>
             </div>
             <div class="card-body" style="overflow-x:auto;">
-                {{-- {{ $dataTable->table() }} --}}
                 <table class="table table-bordered table-hover table-striped mb-0 bg-white datatable"
                     id="dataKaryawanTable">
                     <thead>
@@ -47,7 +46,7 @@
 
     {{-- start modal section --}}
 
-    {{-- modal create --}}
+    {{-- start modal create --}}
     <div class="modal fade" id="createDataKaryawan" tabindex="-1" aria-labelledby="createDataKaryawanModalLabel"
         aria-hidden="true">
         <div class="modal-dialog">
@@ -94,8 +93,8 @@
                         <div class="form-group my-2">
                             <label for="statusKaryawan" class="form-label">Status Karyawan</label>
                             <select class="d-block" name="statusKaryawan" id="statusKaryawanCreate">
-                                <option value="Karyawan_Tetap">Karyawan Tetap</option>
-                                <option value="Karyawan_Kontrak">Karyawan Kontrak</option>
+                                <option value="Karyawan Tetap">Karyawan Tetap</option>
+                                <option value="Karyawan Kontrak">Karyawan Kontrak</option>
                             </select>
                             @error('statusKaryawan')
                                 <div class="text-danger">
@@ -192,8 +191,9 @@
             </div>
         </div>
     </div>
+    {{-- end modal create --}}
 
-    {{-- modal edit --}}
+    {{-- start modal edit --}}
     <div class="modal fade" id="editDataKaryawan" tabindex="-1" aria-labelledby="editDataKaryawanModalLabel"
         aria-hidden="true">
         <div class="modal-dialog">
@@ -248,8 +248,8 @@
                         <div class="form-group my-2">
                             <label for="statusKaryawanEdit" class="form-label">Status Karyawan</label>
                             <select class="d-block" name="statusKaryawanEdit" id="statusKaryawanEdit">
-                                <option value="Karyawan_Tetap">Karyawan Tetap</option>
-                                <option value="Karyawan_Kontrak">Karyawan Kontrak</option>
+                                <option value="Karyawan Tetap">Karyawan Tetap</option>
+                                <option value="Karyawan Kontrak">Karyawan Kontrak</option>
                             </select>
                             @error('statusKaryawanEdit')
                                 <div class="text-danger">
@@ -343,9 +343,11 @@
             </div>
         </div>
     </div>
+    {{-- end modal edit --}}
 
-    {{-- modal detail / show --}}
-    <div class="modal fade" id="showDataKaryawan" tabindex="-1" aria-labelledby="showModalLabel" aria-hidden="true">
+    {{-- start modal detail / show --}}
+    <div class="modal fade" id="showDataKaryawan" tabindex="-1" aria-labelledby="showDataKaryawanModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -353,217 +355,181 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-
                     <div class="form-group">
                         <label for="nama" class="form-label">Nama</label>
-                        <input class="form-control @error('nama') is-invalid
-@enderror" type="text" name="nama"
-                            id="nama" disabled>
-                        @error('nama')
-                            <div class="text-danger">
-                                <small>{{ $message }}</small>
-                            </div>
-                        @enderror
+                        <input class="form-control" type="text" name="nama" id="nama" disabled>
                     </div>
                     <div class="form-group">
                         <label for="alamat" class="form-label">Alamat</label>
-                        <input class="form-control @error('alamat') is-invalid
-@enderror" type="text" name="alamat"
-                            id="alamat" disabled>
-                        @error('alamat')
-                            <div class="text-danger">
-                                <small>{{ $message }}</small>
-                            </div>
-                        @enderror
+                        <input class="form-control" type="text" name="alamat" id="alamat" disabled>
                     </div>
                     <div class="form-group">
                         <label for="nomorTelepon" class="form-label">Nomor Telepon</label>
-                        <input class="form-control @error('nomorTelepon') is-invalid @enderror" type="tel"
-                            name="nomorTelepon" id="nomorTelepon" disabled>
-                        @error('nomorTelepon')
-                            <div class="text-danger">
-                                <small>{{ $message }}</small>
-                            </div>
-                        @enderror
+                        <input class="form-control" type="tel" name="nomorTelepon" id="nomorTelepon" disabled>
                     </div>
                     <div class="form-group mt-3">
                         <label for="statusKaryawan" class="form-label">Status Karyawan</label>
                         <select name="statusKaryawan" id="statusKaryawan" disabled>
-                            <option value="Karyawan_Tetap">Karyawan Tetap</option>
-                            <option value="Karyawan_Kontrak">Karyawan Kontrak</option>
+                            <option value="Karyawan Tetap">Karyawan Tetap</option>
+                            <option value="Karyawan Kontrak">Karyawan Kontrak</option>
                         </select>
-                        @error('statusKaryawan')
-                            <div class="text-danger">
-                                <small>{{ $message }}</small>
-                            </div>
-                        @enderror
                     </div>
                     <div class="form-group">
                         <label for="keahlian" class="form-label">Keahlian</label>
-                        <input class="form-control @error('keahlian') is-invalid @enderror" type="text"
-                            name="keahlian" id="keahlian" disabled>
-                        @error('keahlian')
-                            <div class="text-danger">
-                                <small>{{ $message }}</small>
-                            </div>
-                        @enderror
+                        <input class="form-control" type="text" name="keahlian" id="keahlian" disabled>
                     </div>
                     <div class="form-group">
                         <label for="jabatan" class="form-label">Jabatan</label>
-                        <input class="form-control @error('jabatan') is-invalid @enderror" type="text" name="jabatan"
-                            id="jabatan" disabled>
-                        @error('jabatan')
-                            <div class="text-danger">
-                                <small>{{ $message }}</small>
-                            </div>
-                        @enderror
+                        <input class="form-control" type="text" name="jabatan" id="jabatan" disabled>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+    {{-- end modal detail / show --}}
 
-        {{-- end modal section --}}
-    @endsection
-    @push('scripts')
-        <script type="module">
-            $(document).ready(function() {
-                // show table record with datatable
-                var table = $("#dataKaryawanTable").DataTable({
-                    serverSide: true,
-                    processing: true,
-                    ajax: "/getDataKaryawan",
-                    columns: [{
-                            data: "id_data_karyawan",
-                            name: "id_data_karyawan",
-                            visible: false
-                        },
-                        {
-                            data: "DT_RowIndex",
-                            name: "DT_RowIndex",
-                            orderable: false,
-                            searchable: false
-                        },
-                        {
-                            data: "nama",
-                            name: "nama"
-                        },
-                        {
-                            data: "status_karyawan",
-                            name: "status_karyawan"
-                        },
-                        {
-                            data: "keahlian",
-                            name: "keahlian"
-                        },
-                        {
-                            data: "jabatan",
-                            name: "jabatan"
-                        },
-                        {
-                            data: "aksi",
-                            name: "aksi",
-                            orderable: false,
-                            searchable: false
-                        },
-                    ],
-                    order: [
-                        [0, "desc"]
-                    ],
-                    lengthMenu: [
-                        [10, 25, 50, 100, -1],
-                        [10, 25, 50, 100, "All"],
-                    ],
-                    language: {
-                        emptyTable: "Belum terdapat data karyawan yang tercatat!"
+    {{-- end modal section --}}
+@endsection
+@push('scripts')
+    <script type="module">
+        $(document).ready(function() {
+            // show table record with datatable
+            var table = $("#dataKaryawanTable").DataTable({
+                serverSide: true,
+                processing: true,
+                ajax: "/getDataKaryawan",
+                columns: [{
+                        data: "id_data_karyawan",
+                        name: "id_data_karyawan",
+                        visible: false
+                    },
+                    {
+                        data: "DT_RowIndex",
+                        name: "DT_RowIndex",
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: "nama",
+                        name: "nama"
+                    },
+                    {
+                        data: "status_karyawan",
+                        name: "status_karyawan"
+                    },
+                    {
+                        data: "keahlian",
+                        name: "keahlian"
+                    },
+                    {
+                        data: "jabatan",
+                        name: "jabatan"
+                    },
+                    {
+                        data: "aksi",
+                        name: "aksi",
+                        orderable: false,
+                        searchable: false
+                    },
+                ],
+                order: [
+                    [0, "desc"]
+                ],
+                lengthMenu: [
+                    [10, 25, 50, 100, -1],
+                    [10, 25, 50, 100, "All"],
+                ],
+                language: {
+                    emptyTable: "Belum terdapat data karyawan yang tercatat!"
+                }
+            });
+
+            // Membuka modal secara langsung jika ada error pada input di modal create dan edit
+            @if (!empty(Session::get('error_in_modal')) && Session::get('error_in_modal') == 1)
+                $('#createDataKaryawan').modal('show');
+            @elseif (!empty(Session::get('error_in_modal')) && Session::get('error_in_modal') == 2)
+                $('#editDataKaryawan').modal('show');
+            @endif
+
+            // Menangani event ketika modal ditutup
+            $('#editDataKaryawan, #createDataKaryawan').on('hidden.bs.modal', function() {
+                $(this).find('.text-danger').remove();
+                $(this).find('.form-control').removeClass('is-invalid');
+            });
+
+            // Edit form with bootstrap modal with data
+            $('#dataKaryawanTable').on('click', '.btn-edit', function(event) {
+                event.preventDefault();
+                var $tr = $(this).closest('tr');
+                if ($tr.hasClass('child')) {
+                    $tr = $tr.prev('.parent');
+                }
+
+                var data = table.row($tr).data();
+
+                // Mempopulasikan data / mengisi data dari query data ajax pada datatable
+                $('#editDataKaryawan input[name="idEdit"]').val(data.id_data_karyawan);
+                $('#editDataKaryawan input[name="namaEdit"]').val(data.nama);
+                $('#editDataKaryawan input[name="alamatEdit"]').val(data.alamat);
+                $('#editDataKaryawan input[name="nomorTeleponEdit"]').val(data.nomor_telepon);
+                $('#editDataKaryawan select[name="statusKaryawanEdit"]').val(data.status_karyawan);
+                $('#editDataKaryawan input[name="keahlianEdit"]').val(data.keahlian);
+                $('#editDataKaryawan input[name="jabatanEdit"]').val(data.jabatan);
+                $('#editDataKaryawan input[name="usernameEdit"]').val(data.user.username);
+                $('#editDataKaryawan input[name="emailEdit"]').val(data.user.email);
+                $('#editDataKaryawan input[name="passwordEdit"]').val(data.user.password);
+                $('#editDataKaryawan select[name="roleEdit"]').val(data.user.role);
+
+
+
+                var updateRoute = "{{ route('datakaryawan.update', ':id') }}";
+                updateRoute.replace(':id', data.id_data_karyawan);
+
+                // Set form action URL dynamically
+                var actionUrl = '/datakaryawan/' + data.id_data_karyawan;
+                $('#editDataKaryawan form').attr('action', actionUrl);
+
+            });
+
+            // show form with bootstrap modal
+            $('#dataKaryawanTable').on('click', '.btn-show', function(event) {
+                event.preventDefault();
+                var $tr = $(this).closest('tr');
+                if ($tr.hasClass('child')) {
+                    $tr = $tr.prev('.parent');
+                }
+
+                var data = table.row($tr).data();
+
+                // Populate your show modal with data
+                $('#showDataKaryawan input[name="nama"]').val(data.nama);
+                $('#showDataKaryawan input[name="alamat"]').val(data.alamat);
+                $('#showDataKaryawan input[name="nomorTelepon"]').val(data.nomor_telepon);
+                $('#showDataKaryawan select[name="statusKaryawan"]').val(data.status_karyawan);
+                $('#showDataKaryawan input[name="keahlian"]').val(data.keahlian);
+                $('#showDataKaryawan input[name="jabatan"]').val(data.jabatan);
+            });
+
+            // delete confirmation with sweetalert by realrashid
+            $(".datatable").on("click", ".btn-delete", function(e) {
+                e.preventDefault();
+                var form = $(this).closest("form");
+                var nama = $(this).data("nama");
+
+                Swal.fire({
+                    title: "Apakah anda yakin ingin menghapus data \n" + nama + "?",
+                    text: "Anda tidak bisa mengembalikan data setelah terhapus!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonClass: "bg-primary",
+                    confirmButtonText: "Ya, hapus!",
+                    cancelButtonText: "Tidak, jangan hapus!"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
                     }
-                });
-
-                // Membuka modal secara langsung jika ada error pada input di modal create dan edit
-                @if (!empty(Session::get('error_in_modal')) && Session::get('error_in_modal') == 1)
-                    $('#createDataKaryawan').modal('show');
-                @elseif (!empty(Session::get('error_in_modal')) && Session::get('error_in_modal') == 2)
-                    $('#editDataKaryawan').modal('show');
-                @endif
-
-                // Menangani event ketika modal ditutup
-                $('#editDataKaryawan, #createDataKaryawan').on('hidden.bs.modal', function() {
-                    $(this).find('.text-danger').remove();
-                    $(this).find('.form-control').removeClass('is-invalid');
-                });
-
-                // Edit form with bootstrap modal with data
-                $('#dataKaryawanTable').on('click', '.btn-edit', function(event) {
-                    event.preventDefault();
-                    var $tr = $(this).closest('tr');
-                    if ($tr.hasClass('child')) {
-                        $tr = $tr.prev('.parent');
-                    }
-
-                    var data = table.row($tr).data();
-
-                    // Mempopulasikan data / mengisi data dari query data ajax pada datatable
-                    $('#editDataKaryawan input[name="idEdit"]').val(data.id_data_karyawan);
-                    $('#editDataKaryawan input[name="namaEdit"]').val(data.nama);
-                    $('#editDataKaryawan input[name="alamatEdit"]').val(data.alamat);
-                    $('#editDataKaryawan input[name="nomorTeleponEdit"]').val(data.nomor_telepon);
-                    $('#editDataKaryawan select[name="statusKaryawanEdit"]').val(data.status_karyawan);
-                    $('#editDataKaryawan input[name="keahlianEdit"]').val(data.keahlian);
-                    $('#editDataKaryawan input[name="jabatanEdit"]').val(data.jabatan);
-                    $('#editDataKaryawan input[name="usernameEdit"]').val(data.user.username);
-                    $('#editDataKaryawan input[name="emailEdit"]').val(data.user.email);
-                    $('#editDataKaryawan input[name="passwordEdit"]').val(data.user.password);
-                    $('#editDataKaryawan select[name="roleEdit"]').val(data.user.role);
-
-
-
-                    var updateRoute = "{{ route('datakaryawan.update', ':id') }}";
-                    updateRoute.replace(':id', data.id_data_karyawan);
-
-                    // Set form action URL dynamically
-                    var actionUrl = '/datakaryawan/' + data.id_data_karyawan;
-                    $('#editDataKaryawan form').attr('action', actionUrl);
-
-                });
-
-                // show form with bootstrap modal
-                $('#dataKaryawanTable').on('click', '.btn-show', function(event) {
-                    event.preventDefault();
-                    var $tr = $(this).closest('tr');
-                    if ($tr.hasClass('child')) {
-                        $tr = $tr.prev('.parent');
-                    }
-
-                    var data = table.row($tr).data();
-
-                    // Populate your show modal with data
-                    $('#showDataKaryawan input[name="nama"]').val(data.nama);
-                    $('#showDataKaryawan input[name="alamat"]').val(data.alamat);
-                    $('#showDataKaryawan input[name="nomorTelepon"]').val(data.nomor_telepon);
-                    $('#showDataKaryawan select[name="statusKaryawan"]').val(data.status_karyawan);
-                    $('#showDataKaryawan input[name="keahlian"]').val(data.keahlian);
-                    $('#showDataKaryawan input[name="jabatan"]').val(data.jabatan);
-                });
-
-                // delete confirmation with sweetalert by realrashid
-                $(".datatable").on("click", ".btn-delete", function(e) {
-                    e.preventDefault();
-                    var form = $(this).closest("form");
-                    var nama = $(this).data("nama");
-
-                    Swal.fire({
-                        title: "Apakah anda yakin ingin menghapus data \n" + nama + "?",
-                        text: "Anda tidak bisa mengembalikan data setelah terhapus!",
-                        icon: "warning",
-                        showCancelButton: true,
-                        confirmButtonClass: "bg-primary",
-                        confirmButtonText: "Ya, hapus!",
-                        cancelButtonText: "Tidak, jangan hapus!"
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            form.submit();
-                        }
-                    });
                 });
             });
-        </script>
-    @endpush
+        });
+    </script>
+@endpush

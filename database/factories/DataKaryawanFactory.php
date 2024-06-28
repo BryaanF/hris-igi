@@ -28,7 +28,7 @@ class DataKaryawanFactory extends Factory
             'nama' => fake()->name(),
             'alamat' => fake()->address(),
             'nomor_telepon' => fake()->phoneNumber(),
-            'status_karyawan' => fake()->randomElement(['Karyawan_Tetap', 'Karyawan_Kontrak']),
+            'status_karyawan' => fake()->randomElement(['Karyawan Tetap', 'Karyawan Kontrak']),
             'keahlian' => fake()->bs(),
             'jabatan' => fake()->jobTitle(),
             'rekrutmen_id' => null,

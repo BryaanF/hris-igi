@@ -27,7 +27,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link @if (request()->route()->getName() == 'penggajian.index') active @endif"
+                    <a class="nav-link @if (request()->route()->getName() == 'penggajian.index' || request()->route()->getName() == 'penggajian.show') active @endif"
                         href="{{ route('penggajian.index') }}">
                         <i class="bi bi-cash-coin"></i>
                         Penggajian
