@@ -43,7 +43,6 @@
             </div>
         </div>
     </div>
-
     {{-- start modal section --}}
 
     {{-- modal create --}}
@@ -322,15 +321,18 @@
                     },
                     {
                         data: "keahlian",
-                        name: "keahlian"
+                        name: "keahlian",
+                        orderable: false,
                     },
                     {
                         data: "catatan",
-                        name: "catatan"
+                        name: "catatan",
+                        orderable: false,
                     },
                     {
                         data: "status_rekrutmen",
-                        name: "status_rekrutmen"
+                        name: "status_rekrutmen",
+                        orderable: false,
                     },
                     {
                         data: "actions",
@@ -358,13 +360,13 @@
                 $('#editRekrutmen').modal('show');
             @endif
 
-            // Menangani event ketika modal ditutup
+            // Menangani event ketika modal ditutup setelah terdapat error menghapus tulisan warna merah terkait peringatan error input
             $('#editRekrutmen, #createRekrutmen').on('hidden.bs.modal', function() {
                 $(this).find('.text-danger').remove();
                 $(this).find('.form-control').removeClass('is-invalid');
             });
 
-            // Edit form with bootstrap modal with data
+            // Membuka modal edit ketika di klik button edit (ikon pensil)
             $('#dataRekrutmenTable').on('click', '.btn-edit', function(event) {
                 event.preventDefault();
                 var $tr = $(this).closest('tr');
@@ -374,7 +376,7 @@
 
                 var data = table.row($tr).data();
 
-                // Populate your edit modal with data
+                // Mengisi input edit data
                 $('#editRekrutmen input[name="id"]').val(data.id_rekrutmen);
                 $('#editRekrutmen input[name="nama"]').val(data.nama);
                 $('#editRekrutmen input[name="email"]').val(data.email);

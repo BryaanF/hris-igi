@@ -419,11 +419,13 @@
                     },
                     {
                         data: "keahlian",
-                        name: "keahlian"
+                        name: "keahlian",
+                        orderable: false,
                     },
                     {
                         data: "jabatan",
-                        name: "jabatan"
+                        name: "jabatan",
+                        orderable: false,
                     },
                     {
                         data: "aksi",

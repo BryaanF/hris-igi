@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Gaji;
 use Illuminate\Http\Request;
 
 class ExperimentController extends Controller
@@ -11,6 +12,8 @@ class ExperimentController extends Controller
      */
     public function __invoke(Request $request)
     {
-        dd(session());
+        $id = 3;
+        $gaji = Gaji::with('dataKaryawan')->find($id);
+        return view('employee.riwayatgaji.export_pdf', compact('gaji'));
     }
 }

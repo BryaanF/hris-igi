@@ -50,11 +50,12 @@
                     },
                     {
                         data: "status_absensi",
-                        name: "status_absensi"
+                        name: "status_absensi",
                     },
                     {
                         data: "keterangan",
-                        name: "keterangan"
+                        name: "keterangan",
+                        orderable: false,
                     },
                 ],
                 order: [

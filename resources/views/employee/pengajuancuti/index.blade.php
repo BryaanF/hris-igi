@@ -177,11 +177,13 @@
                     },
                     {
                         data: "keterangan",
-                        name: "keterangan"
+                        name: "keterangan",
+                        orderable: false,
                     },
                     {
                         data: "status_cuti",
-                        name: "status_cuti"
+                        name: "status_cuti",
+                        orderable: false,
                     },
                     {
                         data: "actions",

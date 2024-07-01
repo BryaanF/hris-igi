@@ -26,10 +26,10 @@
                             <th>Id</th>
                             <th>No.</th>
                             <th>Tahun - Bulan</th>
-                            <th>Gaji Pokok</th>
                             <th>Total Potongan</th>
                             <th>Total Tunjangan</th>
                             <th>Total Gaji</th>
+                            <th>Status Gaji</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -38,7 +38,7 @@
         </div>
     </div>
 
-    {{-- Start Modal Detail / Show --}}
+    {{-- Start Modal Detail / Show Gaji --}}
     <div class="modal fade" id="showPenggajianPerKaryawanModal" tabindex="-1"
         aria-labelledby="showPenggajianPerKaryawanModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -86,19 +86,126 @@
                     </div>
                     <div class="form-group">
                         <label for="keteranganShow" class="form-label">Keterangan</label>
-                        <input class="form-control" type="text" id="keteranganShow" name="keteranganShow" value=""
-                            disabled>
+                        <textarea class="form-control" rows="3" id="keteranganShow" name="keteranganShow" disabled></textarea>
                     </div>
                     <div class="form-group">
                         <label for="statusGajiShow" class="form-label">Status Gaji</label>
-                        <input class="form-control" type="text" id="statusGajiShow" name="statusGajiShow"
-                            value="" disabled>
+                        <input class="form-control" type="text" id="statusGajiShow" name="statusGajiShow" disabled>
                     </div>
+                </div>
+                <div class="modal-footer">
+                    <form action="{{ route('penggajian.statusGajiQuery', ':id') }}" method="POST"
+                        enctype="multipart/form-data" id="statusGajiQueryForm">
+                        @csrf
+                        <input type="hidden" name="button_value" id="button_value">
+                        <button type="button" class="btn btn-success btnquery" value="Terbayar"><i
+                                class="bi bi-check"></i>Terbayar</button>
+                        <button type="button" class="btn btn-warning btnquery" value="Kredit"><i
+                                class="bi bi-x"></i>Kredit</button>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
-    {{-- End Modal Detail / Show --}}
+    {{-- End Modal Detail / Show Gaji --}}
+
+    {{-- Start Modal Edit Gaji --}}
+    <div class="modal fade" id="editPenggajianPerKaryawanModal" tabindex="-1"
+        aria-labelledby="editPenggajianPerKaryawanModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editPenggajianPerKaryawanModalLabel">Sunting Data Penggajian -
+                        {{ $satudatakaryawan->nama }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="{{ route('penggajian.update', ':id') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="tahunBulanEdit" class="form-label">Tahun - Bulan</label>
+                            <input class="form-control" type="text" id="tahunBulanEdit" name="tahunBulanEdit"
+                                disabled>
+                            <input type="hidden" id="tahunBulanEditHidden" name="tahunBulanEditHidden"
+                                value="{{ old('tahunBulanEditHidden') }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="gajiPokokEdit" class="form-label">Gaji Pokok</label>
+                            <input class="form-control @error('gajiPokokEdit') is-invalid @enderror" type="text"
+                                id="gajiPokokEdit" name="gajiPokokEdit" value="{{ old('gajiPokokEdit') }}" disabled>
+                            <input type="hidden" id="gajiPokokEditHidden" name="gajiPokokEditHidden"
+                                value="{{ old('gajiPokokEditHidden') }}">
+                            @error('gajiPokokEdit')
+                                <div class="text-danger">
+                                    <small>{{ $message }}</small>
+                                </div>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label for="potonganKetidakhadiranEdit" class="form-label">Potongan Ketidakhadiran</label>
+                            <input class="form-control" type="text" id="potonganKetidakhadiranEdit"
+                                name="potonganKetidakhadiranEdit" disabled>
+                            <input type="hidden" id="potonganKetidakhadiranEditHidden"
+                                name="potonganKetidakhadiranEditHidden"
+                                value="{{ old('potonganKetidakhadiranEditHidden') }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="potonganLainEdit" class="form-label">Potongan Lain</label>
+                            <input class="form-control @error('potonganLainEdit') is-invalid @enderror" type="text"
+                                id="potonganLainEdit" name="potonganLainEdit" value="{{ old('potonganLainEdit') }}">
+                            @error('potonganLainEdit')
+                                <div class="text-danger">
+                                    <small>{{ $message }}</small>
+                                </div>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label for="totalPotonganEdit" class="form-label">Total Potongan</label>
+                            <input class="form-control @error('totalPotonganEdit') is-invalid @enderror" type="text"
+                                id="totalPotonganEdit" name="totalPotonganEdit" disabled>
+                            <input type="hidden" id="totalPotonganEditHidden" name="totalPotonganEditHidden"
+                                value="{{ old('totalPotonganEditHidden') }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="totalTunjanganEdit" class="form-label">Total Tunjangan</label>
+                            <input class="form-control @error('totalTunjanganEdit') is-invalid @enderror" type="text"
+                                id="totalTunjanganEdit" name="totalTunjanganEdit"
+                                value="{{ old('totalTunjanganEdit') }}">
+                            @error('totalTunjanganEdit')
+                                <div class="text-danger">
+                                    <small>{{ $message }}</small>
+                                </div>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label for="totalGajiEdit" class="form-label">Total Gaji</label>
+                            <input class="form-control @error('totalGajiEdit') is-invalid @enderror" type="text"
+                                id="totalGajiEdit" name="totalGajiEdit" disabled>
+                            <input type="hidden" id="totalGajiEditHidden" name="totalGajiEditHidden"
+                                value="{{ old('totalGajiEditHidden') }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="keteranganEdit" class="form-label">Keterangan</label>
+                            <textarea class="form-control @error('keteranganEdit') is-invalid @enderror" rows="3" id="keteranganEdit"
+                                name="keteranganEdit">{{ old('keteranganEdit') }}</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="statusGajiEdit" class="form-label">Status Gaji</label>
+                            <input class="form-control @error('statusGajiEdit') is-invalid @enderror" type="text"
+                                id="statusGajiEdit" name="statusGajiEdit" disabled>
+                            <input type="hidden" id="statusGajiEditHidden" name="statusGajiEditHidden"
+                                value="{{ old('statusGajiEditHidden') }}">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary" id="editGajiKaryawanButton">Sunting</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    {{-- End Modal Edit Gaji --}}
 
     <!-- Start Modal Komponen Gaji Karyawan -->
     <div class="modal fade" id="komponenGajiKaryawanModal" tabindex="-1"
@@ -168,7 +275,7 @@
                     <div class="modal-body">
                         @error('error')
                             <div class="alert alert-danger" role="alert">
-                                anjayyyyy
+                                Jangan memasukkan data yang tidak sesuai sistem untuk menjaga integritas data!
                             </div>
                         @enderror
                         <div class="form-group">
@@ -208,11 +315,10 @@
                                 <input type="number"
                                     class="form-control @error('potonganKetidakhadiran') is-invalid @enderror"
                                     id="potonganKetidakhadiran" name="potonganKetidakhadiran"
-                                    value="{{ old('potonganKetidakhadiran') }}" readonly>
+                                    value="{{ old('potonganKetidakhadiranHidden') }}" readonly>
                                 @error('potonganKetidakhadiran')
                                     <div class="text-danger">
-                                        <small>Ubah bulan gaji ke bulan yang berbeda dan kembalikan kembali jika perlu.
-                                            Jangan merubah data ini secara manual untuk menjaga integritas data!</small>
+                                        <small>{{ $message }}</small>
                                     </div>
                                 @enderror
                             </div>
@@ -275,10 +381,6 @@
                         name: "tahun_bulan"
                     },
                     {
-                        data: "gaji_pokok",
-                        name: "gaji_pokok"
-                    },
-                    {
                         data: "total_potongan",
                         name: "total_potongan"
                     },
@@ -289,6 +391,10 @@
                     {
                         data: "total_gaji",
                         name: "total_gaji"
+                    },
+                    {
+                        data: "status_gaji",
+                        name: "status_gaji"
                     },
                     {
                         data: "aksi",
@@ -308,12 +414,23 @@
                     emptyTable: "Belum terdapat data riwayat gaji untuk karyawan tersebut!"
                 }
             });
+
+            // membuka modal sesuai error di modal yang mana
             @if (!empty(Session::get('error_in_modal')) && Session::get('error_in_modal') == 3)
                 $('#komponenGajiKaryawanModal').modal('show');
             @elseif (!empty(Session::get('error_in_modal')) && Session::get('error_in_modal') == 4)
                 $('#createGajiKaryawanModal').modal('show');
+            @elseif (!empty(Session::get('error_in_modal')) && Session::get('error_in_modal') == 5)
+                $('#editPenggajianPerKaryawanModal').modal('show');
+                $('#tahunBulanEdit').val($('#tahunBulanEditHidden').val());
+                $('#gajiPokokEdit').val($('#gajiPokokEditHidden').val());
+                $('#potonganKetidakhadiranEdit').val($('#potonganKetidakhadiranEditHidden').val());
+                $('#totalPotonganEdit').val($('#totalPotonganEditHidden').val());
+                $('#totalGajiEdit').val($('#totalGajiEditHidden').val());
+                $('#statusGajiEdit').val($('#statusGajiEditHidden').val());
             @endif
 
+            // menampilkan alert jika terdapat error sesuai dengan pesan errornya
             @if (session('error'))
                 Swal.fire({
                     icon: 'error',
@@ -339,17 +456,28 @@
                 }
             });
 
-            // untuk mengkalkulasi total gaji
+            // untuk mengkalkulasi total gaji pada modal create
             function kalkulasiTotalGaji() {
                 var gajiPokok = parseFloat($('#gajiPokok').val()) || 0;
-                var potonganKetidakHadiran = parseFloat($('#potonganKetidakHadiran').val()) || 0;
+                var potonganKetidakhadiran = parseFloat($('#potonganKetidakhadiran').val()) || 0;
                 var tunjangan = parseFloat($('#tunjangan').val()) || 0;
                 var potonganLain = parseFloat($('#potonganLain').val()) || 0;
 
-                var totalGaji = gajiPokok - potonganKetidakHadiran + tunjangan - potonganLain;
+                var totalGaji = gajiPokok - potonganKetidakhadiran + tunjangan - potonganLain;
 
                 $('#totalGaji').val(totalGaji);
-                $('#totalGajiHidden').val(totalGaji);
+            }
+
+            // untuk mengkalkulasi total gaji pada modal create
+            function kalkulasiTotalGajiEdit() {
+                var gajiPokok = parseFloat($('#gajiPokokEdit').val()) || 0;
+                var potonganKetidakhadiran = parseFloat($('#potonganKetidakhadiranEdit').val()) || 0;
+                var tunjangan = parseFloat($('#totalTunjanganEdit').val()) || 0;
+                var potonganLain = parseFloat($('#potonganLainEdit').val()) || 0;
+
+                var totalGaji = gajiPokok - potonganKetidakhadiran + tunjangan - potonganLain;
+
+                $('#totalGajiEdit').val(totalGaji);
             }
 
             // jika pada bulan digaji terdapat perubahan maka potongan absensi juga menyesuaikan
@@ -374,13 +502,16 @@
                 }
             });
 
-            // update kalkulasi total gaji jika terdapat input baru pada potongan dan tunjangan
+            // update kalkulasi total gaji create jika terdapat input baru pada potongan dan tunjangan
             $('#tunjangan, #potonganLain').on('input', function() {
                 kalkulasiTotalGaji();
             });
 
-            // inisiasi pemnaggilan fungsi kalkulasi total gaji
-            kalkulasiTotalGaji();
+            // update kalkulasi total gaji edit jika terdapat input baru pada potongan dan tunjangan
+            $('#totalTunjanganEdit, #potonganLainEdit').on('input', function() {
+                kalkulasiTotalGajiEdit();
+            });
+
 
             // show form with bootstrap modal
             $('#dataPenggajianPerKaryawanTable').on('click', '.btn-show', function(event) {
@@ -397,7 +528,8 @@
                 $('#showPenggajianPerKaryawanModal input[name="gajiPokokShow"]').val(data.gaji_pokok);
                 $('#showPenggajianPerKaryawanModal input[name="potonganKetidakhadiranShow"]').val(data
                     .potongan_ketidakhadiran);
-                $('#showPenggajianPerKaryawanModal input[name="potonganLainShow"]').val(data.potongan_lain);
+                $('#showPenggajianPerKaryawanModal input[name="potonganLainShow"]').val(data
+                    .potongan_lain);
                 $('#showPenggajianPerKaryawanModal input[name="totalPotonganShow"]').val(data
                     .total_potongan);
                 $('#showPenggajianPerKaryawanModal input[name="totalTunjanganShow"]').val(data
@@ -405,6 +537,77 @@
                 $('#showPenggajianPerKaryawanModal input[name="totalGajiShow"]').val(data.total_gaji);
                 $('#showPenggajianPerKaryawanModal textarea[name="keteranganShow"]').val(data.keterangan);
                 $('#showPenggajianPerKaryawanModal input[name="statusGajiShow"]').val(data.status_gaji);
+
+                var updateRoute = "{{ route('penggajian.statusGajiQuery', ':id') }}";
+                updateRoute = updateRoute.replace(':id', data.id_gaji); // Perubahan ini harus disimpan
+
+                // Set form action URL dynamically
+                var actionUrl = '/statusGajiQuery/' + data.id_gaji;
+                $('#showPenggajianPerKaryawanModal form').attr('action', actionUrl);
+            });
+
+            // Menangani klik pada tombol terbayar atau kredit pada detail modal
+            $('#statusGajiQueryForm .btnquery').click(function() {
+                var buttonValue = $(this).val(); // Mendapatkan nilai tombol yang diklik
+                $('#button_value').val(buttonValue); // Mengatur nilai input hidden
+
+                // Melakukan submit form
+                var form = $(this).closest("form");
+                form.submit();
+            });
+
+            // edit form with bootstrap modal
+            $('#dataPenggajianPerKaryawanTable').on('click', '.btn-edit', function(event) {
+                event.preventDefault();
+                var $tr = $(this).closest('tr');
+                if ($tr.hasClass('child')) {
+                    $tr = $tr.prev('.parent');
+                }
+
+                var data = table.row($tr).data();
+
+                $('#editPenggajianPerKaryawanModal input[name="tahunBulanEdit"]').val(data.tahun_bulan);
+                $('#editPenggajianPerKaryawanModal input[name="tahunBulanEditHidden"]').val(data
+                    .tahun_bulan);
+                $('#editPenggajianPerKaryawanModal input[name="gajiPokokEdit"]').val(data.gaji_pokok);
+                $('#editPenggajianPerKaryawanModal input[name="gajiPokokEditHidden"]').val(data.gaji_pokok);
+                $('#editPenggajianPerKaryawanModal input[name="potonganLainEdit"]').val(data
+                    .potongan_lain);
+                $('#editPenggajianPerKaryawanModal input[name="totalPotonganEdit"]').val(data
+                    .total_potongan);
+                $('#editPenggajianPerKaryawanModal input[name="totalPotonganEditHidden"]').val(data
+                    .total_potongan);
+                $('#editPenggajianPerKaryawanModal input[name="totalTunjanganEdit"]').val(data
+                    .total_tunjangan);
+                $('#editPenggajianPerKaryawanModal input[name="totalGajiEdit"]').val(data.total_gaji);
+                $('#editPenggajianPerKaryawanModal input[name="totalGajiEditHidden"]').val(data.total_gaji);
+                $('#editPenggajianPerKaryawanModal textarea[name="keteranganEdit"]').val(data
+                    .keterangan);
+                $('#editPenggajianPerKaryawanModal input[name="statusGajiEdit"]').val(data.status_gaji);
+                $('#editPenggajianPerKaryawanModal input[name="statusGajiEditHidden"]').val(data
+                    .status_gaji);
+
+                $.ajax({
+                    url: "{{ route('penggajian.kalkulasiPotonganAbsensi') }}",
+                    method: "GET",
+                    data: {
+                        bulanDigaji: data.tahun_bulan,
+                        id: data.data_karyawan.id_data_karyawan
+                    },
+                    success: function(response) {
+                        $('#potonganKetidakhadiranEdit').val(response.potonganKetidakhadiran);
+                        $('#potonganKetidakhadiranEditHidden').val(response
+                            .potonganKetidakhadiran);
+                        kalkulasiTotalGajiEdit();
+                    }
+                });
+
+                var updateRoute = "{{ route('penggajian.update', ':id') }}";
+                updateRoute = updateRoute.replace(':id', data.id_gaji); // Perubahan ini harus disimpan
+
+                // Set form action URL dynamically
+                var actionUrl = '/penggajian/' + data.id_gaji;
+                $('#editPenggajianPerKaryawanModal form').attr('action', actionUrl);
             });
 
             // delete confirmation with sweetalert by realrashid

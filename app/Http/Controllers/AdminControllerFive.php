@@ -43,15 +43,16 @@ class AdminControllerFive extends Controller
         $messages = [
             'required' => ':Attribute harus diisi.',
             'numeric' => 'Isi :attribute dengan angka',
+            'min' => "Isi dengan angka / nominal minimal 0",
             'bulanDigaji.regex' => 'Bulan digaji harus memiliki format yyyy-mm.',
         ];
         $validator = Validator::make($request->all(), [
             'bulanDigaji' => ['required', 'regex:/^\d{4}-(0[1-9]|1[0-2])$/'],
-            'gajiPokok' => 'required|numeric',
-            'tunjangan' => 'required|numeric',
-            'potonganLain' => 'required|numeric',
-            'potonganKetidakhadiran' => 'required|numeric',
-            'totalGaji' => 'required|numeric',
+            'gajiPokok' => 'required|numeric|min:0',
+            'tunjangan' => 'required|numeric|min:0',
+            'potonganLain' => 'required|numeric|min:0',
+            'potonganKetidakhadiran' => 'required|numeric|min:0',
+            'totalGaji' => 'required|numeric|min:0',
         ], $messages);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput()->with('error_in_modal', 4);
@@ -61,7 +62,7 @@ class AdminControllerFive extends Controller
 
         if ($request->gajiPokok != session('gaji_pokok') || $request->potonganKetidakhadiran != session('potongan_ketidakhadiran') || $request->totalGaji != $total_gaji) {
             return redirect()->back()->withInput()->with([
-                'error' => 'Jangan mengubah data gaji pokok, potongan ketidakhadiran, dan juga total gaji untuk menjaga integritas data. Untuk data gaji pokok dapat diubah pada komponen gaji.',
+                'error' => 'Jangan mengubah data gaji pokok, potongan ketidakhadiran, dan juga total gaji untuk menjaga integritas data, refresh halaman untuk kembali membuat data gaji baru. Untuk data gaji pokok dapat diubah pada komponen gaji.',
                 'error_in_modal' => 4,
             ]);
         }
@@ -89,7 +90,6 @@ class AdminControllerFive extends Controller
         $gaji->tahun_bulan = $request->bulanDigaji;
         $gaji->status_gaji = 'Kredit';
         $gaji->data_karyawan_id = session('id_data_karyawan');
-
         if ($request->keterangan !== null) {
             $gaji->keterangan = $request->keterangan;
         }
@@ -142,7 +142,48 @@ class AdminControllerFive extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $messages = [
+            'required' => 'Kolom ini harus diisi.',
+            'numeric' => 'Isi kolom dengan angka',
+            'min' => "Isi dengan angka / nominal minimal 0",
+        ];
+        $validator = Validator::make($request->all(), [
+            'totalTunjanganEdit' => 'required|numeric|min:0',
+            'potonganLainEdit' => 'required|numeric|min:0',
+            'potonganKetidakhadiranEditHidden' => 'required|numeric|min:0',
+        ], $messages);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput()->with('error_in_modal', 5);
+        }
+
+        if ($request->potonganKetidakhadiranEditHidden != session('potongan_ketidakhadiran')) {
+            return redirect()->back()->withInput()->with([
+                'error' => 'Jangan mengubah data gaji pokok, potongan ketidakhadiran, dan juga total gaji untuk menjaga integritas data, refresh halaman untuk kembali membuat data gaji baru. Untuk data gaji pokok dapat diubah pada komponen gaji.',
+            ]);
+        }
+
+        // Inisiasi pemanggilan data dari database ke variabel
+        $gaji = Gaji::find($id);
+
+        $total_gaji = $gaji->gaji_pokok + $gaji->total_tunjangan - $request->potonganLainEdit - $request->potonganKetidakhadiranEditHidden;
+
+        $total_potongan = $request->potonganLainEdit + $request->potonganKetidakhadiranEditHidden;
+
+        // ELOQUENT Gaji
+        $gaji->potongan_lain = $request->potonganLainEdit;
+        $gaji->potongan_ketidakhadiran = $request->potonganKetidakhadiranEditHidden;
+        $gaji->total_potongan = $total_potongan;
+        $gaji->total_tunjangan = $request->totalTunjanganEdit;
+        $gaji->total_gaji = $total_gaji;
+        if ($request->keteranganEdit) {
+            $gaji->keterangan = $request->keteranganEdit;
+        }
+        $gaji->save();
+
+        Alert::success('Berhasil Disunting', 'Data gaji karyawan telah berhasil disunting!');
+
+        return redirect()->route('penggajian.show', session('id_data_karyawan'));
+
     }
 
     /**
@@ -258,7 +299,7 @@ class AdminControllerFive extends Controller
         $messages = [
             'required' => ':Attribute harus diisi.',
             'integer' => 'Isi :attribute dengan angka bilangan bulat',
-            'min' => 'Nilai harus bernilai positif atau nol.',
+            'min' => 'Nilai komponen gaji harus sama atau lebih besar dari 0.',
         ];
         $validator = Validator::make($request->all(), [
             'gajiPokokKomponen' => 'required|integer|min:0',
@@ -287,7 +328,7 @@ class AdminControllerFive extends Controller
         $messages = [
             'required' => ':Attribute harus diisi.',
             'integer' => 'Isi :attribute dengan angka bilangan bulat',
-            'min' => 'Nilai harus bernilai positif atau nol.',
+            'min' => 'Nilai komponen gaji harus sama atau lebih besar dari 0.',
         ];
         $validator = Validator::make($request->all(), [
             'gajiPokokKomponen' => 'required|integer|min:0',
@@ -337,5 +378,26 @@ class AdminControllerFive extends Controller
         return response()->json([
             'potonganKetidakhadiran' => $potonganKetidakhadiran,
         ]);
+    }
+
+    public function statusGajiQuery(Request $request, String $id)
+    {
+        // Inisiasi pemanggilan data dari database ke variabel
+        $gaji = Gaji::find($id);
+
+        // request->button_value merupakan input hidden yang ada pada form input yang menyimpan data value dari tombol diterima, ditolak, dan proses
+        $button_value = $request->button_value;
+
+        // Eloquent kolom status_rekrutmen
+        $gaji->status_gaji = $button_value;
+        $gaji->save();
+
+        if ($button_value == 'Terbayar') {
+            Alert::success('Gaji telah terbayar', 'Gaji karyawan telah terbayar, karyawan dapat mencetak slip gaji!');
+        } else {
+            Alert::info('Gaji belum terbayar', 'Gaji karyawan masih dalam proses!');
+        }
+
+        return redirect()->route('penggajian.show', session('id_data_karyawan'));
     }
 }

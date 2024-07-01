@@ -26,7 +26,7 @@
                 @csrf
                 <div class="form-group">
                     <label for="email" class="fw-bold mb-2">Email atau Username:</label>
-                    <input class="form-control @error('login') is-invalid @enderror" type="login" name="login"
+                    <input class="form-control @error('login') is-invalid @enderror" type="text" name="login"
                         id="login" required>
                 </div>
                 @error('login')

@@ -84,15 +84,22 @@
             <span>Profile</span>
         </h6>
         <ul class="nav flex-column mb-2 d-md-none">
-            <li class="nav-item">
+            <li class="nav-item @if (request()->route()->getName() == 'profil.index') active @endif">
                 <a class="nav-link" href="{{ route('profil.index') }}">
                     <i class="bi bi-person-badge"></i>
                     Profile Information
                 </a>
             </li>
             <li class="nav-item">
-                <form action="{{ route('logout') }}" method="POST">
-                    <button class="nav-link">
+                <a class="nav-link @if (request()->route()->getName() == 'profil.index') active @endif" href="{{ route('profil.index') }}">
+                    <i class="bi bi-bell"></i>
+                    Notification
+                </a>
+            </li>
+            <li class="nav-item">
+                <form action="{{ route('logout') }}" method="POST" id="form-logout">
+                    @csrf
+                    <button class="nav-link" type="submit">
                         <i class="bi bi-box-arrow-right"></i>
                         Log Out
                     </button>

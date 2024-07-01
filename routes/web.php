@@ -68,7 +68,8 @@ Route::middleware(['auth', 'no.cache'])->group(function () {
         Route::post('exportExcelPenggajian', [AdminControllerFive::class, 'exportExcel'])->name('penggajian.exportExcel');
         Route::post('storeKomponenGaji', [AdminControllerFive::class, 'storeKomponenGaji'])->name('penggajian.storeKomponenGaji');
         Route::post('updateKomponenGaji', [AdminControllerFive::class, 'updateKomponenGaji'])->name('penggajian.updateKomponenGaji');
-        Route::get('/kalkulasiPotonganAbsensi', [AdminControllerFive::class, 'kalkulasiPotonganAbsensi'])->name('penggajian.kalkulasiPotonganAbsensi'); // return berupa json kalkulasi potongan absensi
+        Route::get('kalkulasiPotonganAbsensi', [AdminControllerFive::class, 'kalkulasiPotonganAbsensi'])->name('penggajian.kalkulasiPotonganAbsensi'); // return berupa json kalkulasi potongan absensi
+        Route::post('statusGajiQuery/{id}', [AdminControllerFive::class, 'statusGajiQuery'])->name('penggajian.statusGajiQuery');
 
     });
 
@@ -78,6 +79,9 @@ Route::middleware(['auth', 'no.cache'])->group(function () {
     Route::get('getPengajuanCuti', [EmployeeControllerOne::class, 'getData'])->name('pengajuancuti.getData');
     // route riwayat gaji
     Route::resource('riwayatgaji', EmployeeControllerTwo::class);
+    Route::get('getRiwayatGaji', [EmployeeControllerTwo::class, 'getData'])->name('riwayatgaji.getData');
+    Route::post('exportPDFRiwayatGaji', [EmployeeControllerTwo::class, 'exportPDF'])->name('riwayatgaji.exportPDF');
+
     // route riwayat absensi untuk karyawan
     Route::get('riwayatabsensi', [EmployeeControllerThree::class, 'index'])->name('riwayatabsensi.index');
     Route::get('getRiwayatAbsensi', [EmployeeControllerThree::class, 'getRiwayatAbsensi'])->name('riwayatabsensi.getRiwayatAbsensi');

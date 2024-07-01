@@ -17,7 +17,15 @@
                     <li><a class="dropdown-item" href="{{ route('profil.index') }}"><i
                                 class="bi bi-person-badge me-1"></i>
                             <span>Profile Information</span>
-                        </a></li>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link @if (request()->route()->getName() == 'profil.index') active @endif"
+                            href="{{ route('profil.index') }}">
+                            <i class="bi bi-bell"></i>
+                            Notification
+                        </a>
+                    </li>
                     <li>
                         <hr class="dropdown-divider">
                     </li>
