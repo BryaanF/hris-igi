@@ -242,23 +242,30 @@ class AdminControllerThree extends Controller
 
     public function absensi()
     {
-        Auth::logout();
 
-        return view('admin.daftarabsensi.absensi');
+        // Mengatur lokal Carbon ke bahasa Indonesia
+        Carbon::setLocale('id');
+
+        $tanggalsaatini = Carbon::today()->translatedFormat('d F Y');
+
+        return view('admin.daftarabsensi.absensi', compact('tanggalsaatini'));
     }
 
     public function catatAbsensi(Request $request)
     {
-        // validate input data (accept either email or username)
+        // melogout dari akun utama dan masuk dengan akun master aplikasi untuk melakukan absensi agar tidak terjadi login ganda dan mencegah karyawan untuk bisa memback aplikasi ketika ditinggalkan untuk dipakai login
+        Auth::logout();
+
+        // validasi input data dimana menerima baik username ataupun password
         $credentials = $request->validate([
             'login' => ['required', 'string'],
             'password' => ['required'],
         ]);
 
-        // determine whether login input is email or username
+        // menentukan dengan kode dibawah ini apakah yang diinputkan termasuk email atau username, jika return true maka itu adalah email dan jika false maka dianggap sebagai usename
         $filterUserOrEmail = filter_var($credentials['login'], FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
 
-        // prepare credentials for authentication
+        // menyiapkan kredensial untuk memulai autentikasi setelah mendapatkan login menggunakan email atau username
         $authCredentials = [
             $filterUserOrEmail => $credentials['login'],
             'password' => $credentials['password'],
@@ -299,6 +306,38 @@ class AdminControllerThree extends Controller
 
         return redirect()->back()->withErrors(['login' => 'Data login yang masukkan tidak valid, cek email / username dan password yang anda masukkan.']);
 
+    }
+
+    // endpoint untuk mendapatkan absensi hari ini
+    public function getAbsensiHariIni(Request $request)
+    {
+        // Mengatur lokal Carbon ke bahasa Indonesia
+        Carbon::setLocale('id');
+
+        // Mendapatkan tanggal hari ini menggunakan Carbon
+        $hariini = Carbon::today()->toDateString();
+
+        // Query dengan kondisi tanggal hari ini
+        $absensi = Absensi::with('dataKaryawan')
+            ->select('absensi.*', 'data_karyawan.nama as nama_karyawan')
+            ->join('data_karyawan', 'absensi.data_karyawan_id', '=', 'data_karyawan.id_data_karyawan')
+            ->whereDate('absensi.tanggal', $hariini);
+
+        if ($request->ajax()) {
+            // Jika data kosong, pastikan mengembalikan format JSON yang benar
+            if ($absensi->count() <= 0) {
+                return response()->json([
+                    'draw' => intval($request->input('draw')),
+                    'recordsTotal' => 0,
+                    'recordsFiltered' => 0,
+                    'data' => [],
+                ]);
+            }
+
+            return datatables()->of($absensi)
+                ->addIndexColumn()
+                ->toJson();
+        }
     }
 
     public function logoutAbsensi(Request $request)

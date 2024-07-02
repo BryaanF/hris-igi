@@ -11,6 +11,7 @@ use App\Http\Controllers\EmployeeControllerThree;
 use App\Http\Controllers\EmployeeControllerTwo;
 use App\Http\Controllers\ExperimentController;
 use App\Http\Controllers\ProfileController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,8 +25,14 @@ use Illuminate\Support\Facades\Route;
 |
  */
 
+// route untuk mengakses semua rute terkait autentikasi
+Auth::routes([
+    'reset' => true, // Enable reset password routes
+    'verify' => false, // Disable email verification
+]);
+
 // redirect rute root ke dashboard
-Route::redirect('/', 'dashboard')->name('dashboard');
+Route::redirect('/', 'dashboard');
 
 // grouping untuk route yang membutuhkan autentikasi
 Route::middleware(['auth', 'no.cache'])->group(function () {
@@ -93,8 +100,7 @@ Route::middleware(['auth', 'no.cache'])->group(function () {
     Route::get('panduan', [AllController::class, 'panduan'])->name('panduan');
     // route untuk menampilkan dashboard dan juga get data untuk halaman dashboard yaitu absensi hari ini
     Route::get('dashboard', [AllController::class, 'dashboard'])->name('dashboard');
-    Route::get('getAbsensiHariIni', [AllController::class, 'getAbsensiHariIni'])->name('getAbsensiHariIni');
-
+    // route untuk profil
     Route::resource('profil', ProfileController::class);
 
 });
@@ -109,13 +115,12 @@ Route::middleware(['master', 'no.cache'])->group(function () {
     // Route untuk absensi semua karyawan dengan memasukkan sandi master password dari aplikasi ini
     Route::get('absensi', [AdminControllerThree::class, 'absensi'])->name('daftarabsensi.absensi');
     Route::post('absensi', [AdminControllerThree::class, 'catatAbsensi'])->name('daftarabsensi.catatAbsensi');
+    Route::get('getAbsensiHariIni', [AdminControllerThree::class, 'getAbsensiHariIni'])->name('getAbsensiHariIni');
 });
 
 // Rute untuk kontroller semua, menangani manajemen aplikasi secara umum bagi semua pengguna, nama kontroller = AllController
 // Route::post('/clear-modal-session', [AllController::class, 'clearSessionModal'])->name('clearSessionModal');
 
 // experiment route
-Route::get('experiment', ExperimentController::class);
-
-// route untuk mengakses semua rute terkait autentikasi
-Auth::routes();
+Route::get('experiment', [ExperimentController::class, 'experiment'])->name('experiment');
+Route::get('/send-email', [ExperimentController::class, 'sendTestEmail'])->name('send.email');

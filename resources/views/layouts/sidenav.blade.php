@@ -1,6 +1,6 @@
 <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
     <div class="position-sticky pt-3">
-        @if (auth()->user()->role == 'Administrator')
+        @if (auth()->check() && auth()->user()->role == 'Administrator')
             <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-2 mb-1 text-muted">
                 <span>Administrator</span>
             </h6>
@@ -91,7 +91,8 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link @if (request()->route()->getName() == 'profil.index') active @endif" href="{{ route('profil.index') }}">
+                <a class="nav-link @if (request()->route()->getName() == 'profil.index') active @endif"
+                    href="{{ route('profil.index') }}">
                     <i class="bi bi-bell"></i>
                     Notification
                 </a>

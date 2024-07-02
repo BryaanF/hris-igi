@@ -29,7 +29,10 @@
                         <small>{{ $message }}</small>
                     </div>
                 @enderror
-                <button class="btn btn-primary mt-2" type="submit">Login</button>
+                <div class="button-back-login mt-2">
+                    <a href="{{ route('daftarabsensi.index') }}" class="btn btn-secondary">Kembali</a>
+                    <button class="btn btn-primary ms-2" type="submit">Login</button>
+                </div>
         </div>
     </div>
     @include('sweetalert::alert')

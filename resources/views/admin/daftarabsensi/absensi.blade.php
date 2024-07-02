@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="{{ asset('igi_logo.png') }}" type="image/x-icon">
-    <title>Attendance</title>
+    <title>Absensi</title>
     @vite('resources/js/jquery.js')
     @vite('resources/js/app.js')
     @vite(['resources/sass/app.scss', 'resources/css/app.css', 'resources/css/dashboard.css'])
@@ -52,7 +52,81 @@
             </form>
         </div>
     </div>
+
+    {{-- separator --}}
+    {{-- <div class="col-md-1"></div> --}}
+
+    <div class="card text-center col-md-6 ms-3">
+        <div class="card-header">
+            <span>Daftar Absensi Hari Ini Tanggal {{ $tanggalsaatini }}</span>
+        </div>
+        <div class="card-body ">
+            <table class="table table-bordered table-hover table-striped mb-0 bg-white datatable"
+                id="dataDaftarAbsensiHariIniTable">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>No</th>
+                        <th>Jam Masuk</th>
+                        <th>Nama Karyawan</th>
+                        <th>Status Absensi</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
     @include('sweetalert::alert')
+
+    <script type="module">
+        $(document).ready(function() {
+            var table = $("#dataDaftarAbsensiHariIniTable").DataTable({
+                serverSide: true,
+                processing: true,
+                ajax: "/getAbsensiHariIni",
+                columns: [{
+                        data: "id_absensi",
+                        name: "id_absensi",
+                        visible: false
+                    },
+                    {
+                        data: "DT_RowIndex",
+                        name: "DT_RowIndex",
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: "jam_masuk",
+                        name: "jam_masuk"
+                    },
+                    {
+                        data: "nama_karyawan",
+                        name: "nama_karyawan"
+                    },
+                    {
+                        data: "status_absensi",
+                        name: "status_absensi"
+                    }
+                ],
+                order: [
+                    [0, "asc"]
+                ],
+                lengthMenu: [
+                    [10, 25, 50, 100, -1],
+                    [10, 25, 50, 100, "All"],
+                ],
+                pageLength: 50,
+                language: {
+                    emptyTable: "Belum terdapat data absensi yang tercatat!"
+                }
+            });
+
+            // reload setiap sekitar 7 detik untuk datatables
+            setInterval(function() {
+                table.ajax.reload(null, false); // hanya reload data pada datatables
+            }, 7500);
+
+        });
+    </script>
 </body>
 
 </html>

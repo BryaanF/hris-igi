@@ -12,74 +12,8 @@
                             {{ session('status') }}
                         </div>
                     @endif
-                    <h1 class="text-center">Absensi Hari Ini</h1>
-                    <h6 class="fst-italic text-center">Tanggal {{ $tanggalsaatini }}</h6>
-                    <table class="table table-bordered table-hover table-striped mb-0 bg-white datatable"
-                        id="dataDaftarAbsensiHariIniTable">
-                        <thead>
-                            <tr>
-                                <th>Id</th>
-                                <th>No</th>
-                                <th>Jam Masuk</th>
-                                <th>Nama Karyawan</th>
-                                <th>Status Absensi</th>
-                            </tr>
-                        </thead>
-                    </table>
                 </div>
             </div>
         </div>
     </div>
 @endsection
-@push('scripts')
-    <script type="module">
-        $(document).ready(function() {
-            var table = $("#dataDaftarAbsensiHariIniTable").DataTable({
-                serverSide: true,
-                processing: true,
-                ajax: "/getAbsensiHariIni",
-                columns: [{
-                        data: "id_absensi",
-                        name: "id_absensi",
-                        visible: false
-                    },
-                    {
-                        data: "DT_RowIndex",
-                        name: "DT_RowIndex",
-                        orderable: false,
-                        searchable: false
-                    },
-                    {
-                        data: "jam_masuk",
-                        name: "jam_masuk"
-                    },
-                    {
-                        data: "nama_karyawan",
-                        name: "nama_karyawan"
-                    },
-                    {
-                        data: "status_absensi",
-                        name: "status_absensi"
-                    }
-                ],
-                order: [
-                    [0, "asc"]
-                ],
-                lengthMenu: [
-                    [10, 25, 50, 100, -1],
-                    [10, 25, 50, 100, "All"],
-                ],
-                pageLength: 50,
-                language: {
-                    emptyTable: "Belum terdapat data absensi yang tercatat!"
-                }
-            });
-
-            // reload setiap sekitar 7 detik untuk datatables
-            setInterval(function() {
-                table.ajax.reload(null, false); // hanya reload data pada datatables
-            }, 7500);
-
-        });
-    </script>
-@endpush
