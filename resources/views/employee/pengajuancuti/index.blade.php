@@ -205,7 +205,7 @@
             });
 
             // show createPengajuanCuti modal to show if controller validation pass error message
-            @if ($errors->any())
+            @if (!empty(Session::get('error_in_modal')) && Session::get('error_in_modal') == 1)
                 $('#createPengajuanCuti').modal('show');
             @endif
 

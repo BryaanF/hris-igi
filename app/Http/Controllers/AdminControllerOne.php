@@ -167,7 +167,18 @@ class AdminControllerOne extends Controller
     {
         // ELOQUENT
         $userId = DataKaryawan::where('id_data_karyawan', $id)->pluck('user_id')->first();
-        User::find($userId)->delete();
+
+        if (empty($userId)) {
+            return redirect()->back();
+        }
+
+        $user = User::find($userId);
+
+        if (empty($user)) {
+            return redirect()->back();
+        }
+
+        $user->delete();
 
         Alert::success('Data Berhasil Dihapus', 'Data Karyawan telah berhasil dihapus!');
 

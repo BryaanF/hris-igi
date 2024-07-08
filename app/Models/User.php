@@ -55,6 +55,11 @@ class User extends Authenticatable
         return $this->hasOne(DataKaryawan::class, 'user_id');
     }
 
+    public function notifikasi()
+    {
+        return $this->hasMany(Notifikasi::class, 'user_id');
+    }
+
     // Fungsi untuk memeriksa role
     public function hasRole($role)
     {

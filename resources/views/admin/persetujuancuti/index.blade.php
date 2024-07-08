@@ -80,17 +80,17 @@
                             name="statusCuti" id="statusCuti" disabled>
 
                     </div>
-                    <div class="modal-footer">
+                    <div class="modal-footer p-0 justify-content-center justify-content-md-end mt-2">
                         <form action="{{ route('rekrutmen.statusRekrutmenQuery', ':id') }}" method="POST"
                             enctype="multipart/form-data" id="statusCutiQueryForm">
                             @csrf
                             <input type="hidden" name="button_value" id="button_value">
                             <button type="button" class="btn btn-success btnquery" value="Disetujui"><i
-                                    class="bi bi-check"></i>Setujui</button>
+                                    class="bi bi-check-circle"></i><span class="ms-1">Setujui</span></button>
                             <button type="button" class="btn btn-primary btnquery" value="Pending"><i
                                     class="bi bi-clock"></i><span class="ms-1">Pending</span></button>
                             <button type="button" class="btn btn-danger btnquery" value="Ditolak"><i
-                                    class="bi bi-x"></i>Tolak</button>
+                                    class="bi bi-x-circle"></i><span class="ms-1">Tolak</span></button>
                         </form>
                     </div>
 
@@ -193,6 +193,26 @@
                     // Melakukan submit form
                     var form = $(this).closest("form");
                     form.submit();
+                });
+
+                // delete confirmation with sweetalert by realrashid
+                $(".datatable").on("click", ".btn-delete", function(e) {
+                    e.preventDefault();
+                    var form = $(this).closest("form");
+
+                    Swal.fire({
+                        title: "Apakah anda yakin ingin menghapus data persetujuan cuti ini ?",
+                        text: "Anda tidak bisa mengembalikan data setelah terhapus!",
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonClass: "bg-primary",
+                        confirmButtonText: "Ya, hapus!",
+                        cancelButtonText: "Tidak, jangan hapus!"
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            form.submit();
+                        }
+                    });
                 });
             });
         </script>

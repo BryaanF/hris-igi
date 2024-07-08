@@ -8,6 +8,8 @@ use App\Models\Absensi;
 use App\Models\DataKaryawan;
 use App\Models\Gaji;
 use App\Models\KomponenGaji;
+use App\Models\Notifikasi;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
@@ -192,6 +194,10 @@ class AdminControllerFive extends Controller
     public function destroy(string $id)
     {
         $gaji = Gaji::find($id);
+
+        if (empty($gaji)) {
+            return redirect()->back();
+        }
 
         $gaji->delete();
 
@@ -393,6 +399,15 @@ class AdminControllerFive extends Controller
         $gaji->save();
 
         if ($button_value == 'Terbayar') {
+            $datakaryawan = DataKaryawan::find($gaji->data_karyawan_id); // query data karyawan berdasarkan data_karyawan_id yang ada pada data gaji yang dicari menggunakan id yang dipass oleh fungsi
+            $user = User::find($datakaryawan->user_id); // mencari data user berdasarkan data karyawan yang telah diquery
+            $tahunbulan = Carbon::parse($gaji->tahun_bulan)->locale('id')->translatedFormat('F Y'); // translasi bentuk tahun bulan contoh 2002-07 menjadi juli 2002 (format indonesia)
+            $notifikasi = new Notifikasi;
+            $notifikasi->pesan = "Gaji anda pada bulan " . $tahunbulan . " telah dibayarkan. Selengkapnya bisa dicek pada halaman riwayat gaji.";
+            $notifikasi->jam = Carbon::now()->toTimeString();
+            $notifikasi->tanggal = Carbon::now()->toDateString();
+            $notifikasi->user_id = $user->id_user;
+            $notifikasi->save();
             Alert::success('Gaji telah terbayar', 'Gaji karyawan telah terbayar, karyawan dapat mencetak slip gaji!');
         } else {
             Alert::info('Gaji belum terbayar', 'Gaji karyawan masih dalam proses!');

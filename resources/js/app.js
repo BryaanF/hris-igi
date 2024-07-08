@@ -11,3 +11,4 @@ import "datatables.net-buttons-bs5";
 
 // make sure folder assets inside resource can be accessed through vite
 import.meta.glob(["../assets/**"]);
+

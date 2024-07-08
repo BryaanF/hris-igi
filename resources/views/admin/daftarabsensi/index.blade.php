@@ -4,7 +4,25 @@
         <div class="card mt-3 mb-3">
             <div class="card-header">Daftar Absensi Karyawan</div>
             <div class="card-body d-flex justify-content-end">
-                <ul class="list-inline mb-0">
+                <!-- Dropdown button untuk device kecil dibwaah 768 pixel atau size medium pada bootstrap 5 -->
+                <div class="d-block d-md-none">
+                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        Aksi
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <li><a class="dropdown-item" href="#" data-bs-target="#tanggalExcelModal"
+                                data-bs-toggle="modal"><i class="bi bi-download me-1"></i><span>Excel</span></a></li>
+                        <li><a class="dropdown-item" href="#" data-bs-target="#tanggalPDFModal"
+                                data-bs-toggle="modal"><i class="bi bi-download me-1"></i><span>PDF</span></a></li>
+                        <li><a class="dropdown-item" href="#" data-bs-target="#tanggalGenerateAbsensiModal"
+                                data-bs-toggle="modal"><i class="bi bi-window me-1"></i><span>Absensi</span></a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- List inline untuk device dengan ukuran medium ke atas -->
+                <ul class="list-inline mb-0 d-none d-md-flex">
                     <li class="list-inline-item">
                         <button type="button" class="btn btn-outline-success" data-bs-target="#tanggalExcelModal"
                             data-bs-toggle="modal">
@@ -17,15 +35,15 @@
                             <i class="bi bi-download me-1"></i><span>PDF</span>
                         </button>
                     </li>
-                    <li class="list-inline-item">|</li>
-                    <button type="button" class="btn btn-primary" data-bs-target="#tanggalGenerateAbsensiModal"
-                        data-bs-toggle="modal">
-                        <i class="bi bi-window"></i>
-                        <span>Absensi</span>
-                    </button>
+                    <li class="list-inline-item">
+                        <button type="button" class="btn btn-primary" data-bs-target="#tanggalGenerateAbsensiModal"
+                            data-bs-toggle="modal">
+                            <i class="bi bi-window me-1"></i><span>Absensi</span>
+                        </button>
                     </li>
                 </ul>
             </div>
+
             <div class="card-body" style="overflow-x:auto;">
                 <table class="table table-bordered table-hover table-striped mb-0 bg-white datatable"
                     id="dataDaftarAbsensiTable">

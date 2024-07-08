@@ -135,8 +135,14 @@ class AdminControllerTwo extends Controller
      */
     public function destroy(string $id)
     {
-        // ELOQUENT
-        Rekrutmen::find($id)->delete();
+
+        $rekrutmen = Rekrutmen::find($id);
+
+        if (empty($rekrutmen)) {
+            return redirect()->back();
+        }
+
+        $rekrutmen->delete();
 
         Alert::success('Data Berhasil Dihapus', 'Data rekrutmen berhasil dihapus!');
 
@@ -199,7 +205,7 @@ class AdminControllerTwo extends Controller
                 $datakaryawan->nama = $datarekrutmen->nama;
                 $datakaryawan->alamat = $datarekrutmen->alamat;
                 $datakaryawan->nomor_telepon = $datarekrutmen->nomor_telepon;
-                $datakaryawan->status_karyawan = 'Karyawan_Kontrak';
+                $datakaryawan->status_karyawan = 'Karyawan Kontrak';
                 $datakaryawan->keahlian = $datarekrutmen->keahlian;
                 $datakaryawan->jabatan = 'Karyawan';
                 $datakaryawan->user_id = $user->id_user;

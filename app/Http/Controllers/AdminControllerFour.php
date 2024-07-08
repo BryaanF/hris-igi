@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use Alert;
 use App\Exports\DataPersetujuanCutiExport;
 use App\Models\Cuti;
+use App\Models\DataKaryawan;
+use App\Models\Notifikasi;
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use PDF;
@@ -17,6 +21,7 @@ class AdminControllerFour extends Controller
      */
     public function index()
     {
+        confirmDelete();
 
         return view('admin.persetujuancuti.index');
 
@@ -67,7 +72,16 @@ class AdminControllerFour extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $cuti = Cuti::find($id);
+
+        if (empty($cuti)) {
+            return redirect()->route('persetujuancuti.index');
+        }
+        $cuti->delete();
+
+        Alert::success('Data Berhasil Dihapus', 'Data persetujuan cuti karyawan telah berhasil dihapus!');
+
+        return redirect()->route('persetujuancuti.index');
     }
 
     public function getData(Request $request)
@@ -96,11 +110,36 @@ class AdminControllerFour extends Controller
         $datapersetujuancuti->status_cuti = $button_value;
         $datapersetujuancuti->save();
 
+        function notifikasi(string $pesan, string $id_cuti)
+        {
+            // mencari data persetujuan cuti untuk lokal fungsi notifikasi
+            $datapersetujuancuti = Cuti::find($id_cuti);
+            // Mencari data karyawan untuk diambil user_id nya
+            $satudatakaryawan = DataKaryawan::find($datapersetujuancuti->data_karyawan_id);
+            // mengambil data user_id dari tabel user
+            $satudatauser = User::find($satudatakaryawan->user_id);
+            // Mulai mengirimkan notifikasi
+
+            $mulaicutiparse = Carbon::parse($datapersetujuancuti->mulai_cuti)->locale('id')->isoFormat('DD MMMM YYYY');
+
+            $selesaicutiparse = Carbon::parse($datapersetujuancuti->selesai_cuti)->locale('id')->isoFormat('DD MMMM YYYY');
+
+            $notifikasi = new Notifikasi;
+            $notifikasi->pesan = "Pengajuan cuti mu untuk tanggal " . $mulaicutiparse . " sampai tanggal " . $selesaicutiparse . " telah " . $pesan;
+            // Mengisi atribut jam dan tanggal dengan waktu saat ini
+            $notifikasi->jam = Carbon::now()->toTimeString(); // Format waktu (jam, menit, detik)
+            $notifikasi->tanggal = Carbon::now()->toDateString(); // Format tanggal (tahun, bulan, hari)
+            $notifikasi->user_id = $satudatauser->id_user; // Mengisi user_id dengan ID karyawan yang mengajukan cuti
+            $notifikasi->save(); // Simpan notifikasi ke database
+
+        }
+
         if ($button_value == 'Disetujui') {
             Alert::success('Pengajuan cuti disetujui', 'Pengajuan cuti karyawan diterima!');
-
+            notifikasi('Disetujui', $datapersetujuancuti->id_cuti);
         } else if ($button_value == 'Ditolak') {
             Alert::error('Pengajuan cuti ditolak', 'Pengajuan cuti karyawan ditolak!');
+            notifikasi('Ditolak', $datapersetujuancuti->id_cuti);
         } else {
             Alert::info('Pengajuan cuti pending', 'Permohonan pengajuan cuti karyawan masih ditinjau!');
         }

@@ -21,7 +21,7 @@ return new class extends Migration
             $table->integer('total_gaji');
             $table->text('keterangan')->nullable();
             $table->string('tahun_bulan', 7); // memastikan 7 karakter contoh "yyyy-mm" / "2000-11"
-            $table->enum('status_gaji', ['Terbayar', 'Kredit']);
+            $table->enum('status_gaji', ['Terbayar', 'Kredit'])->default('Kredit');
             $table->foreignId('data_karyawan_id')->constrained('data_karyawan', 'id_data_karyawan')->onDelete('cascade');
             $table->timestamps();
         });

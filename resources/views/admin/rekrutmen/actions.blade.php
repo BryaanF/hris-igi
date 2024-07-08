@@ -7,7 +7,8 @@
         <form action="{{ route('rekrutmen.destroy', $satudatarekrutmen->id_rekrutmen) }}" method="POST">
             @csrf
             @method('delete')
-            <button type="submit" class="btn btn-outline-dark btn-sm me-2 btn-delete"><i class="bi-trash"></i></button>
+            <button type="submit" class="btn btn-outline-dark btn-sm me-2 btn-delete"
+                data-nama="{{ $satudatarekrutmen->nama }}"><i class="bi-trash"></i></button>
         </form>
     </div>
 </div>

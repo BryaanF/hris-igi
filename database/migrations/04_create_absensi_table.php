@@ -16,7 +16,7 @@ return new class extends Migration
             $table->date('tanggal');
             $table->time('jam_masuk');
             $table->text('keterangan')->nullable();
-            $table->enum('status_absensi', ['Masuk', 'Izin', 'Sakit', 'Alpha']);
+            $table->enum('status_absensi', ['Masuk', 'Izin', 'Sakit', 'Alpha'])->default('Alpha');
             $table->foreignId('data_karyawan_id')->constrained('data_karyawan', 'id_data_karyawan')->onDelete('cascade');
             $table->timestamps();
         });

@@ -4,26 +4,47 @@
         <div class="card mt-3 mb-3">
             <div class="card-header">Data Rekrutmen</div>
             <div class="card-body d-flex justify-content-end">
-                <ul class="list-inline mb-0">
+                <!-- Dropdown button untuk device kecil dibwaah 768 pixel atau size medium pada bootstrap 5 -->
+                <div class="d-block d-md-none">
+                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        Aksi
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <li><a class="dropdown-item" href="{{ route('rekrutmen.exportExcel') }}" id="linkExportExcel"><i
+                                    class="bi bi-download me-1"></i><span>Excel</span></a></li>
+                        <li><a class="dropdown-item" href="{{ route('rekrutmen.exportPDF') }}" id="linkExportPDF"><i
+                                    class="bi bi-download me-1"></i><span>PDF</span></a></li>
+                        <li><a class="dropdown-item" href="#" data-bs-target="#createRekrutmen"
+                                data-bs-toggle="modal"><i class="bi bi-plus-circle"></i>
+                                <span>Tambah</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- List inline untuk device dengan ukuran medium ke atas -->
+                <ul class="list-inline mb-0 d-none d-md-flex">
                     <li class="list-inline-item">
-                        <a href="{{ route('rekrutmen.exportExcel') }}" class="btn btn-outline-success">
+                        <a href="{{ route('rekrutmen.exportExcel') }}" id="linkExportExcel" class="btn btn-outline-success">
                             <i class="bi bi-download me-1"></i><span>Excel</span>
                         </a>
                     </li>
                     <li class="list-inline-item">
-                        <a href="{{ route('rekrutmen.exportPDF') }}" class="btn btn-outline-danger">
+                        <a href="{{ route('rekrutmen.exportPDF') }}" id="linkExportPDF" class="btn btn-outline-danger">
                             <i class="bi bi-download me-1"></i><span>PDF</span>
                         </a>
                     </li>
-                    <li class="list-inline-item"> | </li>
                     <li class="list-inline-item">
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                            data-bs-target="#createRekrutmen">
+                        <button type="button" class="btn btn-primary" data-bs-target="#createRekrutmen"
+                            data-bs-toggle="modal">
                             <i class="bi bi-plus-circle me-1"></i><span>Tambah</span>
                         </button>
                     </li>
                 </ul>
             </div>
+
+
             <div class="card-body" style="overflow-x:auto;">
                 <table class="table table-bordered table-hover table-striped mb-0 bg-white datatable"
                     id="dataRekrutmenTable">

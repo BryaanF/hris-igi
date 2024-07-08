@@ -100,6 +100,10 @@ class AdminControllerThree extends Controller
     {
         $daftarabsensi = Absensi::find($id);
 
+        if (empty($daftarabsensi)) {
+            return redirect()->back();
+        }
+
         $daftarabsensi->delete();
 
         Alert::success('Data Absensi Dihapus', 'Data absensi karyawan telah berhasil dihapus!');

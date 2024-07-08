@@ -99,9 +99,9 @@
                         @csrf
                         <input type="hidden" name="button_value" id="button_value">
                         <button type="button" class="btn btn-success btnquery" value="Terbayar"><i
-                                class="bi bi-check"></i>Terbayar</button>
+                                class="bi bi-check-circle"></i><span class="ms-1">Terbayar</span></button>
                         <button type="button" class="btn btn-warning btnquery" value="Kredit"><i
-                                class="bi bi-x"></i>Kredit</button>
+                                class="bi bi-clock"></i><span class="ms-1">Kredit</span></button>
                     </form>
                 </div>
             </div>

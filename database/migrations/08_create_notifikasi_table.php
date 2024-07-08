@@ -14,9 +14,10 @@ return new class extends Migration
         Schema::create('notifikasi', function (Blueprint $table) {
             $table->id('id_notifikasi');
             $table->string('pesan');
+            $table->enum('status_notifikasi', ['Dibaca', 'Belum Dibaca'])->default('Belum Dibaca');
             $table->time('jam')->nullable();
             $table->date('tanggal')->nullable();
-            $table->foreignId('data_karyawan_id')->constrained('data_karyawan', 'id_data_karyawan')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained('users', 'id_user')->onDelete('cascade');
             $table->timestamps();
         });
     }

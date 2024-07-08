@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use Alert;
 use App\Models\Cuti;
 use App\Models\DataKaryawan;
+use App\Models\Notifikasi;
+use App\Models\User;
 use Auth;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Validator;
 
@@ -47,13 +50,13 @@ class EmployeeControllerOne extends Controller
             'keterangan' => 'required',
         ], $messages);
         if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
+            return redirect()->back()->withErrors($validator)->withInput()->with('error_in_modal', 1);
         }
 
         // Mendapatkan ID pengguna yang sedang login dari session
         $userId = Auth::id();
 
-        $dataKaryawanId = DataKaryawan::where('user_id', $userId)->pluck('id_data_karyawan')->first();
+        $dataKaryawan = DataKaryawan::where('user_id', $userId)->first();
 
         // ELOQUENT DATA PENGAJUAN CUTI
         $datapengajuancuti = new Cuti;
@@ -61,8 +64,27 @@ class EmployeeControllerOne extends Controller
         $datapengajuancuti->selesai_cuti = $request->selesaiCuti;
         $datapengajuancuti->keterangan = $request->keterangan;
         $datapengajuancuti->status_cuti = 'Pending';
-        $datapengajuancuti->data_karyawan_id = $dataKaryawanId;
+        $datapengajuancuti->data_karyawan_id = $dataKaryawan->id_data_karyawan;
         $datapengajuancuti->save();
+
+        // Dapatkan semua pengguna di tabel users dengan peran 'Administrator'
+        $adminUsers = User::where('role', 'Administrator')->get();
+
+        // Iterasi melalui setiap pengguna administrator
+        foreach ($adminUsers as $adminUser) {
+            $mulaicutiparse = Carbon::parse($request->mulaiCuti)->locale('id')->isoFormat('DD MMMM YYYY');
+
+            $selesaicutiparse = Carbon::parse($request->selesaiCuti)->locale('id')->isoFormat('DD MMMM YYYY');
+
+            // Mulai mengirimkan notifikasi
+            $notifikasi = new Notifikasi;
+            $notifikasi->pesan = $dataKaryawan->nama . ' mengajukan cuti untuk tanggal ' . $mulaicutiparse . ' sampai tanggal ' . $selesaicutiparse . ' selengkapnya bisa dicek pada halaman persetujuan cuti.';
+            // Mengisi atribut jam dan tanggal dengan waktu saat ini
+            $notifikasi->jam = Carbon::now()->toTimeString(); // Format waktu (jam, menit, detik)
+            $notifikasi->tanggal = Carbon::now()->toDateString(); // Format tanggal (tahun, bulan, hari)
+            $notifikasi->user_id = $adminUser->id_user; // Mengisi user_id dengan ID pengguna administrator
+            $notifikasi->save(); // Simpan notifikasi ke database
+        }
 
         Alert::success('Berhasil diajukan', 'Data cuti berhasil diajukan!');
 

@@ -9,7 +9,7 @@ use App\Http\Controllers\AllController;
 use App\Http\Controllers\EmployeeControllerOne;
 use App\Http\Controllers\EmployeeControllerThree;
 use App\Http\Controllers\EmployeeControllerTwo;
-use App\Http\Controllers\ExperimentController;
+use App\Http\Controllers\NotifikasiController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -80,10 +80,12 @@ Route::middleware(['auth', 'no.cache'])->group(function () {
 
     });
 
-    // Rute untuk KARYAWAN / EMPLOYEE
+    // RUTE UNTUK KARYAWAN / EMPLOYEE
+
     // route pengajuan cuti
     Route::resource('pengajuancuti', EmployeeControllerOne::class);
     Route::get('getPengajuanCuti', [EmployeeControllerOne::class, 'getData'])->name('pengajuancuti.getData');
+
     // route riwayat gaji
     Route::resource('riwayatgaji', EmployeeControllerTwo::class);
     Route::get('getRiwayatGaji', [EmployeeControllerTwo::class, 'getData'])->name('riwayatgaji.getData');
@@ -93,7 +95,7 @@ Route::middleware(['auth', 'no.cache'])->group(function () {
     Route::get('riwayatabsensi', [EmployeeControllerThree::class, 'index'])->name('riwayatabsensi.index');
     Route::get('getRiwayatAbsensi', [EmployeeControllerThree::class, 'getRiwayatAbsensi'])->name('riwayatabsensi.getRiwayatAbsensi');
 
-    // ROUTE FOR EMPLOYEE AND ADMIN
+    // ROUTE UNTUK KARYAWAN DAN ADMIN
     // route profile
     Route::get('/profil/sunting', [ProfileController::class, 'sunting'])->name('profil.sunting');
     // route panduan penggunaan aplikasi
@@ -102,7 +104,9 @@ Route::middleware(['auth', 'no.cache'])->group(function () {
     Route::get('dashboard', [AllController::class, 'dashboard'])->name('dashboard');
     // route untuk profil
     Route::resource('profil', ProfileController::class);
-
+    // route untuk notifikasi
+    Route::resource('notifikasi', NotifikasiController::class);
+    Route::get('/getNotifikasiCount', [NotifikasiController::class, 'count']);
 });
 
 // route untuk login agar dapat mengakses route yang ada di dalam middleware master
@@ -119,8 +123,3 @@ Route::middleware(['master', 'no.cache'])->group(function () {
 });
 
 // Rute untuk kontroller semua, menangani manajemen aplikasi secara umum bagi semua pengguna, nama kontroller = AllController
-// Route::post('/clear-modal-session', [AllController::class, 'clearSessionModal'])->name('clearSessionModal');
-
-// experiment route
-Route::get('experiment', [ExperimentController::class, 'experiment'])->name('experiment');
-Route::get('/send-email', [ExperimentController::class, 'sendTestEmail'])->name('send.email');

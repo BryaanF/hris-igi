@@ -9,19 +9,47 @@
     <title>Human Resources Information System PT. IGI - Admin / Employee</title>
     @vite('resources/js/jquery.js')
     @vite('resources/js/app.js')
+    @vite('resources/js/sidebar.js')
     @vite(['resources/sass/app.scss', 'resources/css/app.css', 'resources/css/dashboard.css'])
+    @yield('css')
+    <style>
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+        }
+
+        .container-fluid {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .row {
+            flex-grow: 1;
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .main-content {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+    </style>
 </head>
 
-<body class="h-100">
+<body class="d-flex flex-column h-100">
     @include('layouts.header')
-    <div class="container-fluid">
-        <div class="row">
+    <div class="container-fluid flex-grow-1 d-flex">
+        <div class="row flex-fill">
             @include('layouts.sidenav')
-            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-                {{-- <div
-                    class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"> --}}
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
                 @yield('content')
-                {{-- </div> --}}
             </main>
         </div>
     </div>
