@@ -236,6 +236,8 @@ class AdminControllerThree extends Controller
         }
 
         if ($request->password === env('MASTER_PASSWORD')) {
+            // melogout dari akun utama dan masuk dengan akun master aplikasi untuk melakukan absensi agar tidak terjadi login ganda dan mencegah karyawan untuk bisa memback aplikasi ketika ditinggalkan untuk dipakai login
+            Auth::logout();
             $request->session()->put('master_authenticated', true);
             return redirect()->route('daftarabsensi.absensi');
         } else {
@@ -246,7 +248,6 @@ class AdminControllerThree extends Controller
 
     public function absensi()
     {
-
         // Mengatur lokal Carbon ke bahasa Indonesia
         Carbon::setLocale('id');
 
@@ -257,9 +258,6 @@ class AdminControllerThree extends Controller
 
     public function catatAbsensi(Request $request)
     {
-        // melogout dari akun utama dan masuk dengan akun master aplikasi untuk melakukan absensi agar tidak terjadi login ganda dan mencegah karyawan untuk bisa memback aplikasi ketika ditinggalkan untuk dipakai login
-        Auth::logout();
-
         // validasi input data dimana menerima baik username ataupun password
         $credentials = $request->validate([
             'login' => ['required', 'string'],
