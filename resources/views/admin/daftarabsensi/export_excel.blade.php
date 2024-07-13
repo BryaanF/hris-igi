@@ -1,30 +1,24 @@
 <table>
-    <thead>
-        <tr>
-            <th>No.</th>
-            <th>Tanggal</th>
-            <th>Nama Karyawan</th>
-            <th>Gaji Pokok</th>
-            <th>Total Potongan</th>
-            <th>Total Tunjangan</th>
-            <th>Total Gaji</th>
-            <th>Keterangan</th>
-            <th>Status Gaji</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach ($gaji as $index => $gaji)
+        <thead>
             <tr>
-                <td>{{ $index + 1 }}</td>
-                <td>{{ $gaji->tanggal_digaji }}</td>
-                <td>{{ $gaji->dataKaryawan->nama }}</td>
-                <td>{{ $gaji->gaji_pokok }}</td>
-                <td>{{ $gaji->potongan }}</td>
-                <td>{{ $gaji->tunjangan }}</td>
-                <td>{{ $gaji->total_gaji }}</td>
-                <td>{{ $gaji->keterangan }}</td>
-                <td>{{ $gaji->status_gaji }}</td>
+                <th>No.</th>
+                <th>Tanggal</th>
+                <th>Jam Masuk</th>
+                <th>Nama Karyawan</th>
+                <th>Keterangan</th>
+                <th>Status Absensi</th>
             </tr>
-        @endforeach
-    </tbody>
+        </thead>
+        <tbody>
+            @foreach ($absensi as $index => $absensi)
+                <tr>
+                    <td>{{ $index + 1 }}</td>
+                    <td>{{ $absensi->tanggal }}</td>
+                    <td>{{ $absensi->jam_masuk }}</td>
+                    <td>{{ $absensi->dataKaryawan->nama }}</td>
+                    <td>{{ $absensi->keterangan }}</td>
+                    <td>{{ $absensi->status_absensi }}</td>
+                </tr>
+            @endforeach
+        </tbody>
 </table>

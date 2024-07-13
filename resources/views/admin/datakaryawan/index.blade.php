@@ -303,7 +303,7 @@
                         <div class="form-group">
                             <label for="usernameEdit" class="form-label">Username</label>
                             <input class="form-control @error('usernameEdit') is-invalid @enderror" type="text"
-                                name="usernameEdit" id="usernameEdit" value="" placeholder="Masukkan username"
+                                name="usernameEdit" id="usernameEdit" value="{{ old('usernameEdit') }}" placeholder="Masukkan username"
                                 disabled>
                             @error('usernameEdit')
                                 <div class="text-danger">
@@ -314,7 +314,7 @@
                         <div class="form-group mt-1">
                             <label for="emailEdit" class="form-label">Email</label>
                             <input class="form-control @error('emailEdit') is-invalid @enderror" type="text"
-                                name="emailEdit" id="emailEdit" value="" placeholder="Masukkan email">
+                                name="emailEdit" id="emailEdit" value="{{ old('emailEdit') }}" placeholder="Masukkan email">
                             @error('emailEdit')
                                 <div class="text-danger">
                                     <small>{{ $message }}</small>
@@ -333,11 +333,11 @@
                             @enderror
                         </div>
                         <div class="form-group">
-                            <label for="password_confirmationEdit" class="form-label">Konfirmasi Password Baru</label>
-                            <input class="form-control @error('password_confirmationEdit') is-invalid @enderror"
-                                type="password" name="password_confirmationEdit" id="password_confirmationEdit"
+                            <label for="passwordEdit_confirmation" class="form-label">Konfirmasi Password Baru</label>
+                            <input class="form-control @error('passwordEdit_confirmation') is-invalid @enderror"
+                                type="password" name="passwordEdit_confirmation" id="passwordEdit_confirmation"
                                 value="" placeholder="Masukkan ulang password baru" autocomplete>
-                            @error('password_confirmationEdit')
+                            @error('passwordEdit_confirmation')
                                 <div class="text-danger">
                                     <small>{{ $message }}</small>
                                 </div>
@@ -499,7 +499,6 @@
                 $('#editDataKaryawan input[name="jabatanEdit"]').val(data.jabatan);
                 $('#editDataKaryawan input[name="usernameEdit"]').val(data.user.username);
                 $('#editDataKaryawan input[name="emailEdit"]').val(data.user.email);
-                $('#editDataKaryawan input[name="passwordEdit"]').val(data.user.password);
                 $('#editDataKaryawan select[name="roleEdit"]').val(data.user.role);
 
 

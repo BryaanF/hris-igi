@@ -113,8 +113,6 @@ class AdminControllerTwo extends Controller
         // Inisiasi pemanggilan data dari database ke variabel
         $datarekrutmen = Rekrutmen::find($id);
 
-        dd($datarekrutmen);
-
         // ELOQUENT DATA REKRUTMEN
         $datarekrutmen->nama = $request->nama;
         $datarekrutmen->email = $request->email;

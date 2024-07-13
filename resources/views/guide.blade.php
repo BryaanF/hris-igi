@@ -234,7 +234,7 @@
                                     <h6>Cara Ekspor / Download Data Persetujuan Cuti dalam Bentuk PDF</h6>
                                     <ol>
                                         <li><span class="me-1">Tekan tombol unduh PDF yang ada pada pojok kanan</span><img
-                                                src="{{ Vite::asset('resources/assets/guide/tombol_PDF.png') }}"
+                                                src="{{ Vite::asset('resources/assets/guide/tombol_pdf.png') }}"
                                                 alt="" class="rounded" style="height: 4vh"></li>
                                         <li>Jika muncul dialog untuk unduh file tersebut silahkan diperbolehkan untuk mengunduh
                                             pada direktori yang anda inginkan</li>
@@ -242,7 +242,7 @@
                                     <h6>Cara Ekspor / Download Data Persetujuan Cuti dalam Bentuk Excel</h6>
                                     <ol>
                                         <li><span class="me-1">Tekan tombol unduh Excel yang ada pada pojok kanan</span><img
-                                                src="{{ Vite::asset('resources/assets/guide/tombol_Excel.png') }}"
+                                                src="{{ Vite::asset('resources/assets/guide/tombol_excel.png') }}"
                                                 alt="" class="rounded" style="height: 4vh"></li>
                                         <li>Jika muncul dialog untuk unduh file tersebut silahkan diperbolehkan untuk mengunduh
                                             pada direktori yang anda inginkan</li>
@@ -510,7 +510,7 @@
                                         alt="" class="rounded" style="height: 4vh"></li>
                                 <li><span>Jika sudah maka akan muncul tampilan halaman pengajuan cuti seperti dibawah
                                         ini.</span></li>
-                                <img src="{{ Vite::asset('resources/assets/guide/pengajuancuti/view_datarekrutmen.png') }}"
+                                <img src="{{ Vite::asset('resources/assets/guide/pengajuancuti/view_pengajuancuti.png') }}"
                                     alt="" class="rounded" style="height: 25vh">
                             </ol>
                             <h6>Cara Melakukan Pengajuan Cuti</h6>

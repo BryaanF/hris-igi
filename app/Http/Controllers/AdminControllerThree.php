@@ -248,6 +248,7 @@ class AdminControllerThree extends Controller
 
     public function absensi()
     {
+
         // Mengatur lokal Carbon ke bahasa Indonesia
         Carbon::setLocale('id');
 
@@ -274,6 +275,9 @@ class AdminControllerThree extends Controller
         ];
 
         if (Auth::attempt($authCredentials)) {
+            // langsung logout setelah melakukan login hanya untuk pengecekan data absensi
+            Auth::logout();
+            
             $datakaryawan = DataKaryawan::whereHas('user', function ($query) use ($filterUserOrEmail, $authCredentials) {
                 $query->where($filterUserOrEmail, $authCredentials[$filterUserOrEmail]);
             })->first();
@@ -289,9 +293,8 @@ class AdminControllerThree extends Controller
 
             if ($absensi) {
                 // Jika sudah ada entri untuk hari ini, update kolom jam_masuk dengan waktu saat ini
-                $absensi->jam_masuk = $now;
-                $absensi->status_absensi = 'Masuk';
-                $absensi->save();
+                Alert::success('Sudah Absen', 'Anda sudah melakukan absen untuk hari ini, cek absensi anda di sebelah kanan halaman ini!');
+            return redirect()->route('daftarabsensi.absensi');
             } else {
                 // Jika belum ada entri untuk hari ini, buat entri baru
                 $absensi = new Absensi();
@@ -302,7 +305,7 @@ class AdminControllerThree extends Controller
                 $absensi->save();
             }
 
-            Alert::success('Berhasil absen', 'Anda berhasil absen untuk hari ini, cek absensi anda pada dashboard!');
+            Alert::success('Berhasil Absen', 'Anda berhasil absen untuk hari ini, cek absensi anda di sebelah kanan halaman ini!');
             return redirect()->route('daftarabsensi.absensi');
         }
 
@@ -345,7 +348,7 @@ class AdminControllerThree extends Controller
     public function logoutAbsensi(Request $request)
     {
         $request->session()->forget('master_authenticated');
-        return redirect()->route('login');
+        return redirect()->route('daftarabsensi.index');
     }
     // end function for absensi features
 }

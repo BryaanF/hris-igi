@@ -142,7 +142,7 @@ class AdminControllerOne extends Controller
         if ($request->password !== null) {
             $user->password = bcrypt($request->passwordEdit);
         }
-        $user->role = $request->role;
+        $user->role = $request->roleEdit;
         $user->save();
 
         // ELOQUENT DATA KARYAWAN
