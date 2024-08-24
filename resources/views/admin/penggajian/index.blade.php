@@ -43,7 +43,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="tanggalPDFModalLabel">Pilih Tanggal</h5>
+                    <h5 class="modal-title" id="tanggalPDFModalLabel">Pilih Bulan</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form action="{{ route('penggajian.exportPDF') }}" method="POST" id="exportPDFForm">
@@ -85,7 +85,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="tanggalExcelModalLabel">Pilih Tanggal</h5>
+                    <h5 class="modal-title" id="tanggalExcelModalLabel">Pilih Bulan</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form action="{{ route('penggajian.exportExcel') }}" method="POST" id="exportExcelForm">

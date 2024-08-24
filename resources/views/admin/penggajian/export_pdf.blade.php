@@ -26,7 +26,7 @@
 
 <body>
     <h1>Riwayat Gaji Karyawan</h1>
-    <h4>Riwayat gaji untuk bulan {{ $bln_mulai_text }} @if ($bln_mulai_text != $bln_sampai_text)
+    <h4>Riwayat gaji untuk bulan {{ $bln_mulai_text }} @if ($bln_mulai_text !== $bln_sampai_text)
             sampai bulan {{ $bln_sampai_text }}
         @endif
     </h4>

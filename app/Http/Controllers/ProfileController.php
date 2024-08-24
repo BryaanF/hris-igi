@@ -99,7 +99,7 @@ class ProfileController extends Controller
 
         Alert::success('Berhasil disunting', 'Data pada profil berhasil disunting!');
 
-        return redirect()->route('profil.sunting');
+        return redirect()->route('profil.index');
 
     }
 
@@ -111,7 +111,8 @@ class ProfileController extends Controller
         //
     }
 
-    // menggunakan suntin ketimbang edit karena untuk menghilangkan url berbentuk parameter get ketika menggunakan default route edit, sehingga menggunakan fungsi dan route baru yaitu sunting.
+    // menggunakan sunting ketimbang edit karena untuk menghilangkan url berbentuk parameter get ketika menggunakan default route edit, sehingga menggunakan fungsi dan route baru yaitu sunting.
+    
     public function sunting()
     {
         // Mengambil data pengguna yang sedang login pada tabel users

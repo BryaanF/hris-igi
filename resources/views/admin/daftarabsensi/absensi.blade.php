@@ -22,7 +22,7 @@
                 Note : Masukkan email dan password untuk absensi hari ini! Cek absensi anda pada dashboard,
                 jika ada kendala silahkan hubungi admin.
             </div>
-            <form method="POST" action="{{ route('daftarabsensi.absensi') }}">
+            <form method="POST" action="{{ route('daftarabsensi.catatAbsensi') }}">
                 @csrf
                 <div class="form-group">
                     <label for="email" class="fw-bold mb-2">Email atau Username:</label>
@@ -114,7 +114,7 @@
                     [10, 25, 50, 100, -1],
                     [10, 25, 50, 100, "All"],
                 ],
-                pageLength: 50,
+                pageLength: 10,
                 language: {
                     emptyTable: "Belum terdapat data absensi yang tercatat!"
                 }

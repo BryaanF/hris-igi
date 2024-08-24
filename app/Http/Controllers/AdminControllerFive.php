@@ -167,7 +167,7 @@ class AdminControllerFive extends Controller
         // Inisiasi pemanggilan data dari database ke variabel
         $gaji = Gaji::find($id);
 
-        $total_gaji = $gaji->gaji_pokok + $gaji->total_tunjangan - $request->potonganLainEdit - $request->potonganKetidakhadiranEditHidden;
+        $total_gaji = $gaji->gaji_pokok + $request->totalTunjanganEdit - $request->potonganLainEdit - $request->potonganKetidakhadiranEditHidden;
 
         $total_potongan = $request->potonganLainEdit + $request->potonganKetidakhadiranEditHidden;
 
@@ -247,9 +247,9 @@ class AdminControllerFive extends Controller
     {
         $messages = [
             'required' => 'Kolom ini harus diisi.',
-            'date_format' => 'Isi :attribute dengan format tanggal yang benar.',
-            'before_or_equal' => 'Harap pilih tanggal saat ini atau tanggal sebelumnya.',
-            'after_or_equal' => 'Harap pilih tanggal setelah atau sama dengan tanggal mulai.',
+            'date_format' => 'Isi :attribute dengan format bulan yang benar.',
+            'before_or_equal' => 'Harap pilih bulan saat ini atau bulan sebelumnya.',
+            'after_or_equal' => 'Harap pilih bulan setelah atau sama dengan bulan mulai.',
         ];
 
         $validator = Validator::make($request->all(), [
@@ -270,7 +270,7 @@ class AdminControllerFive extends Controller
 
         // membuat format bulan agar bisa terbaca misal "Juni 2024" bukan "2024-06" dan juga menggunakan bulan dengan bahasa indonesia
         $bln_mulai_text = Carbon::parse($request->bulanMulaiPDF)->locale('id')->translatedFormat('F Y');
-        $bln_sampai_text = Carbon::parse($request->bulanMulaiPDF)->locale('id')->translatedFormat('F Y');
+        $bln_sampai_text = Carbon::parse($request->bulanSampaiPDF)->locale('id')->translatedFormat('F Y');
 
         $pdf = PDF::loadView('admin.penggajian.export_pdf', compact('gaji', 'bln_mulai_text', 'bln_sampai_text'));
         return $pdf->download('Riwayat Gaji Karyawan.pdf');
@@ -280,9 +280,9 @@ class AdminControllerFive extends Controller
     {
         $messages = [
             'required' => 'Kolom ini harus diisi.',
-            'date_format' => 'Isi :attribute dengan format tanggal yang benar.',
-            'before_or_equal' => 'Harap pilih tanggal saat ini atau tanggal sebelumnya.',
-            'after_or_equal' => 'Harap pilih tanggal setelah atau sama dengan tanggal mulai.',
+            'date_format' => 'Isi :attribute dengan format bulan yang benar.',
+            'before_or_equal' => 'Harap pilih bulan saat ini atau bulan sebelumnya.',
+            'after_or_equal' => 'Harap pilih bulan setelah atau sama dengan bulan mulai.',
         ];
 
         $validator = Validator::make($request->all(), [

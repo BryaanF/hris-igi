@@ -135,9 +135,15 @@ class AdminControllerTwo extends Controller
     {
 
         $rekrutmen = Rekrutmen::find($id);
+        $datakaryawancount = DataKaryawan::where('rekrutmen_id', $rekrutmen->id_rekrutmen)->count();
 
         if (empty($rekrutmen)) {
             return redirect()->back();
+        } 
+        
+        if ($datakaryawancount > 0) {
+            Alert::error('Data Gagal Dihapus', 'Data rekrutmen gagal dihapus, terdapat data karyawan yang masih tertaut, ubah status rekrutmen menjadi ditolak terlebih dahulu!');
+            return redirect()->route('rekrutmen.index');
         }
 
         $rekrutmen->delete();

@@ -286,8 +286,14 @@ class AdminControllerThree extends Controller
             $today = Carbon::today()->setTimezone('Asia/Jakarta');
             $now = Carbon::now()->setTimezone('Asia/Jakarta');
 
-            // Cari Absensi untuk data karyawan dan tanggal hari ini
+            // Cari Absensi untuk data karyawan dan tanggal hari ini dan yang masuk
             $absensi = Absensi::where('data_karyawan_id', $datakaryawan->id_data_karyawan)
+                ->where('status_absensi', 'Masuk')
+                ->whereDate('tanggal', $today)
+                ->first();
+                
+            // Cari Absensi untuk data karyawan dan tanggal hari ini saja
+            $absensitoday = Absensi::where('data_karyawan_id', $datakaryawan->id_data_karyawan)
                 ->whereDate('tanggal', $today)
                 ->first();
 
@@ -295,6 +301,15 @@ class AdminControllerThree extends Controller
                 // Jika sudah ada entri untuk hari ini, update kolom jam_masuk dengan waktu saat ini
                 Alert::success('Sudah Absen', 'Anda sudah melakukan absen untuk hari ini, cek absensi anda di sebelah kanan halaman ini!');
             return redirect()->route('daftarabsensi.absensi');
+            } else if ($absensitoday) {
+                // Jika sudah ada entri untuk hari ini
+                // Inisiasi pemanggilan data dari database ke variabel
+                $updateabsensi = Absensi::find($absensitoday->id_absensi);
+
+                // ELOQUENT Daftar Absensi
+                $updateabsensi->jam_masuk = $now;
+                $updateabsensi->status_absensi = 'Masuk';
+                $updateabsensi->save();
             } else {
                 // Jika belum ada entri untuk hari ini, buat entri baru
                 $absensi = new Absensi();

@@ -2,7 +2,7 @@
 @section('content')
     <div class="container">
         <div class="card mt-3 mb-3">
-            <div class="card-header">Riwayat Pengajuan Cuti</div>
+            <div class="card-header">Riwayat Pengajuan Cuti || Sisa pengajuan cuti tahun ini : {{7 - $jumlahCuti}}</div>
             <div class="card-body d-flex justify-content-end">
                 <ul class="list-inline mb-0">
                     <li class="list-inline-item">

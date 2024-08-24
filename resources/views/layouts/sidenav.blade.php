@@ -84,14 +84,14 @@
             <span>Panel Pengguna</span>
         </h6>
         <ul class="nav flex-column mb-2 d-md-none">
-            <li class="nav-item @if (request()->route()->getName() == 'profil.index') active @endif">
-                <a class="nav-link" href="{{ route('profil.index') }}">
+            <li class="nav-item">
+                <a class="nav-link  @if (request()->route()->getName() == 'profil.index') active @endif" href="{{ route('profil.index') }}">
                     <i class="bi bi-person-badge"></i>
                     Profil
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link @if (request()->route()->getName() == 'profil.index') active @endif"
+                <a class="nav-link @if (request()->route()->getName() == 'notifikasi.index') active @endif"
                     href="{{ route('notifikasi.index') }}">
                     <i class="bi bi-bell"></i>
                     Notifikasi <span class="badge text-bg-danger badge-notifikasi"></span>

@@ -97,13 +97,13 @@ Route::middleware(['auth', 'no.cache'])->group(function () {
 
     // ROUTE UNTUK KARYAWAN DAN ADMIN
     // route profile
-    Route::get('/profil/sunting', [ProfileController::class, 'sunting'])->name('profil.sunting');
+     Route::get('/profil/sunting', [ProfileController::class, 'sunting'])->name('profil.sunting');
+    Route::resource('profil', ProfileController::class);
+   
     // route panduan penggunaan aplikasi
     Route::get('panduan', [AllController::class, 'panduan'])->name('panduan');
     // route untuk menampilkan dashboard dan juga get data untuk halaman dashboard yaitu absensi hari ini
     Route::get('dashboard', [AllController::class, 'dashboard'])->name('dashboard');
-    // route untuk profil
-    Route::resource('profil', ProfileController::class);
     // route untuk notifikasi
     Route::resource('notifikasi', NotifikasiController::class);
     Route::get('/getNotifikasiCount', [NotifikasiController::class, 'count']);
