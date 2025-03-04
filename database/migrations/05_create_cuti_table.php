@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id('id_cuti');
             $table->date('mulai_cuti');
             $table->date('selesai_cuti');
+            $table->integer('jumlah_hari');
             $table->text('keterangan');
             $table->enum('status_cuti', ['Disetujui', 'Pending', 'Ditolak'])->default('Pending');
             $table->foreignId('data_karyawan_id')->constrained('data_karyawan', 'id_data_karyawan')->onDelete('cascade');

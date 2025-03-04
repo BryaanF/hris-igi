@@ -1,0 +1,3 @@
+gajiPokok.set({{ $komponengajisatukaryawan->gaji_pokok }});
+
+cek jumlah hari di migrations cuti

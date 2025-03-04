@@ -56,8 +56,8 @@
                     </div>
                     <div class="form-group">
                         <label for="gajiPokokShow" class="form-label">Gaji Pokok</label>
-                        <input class="form-control numeric-input" type="text" id="gajiPokokShow" name="gajiPokokShow" value=""
-                            disabled>
+                        <input class="form-control numeric-input" type="text" id="gajiPokokShow" name="gajiPokokShow"
+                            value="" disabled>
                     </div>
                     <div class="form-group">
                         <label for="potonganKetidakhadiranShow" class="form-label">Potongan Ketidakhadiran</label>
@@ -66,23 +66,23 @@
                     </div>
                     <div class="form-group">
                         <label for="potonganLainShow" class="form-label ">Potongan Lain</label>
-                        <input class="form-control numeric-input" type="text" id="potonganLainShow" name="potonganLainShow"
-                            value="" disabled>
+                        <input class="form-control numeric-input" type="text" id="potonganLainShow"
+                            name="potonganLainShow" value="" disabled>
                     </div>
                     <div class="form-group">
                         <label for="totalPotonganShow" class="form-label">Total Potongan</label>
-                        <input class="form-control numeric-input" type="text" id="totalPotonganShow" name="totalPotonganShow"
-                            value="" disabled>
+                        <input class="form-control numeric-input" type="text" id="totalPotonganShow"
+                            name="totalPotonganShow" value="" disabled>
                     </div>
                     <div class="form-group">
                         <label for="totalTunjanganShow" class="form-label">Total Tunjangan</label>
-                        <input class="form-control numeric-input" type="text" id="totalTunjanganShow" name="totalTunjanganShow"
-                            value="" disabled>
+                        <input class="form-control numeric-input" type="text" id="totalTunjanganShow"
+                            name="totalTunjanganShow" value="" disabled>
                     </div>
                     <div class="form-group">
                         <label for="totalGajiShow" class="form-label">Total Gaji</label>
-                        <input class="form-control numeric-input" type="text" id="totalGajiShow" name="totalGajiShow" value=""
-                            disabled>
+                        <input class="form-control numeric-input" type="text" id="totalGajiShow" name="totalGajiShow"
+                            value="" disabled>
                     </div>
                     <div class="form-group">
                         <label for="keteranganShow" class="form-label">Keterangan</label>
@@ -119,7 +119,8 @@
                         {{ $satudatakaryawan->nama }}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="{{ route('penggajian.update', ':id') }}" method="POST" enctype="multipart/form-data" id="penggajianUpdateForm">
+                <form action="{{ route('penggajian.update', ':id') }}" method="POST" enctype="multipart/form-data"
+                    id="penggajianUpdateForm">
                     @csrf
                     @method('PUT')
                     <div class="modal-body">
@@ -127,15 +128,14 @@
                             <label for="tahunBulanEdit" class="form-label">Tahun - Bulan</label>
                             <input class="form-control" type="text" id="tahunBulanEdit" name="tahunBulanEdit"
                                 disabled>
-                            <input type="hidden" id="tahunBulanEditHidden" name="tahunBulanEditHidden"
-                                value="">
+                            <input type="hidden" id="tahunBulanEditHidden" name="tahunBulanEditHidden" value="">
                         </div>
                         <div class="form-group">
                             <label for="gajiPokokEdit" class="form-label">Gaji Pokok</label>
-                            <input class="form-control numeric-input @error('gajiPokokEdit') is-invalid @enderror" type="text"
-                                id="gajiPokokEdit" name="gajiPokokEdit" value="{{ old('gajiPokokEdit') }}" disabled>
-                            <input type="hidden" id="gajiPokokEditHidden" name="gajiPokokEditHidden"
-                                value="">
+                            <input class="form-control numeric-input @error('gajiPokokEdit') is-invalid @enderror"
+                                type="text" id="gajiPokokEdit" name="gajiPokokEdit"
+                                value="{{ old('gajiPokokEdit') }}" disabled>
+                            <input type="hidden" id="gajiPokokEditHidden" name="gajiPokokEditHidden" value="">
                             @error('gajiPokokEdit')
                                 <div class="text-danger">
                                     <small>{{ $message }}</small>
@@ -147,13 +147,12 @@
                             <input class="form-control numeric-input" type="text" id="potonganKetidakhadiranEdit"
                                 name="potonganKetidakhadiranEdit" disabled>
                             <input type="hidden" id="potonganKetidakhadiranEditHidden"
-                                name="potonganKetidakhadiranEditHidden"
-                                value="">
+                                name="potonganKetidakhadiranEditHidden" value="">
                         </div>
                         <div class="form-group">
                             <label for="potonganLainEdit" class="form-label">Potongan Lain</label>
-                            <input class="form-control numeric-input @error('potonganLainEdit') is-invalid @enderror" type="text"
-                                id="potonganLainEdit" name="potonganLainEdit" value="">
+                            <input class="form-control numeric-input @error('potonganLainEdit') is-invalid @enderror"
+                                type="text" id="potonganLainEdit" name="potonganLainEdit" value="">
                             @error('potonganLainEdit')
                                 <div class="text-danger">
                                     <small>{{ $message }}</small>
@@ -162,16 +161,15 @@
                         </div>
                         <div class="form-group">
                             <label for="totalPotonganEdit" class="form-label">Total Potongan</label>
-                            <input class="form-control numeric-input @error('totalPotonganEdit') is-invalid @enderror" type="text"
-                                id="totalPotonganEdit" name="totalPotonganEdit" disabled>
+                            <input class="form-control numeric-input @error('totalPotonganEdit') is-invalid @enderror"
+                                type="text" id="totalPotonganEdit" name="totalPotonganEdit" disabled>
                             <input type="hidden" id="totalPotonganEditHidden" name="totalPotonganEditHidden"
                                 value="">
                         </div>
                         <div class="form-group">
                             <label for="totalTunjanganEdit" class="form-label">Total Tunjangan</label>
-                            <input class="form-control numeric-input @error('totalTunjanganEdit') is-invalid @enderror" type="text"
-                                id="totalTunjanganEdit" name="totalTunjanganEdit"
-                                value="">
+                            <input class="form-control numeric-input @error('totalTunjanganEdit') is-invalid @enderror"
+                                type="text" id="totalTunjanganEdit" name="totalTunjanganEdit" value="">
                             @error('totalTunjanganEdit')
                                 <div class="text-danger">
                                     <small>{{ $message }}</small>
@@ -180,10 +178,9 @@
                         </div>
                         <div class="form-group">
                             <label for="totalGajiEdit" class="form-label">Total Gaji</label>
-                            <input class="form-control numeric-input @error('totalGajiEdit') is-invalid @enderror" type="text"
-                                id="totalGajiEdit" name="totalGajiEdit" disabled>
-                            <input type="hidden" id="totalGajiEditHidden" name="totalGajiEditHidden"
-                                value="">
+                            <input class="form-control numeric-input @error('totalGajiEdit') is-invalid @enderror"
+                                type="text" id="totalGajiEdit" name="totalGajiEdit" disabled>
+                            <input type="hidden" id="totalGajiEditHidden" name="totalGajiEditHidden" value="">
                         </div>
                         <div class="form-group">
                             <label for="keteranganEdit" class="form-label">Keterangan</label>
@@ -194,8 +191,7 @@
                             <label for="statusGajiEdit" class="form-label">Status Gaji</label>
                             <input class="form-control @error('statusGajiEdit') is-invalid @enderror" type="text"
                                 id="statusGajiEdit" name="statusGajiEdit" disabled>
-                            <input type="hidden" id="statusGajiEditHidden" name="statusGajiEditHidden"
-                                value="">
+                            <input type="hidden" id="statusGajiEditHidden" name="statusGajiEditHidden" value="">
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -228,10 +224,12 @@
                     <div class="form-group">
                         <label for="gajiPokokKomponen">Gaji Pokok</label>
                         @if (empty($komponengajisatukaryawan))
-                            <input type="text" class="form-control numeric-input @error('gajiPokokKomponen') is-invalid @enderror"
+                            <input type="text"
+                                class="form-control numeric-input @error('gajiPokokKomponen') is-invalid @enderror"
                                 id="gajiPokokKomponen" name="gajiPokokKomponen" value="{{ old('gajiPokokKomponen') }}">
                         @else
-                            <input type="text" class="form-control numeric-input @error('gajiPokokKomponen') is-invalid @enderror"
+                            <input type="text"
+                                class="form-control numeric-input @error('gajiPokokKomponen') is-invalid @enderror"
                                 id="gajiPokokKomponen" name="gajiPokokKomponen"
                                 value="{{ $komponengajisatukaryawan->gaji_pokok }}">
                         @endif
@@ -292,18 +290,20 @@
                             <div class="form-group">
                                 <label for="gajiPokok">Gaji Pokok</label>
                                 @if (isset($komponengajisatukaryawan) && $komponengajisatukaryawan->gaji_pokok)
-                                    <input type="text" class="form-control numeric-input @error('gajiPokok') is-invalid @enderror"
-                                        id="gajiPokok" name="gajiPokok"
-                                        value="" readonly>
+                                    <input type="text"
+                                        class="form-control numeric-input @error('gajiPokok') is-invalid @enderror"
+                                        id="gajiPokok" name="gajiPokok" value="" readonly>
                                 @else
-                                    <input type="text" class="form-control numeric-input @error('gajiPokok') is-invalid @enderror"
+                                    <input type="text"
+                                        class="form-control numeric-input @error('gajiPokok') is-invalid @enderror"
                                         id="gajiPokokInvalid" name="gajiPokokInvalid" value="" readonly>
                                 @endif
                             </div>
                             <div class="form-group">
                                 <label for="tunjangan">Total Tunjangan</label>
-                                <input type="text" class="form-control numeric-input @error('tunjangan') is-invalid @enderror"
-                                    id="tunjangan"  name="tunjangan" value="{{ old('tunjangan') }}">
+                                <input type="text"
+                                    class="form-control numeric-input @error('tunjangan') is-invalid @enderror"
+                                    id="tunjangan" name="tunjangan" value="{{ old('tunjangan') }}">
                                 @error('tunjangan')
                                     <div class="text-danger">
                                         <small>{{ $message }}</small>
@@ -324,7 +324,8 @@
                             </div>
                             <div class="form-group">
                                 <label for="potonganLain">Potongan Lain - Lain (selain ketidakhadiran)</label>
-                                <input type="text" class="form-control numeric-input @error('potonganLain') is-invalid @enderror"
+                                <input type="text"
+                                    class="form-control numeric-input @error('potonganLain') is-invalid @enderror"
                                     id="potonganLain" name="potonganLain" value="{{ old('potonganLain') }}">
                                 @error('potonganLain')
                                     <div class="text-danger">
@@ -363,68 +364,79 @@
         $(document).ready(function() {
             // show table record with datatable
             var table = $("#dataPenggajianPerKaryawanTable").DataTable({
-            serverSide: true,
-            processing: true,
-            ajax: "/getRiwayatGajiPerKaryawan",
-            columns: [
-                {
-                    data: "id_gaji",
-                    name: "id_gaji",
-                    visible: false
-                },
-                {
-                    data: "DT_RowIndex",
-                    name: "DT_RowIndex",
-                    orderable: false,
-                    searchable: false
-                },
-                {
-                    data: "tahun_bulan",
-                    name: "tahun_bulan"
-                },
-                {
-                    data: "total_potongan",
-                    name: "total_potongan",
-                    render: function(data, type, row) {
-                        return AutoNumeric.format(data, { digitGroupSeparator: '.', decimalCharacter: ',', decimalPlaces: 2 });
+                serverSide: true,
+                processing: true,
+                ajax: "/getRiwayatGajiPerKaryawan",
+                columns: [{
+                        data: "id_gaji",
+                        name: "id_gaji",
+                        visible: false
+                    },
+                    {
+                        data: "DT_RowIndex",
+                        name: "DT_RowIndex",
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: "tahun_bulan",
+                        name: "tahun_bulan"
+                    },
+                    {
+                        data: "total_potongan",
+                        name: "total_potongan",
+                        render: function(data, type, row) {
+                            return AutoNumeric.format(data, {
+                                digitGroupSeparator: '.',
+                                decimalCharacter: ',',
+                                decimalPlaces: 2
+                            });
+                        }
+                    },
+                    {
+                        data: "total_tunjangan",
+                        name: "total_tunjangan",
+                        render: function(data, type, row) {
+                            return AutoNumeric.format(data, {
+                                digitGroupSeparator: '.',
+                                decimalCharacter: ',',
+                                decimalPlaces: 2
+                            });
+                        }
+                    },
+                    {
+                        data: "total_gaji",
+                        name: "total_gaji",
+                        render: function(data, type, row) {
+                            return AutoNumeric.format(data, {
+                                digitGroupSeparator: '.',
+                                decimalCharacter: ',',
+                                decimalPlaces: 2
+                            });
+                        }
+                    },
+                    {
+                        data: "status_gaji",
+                        name: "status_gaji"
+                    },
+                    {
+                        data: "aksi",
+                        name: "aksi",
+                        orderable: false,
+                        searchable: false
                     }
-                },
-                {
-                    data: "total_tunjangan",
-                    name: "total_tunjangan",
-                    render: function(data, type, row) {
-                        return AutoNumeric.format(data, { digitGroupSeparator: '.', decimalCharacter: ',', decimalPlaces: 2 });
-                    }
-                },
-                {
-                    data: "total_gaji",
-                    name: "total_gaji",
-                    render: function(data, type, row) {
-                        return AutoNumeric.format(data, { digitGroupSeparator: '.', decimalCharacter: ',', decimalPlaces: 2 });
-                    }
-                },
-                {
-                    data: "status_gaji",
-                    name: "status_gaji"
-                },
-                {
-                    data: "aksi",
-                    name: "aksi",
-                    orderable: false,
-                    searchable: false
+                ],
+                order: [
+                    [0, "desc"]
+                ],
+                lengthMenu: [
+                    [10, 25, 50, 100, -1],
+                    [10, 25, 50, 100, "All"]
+                ],
+                language: {
+                    emptyTable: "Belum terdapat data riwayat gaji untuk karyawan tersebut!"
                 }
-            ],
-            order: [
-                [0, "desc"]
-            ],
-            lengthMenu: [
-                [10, 25, 50, 100, -1],
-                [10, 25, 50, 100, "All"]
-            ],
-            language: {
-                emptyTable: "Belum terdapat data riwayat gaji untuk karyawan tersebut!"
-            }
-        });
+            });
 
             // membuka modal sesuai error di modal yang mana
             @if (!empty(Session::get('error_in_modal')) && Session::get('error_in_modal') == 3)
@@ -451,11 +463,11 @@
             @endif
 
             // Ambil nilai gaji_pokok dari input
-            var gajiPokokValue = $('#gajiPokokKomponen').val();
+            var gajiPokokValue = "{{ $komponengajisatukaryawan->gaji_pokok ?? '' }}";
 
             // Jika gaji_pokok kosong, jangan tampilkan modal
             $('#createGajiKaryawanOpenModalButton').click(function(event) {
-                if (!gajiPokokValue) {
+                if (!gajiPokokValue || gajiPokokValue.trim() === '') {
                     event.preventDefault();
                     Swal.fire({
                         icon: 'warning',
@@ -463,15 +475,15 @@
                         text: 'Gaji Pokok tidak tersedia. Mohon isi data gaji pokok terlebih dahulu pada komponen gaji dengan klik tombol "komponen".',
                     });
                 } else {
-                     // Inisialisasi AutoNumeric untuk input gajiPokok
+                    // Inisialisasi AutoNumeric untuk input gajiPokok
                     var gajiPokok = new AutoNumeric('#gajiPokok', {
                         digitGroupSeparator: '.',
                         decimalCharacter: ',',
                         decimalPlaces: 2
                     });
-                
+
                     // Set nilai AutoNumeric setelah inisialisasi
-                    gajiPokok.set({{ $komponengajisatukaryawan->gaji_pokok }});
+                    gajiPokok.set(parseFloat(gajiPokokValue)); // Pastikan nilainya angka
                     $('#createGajiKaryawanModal').modal('show');
                 }
             });
@@ -479,17 +491,18 @@
             // untuk mengkalkulasi total gaji pada modal create
             function kalkulasiTotalGaji() {
                 var gajiPokok = AutoNumeric.getAutoNumericElement('#gajiPokok').getNumericString() || 0;
-                var potonganKetidakhadiran = AutoNumeric.getAutoNumericElement('#potonganKetidakhadiran').getNumericString() || 0;
+                var potonganKetidakhadiran = AutoNumeric.getAutoNumericElement('#potonganKetidakhadiran')
+                    .getNumericString() || 0;
                 var tunjangan = AutoNumeric.getAutoNumericElement('#tunjangan').getNumericString() || 0;
                 var potonganLain = AutoNumeric.getAutoNumericElement('#potonganLain').getNumericString() || 0;
-            
+
                 gajiPokok = parseFloat(gajiPokok);
                 potonganKetidakhadiran = parseFloat(potonganKetidakhadiran);
                 tunjangan = parseFloat(tunjangan);
                 potonganLain = parseFloat(potonganLain);
-            
+
                 var totalGaji = gajiPokok - potonganKetidakhadiran + tunjangan - potonganLain;
-                
+
                 // Ambil instance AutoNumeric
                 var totalGajiInput = AutoNumeric.getAutoNumericElement('#totalGaji');
                 if (totalGajiInput) {
@@ -503,17 +516,18 @@
             // untuk mengkalkulasi total gaji pada modal create
             function kalkulasiTotalGajiEdit() {
                 var gajiPokok = AutoNumeric.getAutoNumericElement('#gajiPokokEdit').getNumericString() || 0;
-                var potonganKetidakhadiran = AutoNumeric.getAutoNumericElement('#potonganKetidakhadiranEdit').getNumericString() || 0;
+                var potonganKetidakhadiran = AutoNumeric.getAutoNumericElement('#potonganKetidakhadiranEdit')
+                    .getNumericString() || 0;
                 var tunjangan = AutoNumeric.getAutoNumericElement('#totalTunjanganEdit').getNumericString() || 0;
                 var potonganLain = AutoNumeric.getAutoNumericElement('#potonganLainEdit').getNumericString() || 0;
-            
+
                 gajiPokok = parseFloat(gajiPokok);
                 potonganKetidakhadiran = parseFloat(potonganKetidakhadiran);
                 tunjangan = parseFloat(tunjangan);
                 potonganLain = parseFloat(potonganLain);
-            
+
                 var totalGaji = gajiPokok - potonganKetidakhadiran + tunjangan - potonganLain;
-                
+
                 // Ambil instance AutoNumeric
                 var totalGajiInput = AutoNumeric.getAutoNumericElement('#totalGajiEdit');
                 if (totalGajiInput) {
@@ -527,8 +541,9 @@
             // jika pada bulan digaji terdapat perubahan maka potongan absensi juga menyesuaikan
             $('#bulanDigaji').on('change', function() {
                 var bulanDigaji = $(this).val();
-                var karyawanId = "{{ $satudatakaryawan->id_data_karyawan }}"; // Ambil ID karyawan dari blade
-            
+                var karyawanId =
+                    "{{ $satudatakaryawan->id_data_karyawan }}"; // Ambil ID karyawan dari blade
+
                 if (bulanDigaji) {
                     $.ajax({
                         url: "{{ route('penggajian.kalkulasiPotonganAbsensi') }}",
@@ -540,15 +555,18 @@
                         success: function(response) {
                             // Periksa respons dengan console log
                             console.log(response);
-            
+
                             // Update nilai AutoNumeric
-                            var potonganKetidakhadiranInput = AutoNumeric.getAutoNumericElement('#potonganKetidakhadiran');
+                            var potonganKetidakhadiranInput = AutoNumeric.getAutoNumericElement(
+                                '#potonganKetidakhadiran');
                             if (potonganKetidakhadiranInput) {
-                                potonganKetidakhadiranInput.set(response.potonganKetidakhadiran);
+                                potonganKetidakhadiranInput.set(response
+                                    .potonganKetidakhadiran);
                             } else {
-                                $('#potonganKetidakhadiran').val(response.potonganKetidakhadiran);
+                                $('#potonganKetidakhadiran').val(response
+                                    .potonganKetidakhadiran);
                             }
-            
+
                             kalkulasiTotalGaji();
                         }
                     });
@@ -575,14 +593,20 @@
                 }
 
                 var data = table.row($tr).data();
-                
+
                 // change to autonumeric
-                 let gajiPokokShow = AutoNumeric.getAutoNumericElement('#showPenggajianPerKaryawanModal input[name="gajiPokokShow"]');
-                 let potonganKetidakhadiranShow = AutoNumeric.getAutoNumericElement('#showPenggajianPerKaryawanModal input[name="potonganKetidakhadiranShow"]');
-                 let potonganLainShow = AutoNumeric.getAutoNumericElement('#showPenggajianPerKaryawanModal input[name="potonganLainShow"]');
-                 let totalPotonganShow = AutoNumeric.getAutoNumericElement('#showPenggajianPerKaryawanModal input[name="totalPotonganShow"]');
-                 let totalTunjanganShow = AutoNumeric.getAutoNumericElement('#showPenggajianPerKaryawanModal input[name="totalTunjanganShow"]');
-                 let totalGajiShow = AutoNumeric.getAutoNumericElement('#showPenggajianPerKaryawanModal input[name="totalGajiShow"]');
+                let gajiPokokShow = AutoNumeric.getAutoNumericElement(
+                    '#showPenggajianPerKaryawanModal input[name="gajiPokokShow"]');
+                let potonganKetidakhadiranShow = AutoNumeric.getAutoNumericElement(
+                    '#showPenggajianPerKaryawanModal input[name="potonganKetidakhadiranShow"]');
+                let potonganLainShow = AutoNumeric.getAutoNumericElement(
+                    '#showPenggajianPerKaryawanModal input[name="potonganLainShow"]');
+                let totalPotonganShow = AutoNumeric.getAutoNumericElement(
+                    '#showPenggajianPerKaryawanModal input[name="totalPotonganShow"]');
+                let totalTunjanganShow = AutoNumeric.getAutoNumericElement(
+                    '#showPenggajianPerKaryawanModal input[name="totalTunjanganShow"]');
+                let totalGajiShow = AutoNumeric.getAutoNumericElement(
+                    '#showPenggajianPerKaryawanModal input[name="totalGajiShow"]');
 
                 // Populate your show modal with data
                 $('#showPenggajianPerKaryawanModal input[name="tahunBulanShow"]').val(data.tahun_bulan);
@@ -622,15 +646,21 @@
                 }
 
                 var data = table.row($tr).data();
-                
+
                 // change to auto numeric
-                let gajiPokokEdit = AutoNumeric.getAutoNumericElement('#editPenggajianPerKaryawanModal input[name="gajiPokokEdit"]');
-                 let potonganKetidakhadiranEdit = AutoNumeric.getAutoNumericElement('#editPenggajianPerKaryawanModal input[name="potonganKetidakhadiranEdit"]');
-                 let potonganLainEdit = AutoNumeric.getAutoNumericElement('#editPenggajianPerKaryawanModal input[name="potonganLainEdit"]');
-                 let totalPotonganEdit = AutoNumeric.getAutoNumericElement('#editPenggajianPerKaryawanModal input[name="totalPotonganEdit"]');
-                 let totalTunjanganEdit = AutoNumeric.getAutoNumericElement('#editPenggajianPerKaryawanModal input[name="totalTunjanganEdit"]');
-                 let totalGajiEdit = AutoNumeric.getAutoNumericElement('#editPenggajianPerKaryawanModal input[name="totalGajiEdit"]');
-                
+                let gajiPokokEdit = AutoNumeric.getAutoNumericElement(
+                    '#editPenggajianPerKaryawanModal input[name="gajiPokokEdit"]');
+                let potonganKetidakhadiranEdit = AutoNumeric.getAutoNumericElement(
+                    '#editPenggajianPerKaryawanModal input[name="potonganKetidakhadiranEdit"]');
+                let potonganLainEdit = AutoNumeric.getAutoNumericElement(
+                    '#editPenggajianPerKaryawanModal input[name="potonganLainEdit"]');
+                let totalPotonganEdit = AutoNumeric.getAutoNumericElement(
+                    '#editPenggajianPerKaryawanModal input[name="totalPotonganEdit"]');
+                let totalTunjanganEdit = AutoNumeric.getAutoNumericElement(
+                    '#editPenggajianPerKaryawanModal input[name="totalTunjanganEdit"]');
+                let totalGajiEdit = AutoNumeric.getAutoNumericElement(
+                    '#editPenggajianPerKaryawanModal input[name="totalGajiEdit"]');
+
                 // assign data gaji
                 $('#editPenggajianPerKaryawanModal input[name="tahunBulanEdit"]').val(data.tahun_bulan);
                 $('#editPenggajianPerKaryawanModal input[name="tahunBulanEditHidden"]').val(data
@@ -693,7 +723,7 @@
                     }
                 });
             });
-            
+
             // Inisialisasi AutoNumeric untuk input dengan class 'numeric-input'
             $('.numeric-input').each(function() {
                 new AutoNumeric(this, {
@@ -704,7 +734,7 @@
                     unformatOnSubmit: true // Kembalikan nilai asli (tanpa format) saat submit
                 });
             });
-            
+
             // Validasi saat form disubmit
             $('#penggajianStoreForm, #komponGajiKaryawanForm, #penggajianUpdateForm').on('submit', function(event) {
                 // Ambil nilai terformat dan setel kembali nilai asli tanpa format
