@@ -39,7 +39,7 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-    public function authenticate(Request $request)
+    public function login(Request $request)
     {
         // hapus session authenticated as master jika login ke fitur utama
         $request->session()->forget('master_authenticated');
