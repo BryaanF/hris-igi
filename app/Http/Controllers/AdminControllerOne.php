@@ -86,7 +86,6 @@ class AdminControllerOne extends Controller
         Alert::success('Berhasil Ditambahkan', 'Data karyawan berhasil ditambahkan!');
 
         return redirect()->route('datakaryawan.index');
-
     }
 
     /**
@@ -157,7 +156,6 @@ class AdminControllerOne extends Controller
         Alert::success('Berhasil Disunting', 'Data karyawan berhasil disunting!');
 
         return redirect()->route('datakaryawan.index');
-
     }
 
     /**
@@ -183,7 +181,6 @@ class AdminControllerOne extends Controller
         Alert::success('Data Berhasil Dihapus', 'Data Karyawan telah berhasil dihapus!');
 
         return redirect()->route('datakaryawan.index');
-
     }
 
     public function getData(Request $request)
@@ -193,12 +190,19 @@ class AdminControllerOne extends Controller
         if ($request->ajax()) {
             return datatables()->of($datakaryawan)
                 ->addIndexColumn()
+
+                ->addColumn('role', function ($row) {
+                    return $row->user->role ?? '-';
+                })
+
                 ->addColumn('aksi', function ($satudatakaryawan) {
                     return view('admin.datakaryawan.actions', compact('satudatakaryawan'));
                 })
+
                 ->toJson();
         }
     }
+
 
     public function exportExcel()
     {
